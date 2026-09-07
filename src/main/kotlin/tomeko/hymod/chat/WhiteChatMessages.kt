@@ -1,6 +1,6 @@
 package tomeko.hymod.chat
 
-//? if = 1.8.9-forge {
+//? if = 1.8.9 {
 /*import net.minecraft.util.ChatComponentText
 import net.minecraft.util.EnumChatFormatting
 import net.minecraft.util.IChatComponent
@@ -20,28 +20,28 @@ import tomeko.hymod.utils.removeFormatting
 
 object WhiteChatMessages {
     fun register() {
-        //? if = 1.8.9-forge {
+        //? if = 1.8.9 {
         /*MinecraftForge.EVENT_BUS.register(this)
         *///?} else {
         ClientReceiveMessageEvents.MODIFY_GAME.register(WhiteChatMessages::onChatReceive)
         //?}
     }
 
-    //? if = 1.8.9-forge {
+    //? if = 1.8.9 {
     /*@SubscribeEvent
 *///?}
     fun onChatReceive(
-        //? if = 1.8.9-forge {
+        //? if = 1.8.9 {
         /*event: ClientChatReceivedEvent
         *///?} else {
         message: Component, fromActionBar: Boolean
         //?}
     )
-    //? if >= 1.21.11-fabric {
+    //? if >= 1.21.11 {
             : Component
     //?}
     {
-        //? if = 1.8.9-forge {
+        //? if = 1.8.9 {
         /*if (event.type.toInt() == 2 || event.message == null) return
 
         event.message = modifyMessage(event.message)
@@ -53,13 +53,13 @@ object WhiteChatMessages {
     }
 
     private fun modifyMessage(
-        //? if = 1.8.9-forge {
+        //? if = 1.8.9 {
         /*message: IChatComponent
         *///?} else {
         message: Component
         //?}
     ) =
-    //? if = 1.8.9-forge {
+    //? if = 1.8.9 {
             /*run {
                 // White Private Messages
                 val unformattedMessage = message.unformattedText.removeFormatting()

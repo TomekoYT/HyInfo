@@ -2,7 +2,7 @@ package tomeko.hymod.stats
 
 import com.google.gson.JsonObject
 import com.google.gson.JsonParser
-//? if = 1.8.9-forge {
+//? if = 1.8.9 {
 /*import net.minecraft.util.ChatComponentText
 import net.minecraft.util.ChatStyle
 import net.minecraft.util.EnumChatFormatting as ChatFormatting
@@ -132,7 +132,7 @@ object HypixelStatsFetcher {
                     } else {
                         val body = connection.inputStream.bufferedReader().use { it.readText() }
                         val root =
-                        //? if = 1.8.9-forge {
+                        //? if = 1.8.9 {
                                 /*JsonParser().parse(body).asJsonObject
                                 *///?} else {
                             JsonParser.parseString(body).asJsonObject
@@ -174,7 +174,7 @@ object HypixelStatsFetcher {
                 val body = connection.inputStream.bufferedReader().use { it.readText() }
 
                 val root =
-                //? if = 1.8.9-forge {
+                //? if = 1.8.9 {
                         /*JsonParser().parse(body).asJsonObject
                         *///?} else {
                     JsonParser.parseString(body).asJsonObject
@@ -835,7 +835,7 @@ object HypixelStatsFetcher {
                 }
             )
 
-            //? if = 1.8.9-forge {
+            //? if = 1.8.9 {
             /*ChatComponentText(
                 *///?} else {
             Component.literal(
@@ -847,14 +847,14 @@ object HypixelStatsFetcher {
 
     private fun formatStars(text: String, vararg colors: ChatFormatting): Component {
         val result =
-        //? if = 1.8.9-forge {
+        //? if = 1.8.9 {
                 /*ChatComponentText("")
             *///?} else {
             Component.empty()
         //?}
         text.forEachIndexed { i, char ->
             val color = if (i < colors.size) colors[i] else colors.last()
-            //? if = 1.8.9-forge {
+            //? if = 1.8.9 {
             /*result.appendSibling(ChatComponentText(char.toString()).setChatStyle(ChatStyle().setColor(color)))
             *///?} else {
             result.append(Component.literal(char.toString()).withStyle(color))
@@ -865,7 +865,7 @@ object HypixelStatsFetcher {
 
     private fun formatStarsObfuscated(text: String, vararg colors: ChatFormatting): Component {
         val result =
-        //? if = 1.8.9-forge {
+        //? if = 1.8.9 {
                 /*ChatComponentText("")
             *///?} else {
             Component.empty()
@@ -874,7 +874,7 @@ object HypixelStatsFetcher {
             val color = if (i < colors.size) colors[i] else colors.last()
 
             if (i == 0 || i == text.length - 1)
-            //? if = 1.8.9-forge {
+            //? if = 1.8.9 {
             /*result.appendSibling(
                 ChatComponentText(char.toString()).setChatStyle(
                     ChatStyle().setColor(color).setObfuscated(true)
@@ -884,7 +884,7 @@ object HypixelStatsFetcher {
                 result.append(Component.literal(char.toString()).withStyle(OBFUSCATED, color))
             //?}
             else
-            //? if = 1.8.9-forge {
+            //? if = 1.8.9 {
             /*result.appendSibling(ChatComponentText(char.toString()).setChatStyle(ChatStyle().setColor(color)))
         *///?} else {
                 result.append(Component.literal(char.toString()).withStyle(color))

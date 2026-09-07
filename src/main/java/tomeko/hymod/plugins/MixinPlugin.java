@@ -1,6 +1,6 @@
 package tomeko.hymod.plugins;
 
-//? if = 1.8.9-forge {
+//? if = 1.8.9 {
 /*import org.spongepowered.asm.lib.tree.ClassNode;
  *///?} else {
 
@@ -36,7 +36,7 @@ public class MixinPlugin implements IMixinConfigPlugin {
 
     @Override
     public void onLoad(String mixinPackage) {
-        //? if >= 1.21.11-fabric {
+        //? if >= 1.21.11 {
         MixinExtrasBootstrap.init();
         //?}
         this.mixinPackage = mixinPackage;

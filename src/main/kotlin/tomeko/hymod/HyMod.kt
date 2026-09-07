@@ -1,6 +1,6 @@
 package tomeko.hymod
 
-//? if = 1.8.9-forge {
+//? if = 1.8.9 {
 /*import cc.polyfrost.oneconfig.events.EventManager
 import net.minecraftforge.fml.common.Mod
 import net.minecraftforge.fml.common.event.FMLInitializationEvent
@@ -16,7 +16,7 @@ import tomeko.hymod.location.*
 import tomeko.hymod.stats.*
 import tomeko.hymod.utils.*
 
-//? if = 1.8.9-forge {
+//? if = 1.8.9 {
 /*@Mod(
     modid = Constants.MOD_ID,
     name = Constants.MOD_NAME,
@@ -26,28 +26,28 @@ import tomeko.hymod.utils.*
 )
 *///?}
 class HyMod
-//? if >= 1.21.11-fabric {
+//? if >= 1.21.11 {
     : ClientModInitializer
 //?}
 {
-    //? if = 1.8.9-forge {
+    //? if = 1.8.9 {
     /*@Mod.EventHandler
     *///?} else {
     override
     //?}
     fun onInitializeClient(
-        //? if = 1.8.9-forge {
+        //? if = 1.8.9 {
         /*event: FMLInitializationEvent
         *///?}
     ) {
-        //? if = 1.8.9-forge {
+        //? if = 1.8.9 {
         /*EventManager.INSTANCE.register(this)
         *///?}
 
         CoordsWaypoints.register()
         DangerousTauntWaypoint.register()
         HideGuildMOTD.register()
-        //? if >= 1.21.11-fabric {
+        //? if >= 1.21.11 {
         MVPEmoji.register()
         //?}
         WhiteChatMessages.register()
@@ -57,7 +57,7 @@ class HyMod
 
         HyModConfig.register()
 
-        //? if >= 1.21.11-fabric {
+        //? if >= 1.21.11 {
         BedwarsResourceDisplay.register()
         //?}
 

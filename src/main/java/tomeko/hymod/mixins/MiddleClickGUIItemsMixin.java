@@ -1,7 +1,7 @@
 package tomeko.hymod.mixins;
 
 import net.minecraft.client.Minecraft;
-//? if = 1.8.9-forge {
+//? if = 1.8.9 {
 /*import net.minecraft.client.gui.inventory.GuiChest;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.inventory.ContainerChest;
@@ -14,7 +14,7 @@ import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.inventory.ChestMenu;
-//? if >= 26.1-fabric {
+//? if >= 26.1 {
 import net.minecraft.world.inventory.ContainerInput;
 //?} else {
 /*import net.minecraft.world.inventory.ClickType;
@@ -30,18 +30,18 @@ import tomeko.hymod.location.HypixelPackets;
 
 import java.util.List;
 
-//? if = 1.8.9-forge {
+//? if = 1.8.9 {
 /*@Mixin(GuiContainer.class)
  *///?} else {
 @Mixin(AbstractContainerScreen.class)
 //?}
 public abstract class MiddleClickGUIItemsMixin {
-    //? if = 1.8.9-forge {
+    //? if = 1.8.9 {
     /*@Shadow
     protected abstract void handleMouseClick(Slot slotIn, int slotId, int clickedButton, int clickType);
     *///?}
 
-    //? if = 1.8.9-forge {
+    //? if = 1.8.9 {
     /*@Redirect(
             method = "mouseClicked",
             at = @At(
@@ -55,7 +55,7 @@ public abstract class MiddleClickGUIItemsMixin {
             at = @At(
                     value = "INVOKE",
                     target =
-                            //? if >= 26.1-fabric {
+                            //? if >= 26.1 {
                             "Lnet/minecraft/client/gui/screens/inventory/AbstractContainerScreen;slotClicked(Lnet/minecraft/world/inventory/Slot;IILnet/minecraft/world/inventory/ContainerInput;)V"
                     //?} else {
                     /*"Lnet/minecraft/client/gui/screens/inventory/AbstractContainerScreen;slotClicked(Lnet/minecraft/world/inventory/Slot;IILnet/minecraft/world/inventory/ClickType;)V"
@@ -64,7 +64,7 @@ public abstract class MiddleClickGUIItemsMixin {
     )
             //?}
     private void hymod$useMiddleClick(
-            //? if = 1.8.9-forge {
+            //? if = 1.8.9 {
             /*GuiContainer instance,
              *///?} else {
             AbstractContainerScreen instance,
@@ -72,22 +72,22 @@ public abstract class MiddleClickGUIItemsMixin {
             Slot slotIn,
             int slotId,
             int clickedButton,
-            //? if = 1.8.9-forge {
+            //? if = 1.8.9 {
             /*int clickType
              *///?} else {
-            //? if >= 26.1-fabric {
+            //? if >= 26.1 {
             ContainerInput
                     //?} else {
                     /*ClickType
                      *///?}
                     clickType,
             //?}
-            //? if >= 1.21.11-fabric {
+            //? if >= 1.21.11 {
             Operation<Void> original
             //?}
     ) {
         if (hymod$shouldCallOriginal(instance, slotIn, clickedButton, clickType)) {
-            //? if = 1.8.9-forge {
+            //? if = 1.8.9 {
             /*handleMouseClick(slotIn, slotId, clickedButton, clickType);
              *///?} else {
             original.call(instance, slotIn, slotId, clickedButton, clickType);
@@ -95,7 +95,7 @@ public abstract class MiddleClickGUIItemsMixin {
             return;
         }
 
-        //? if = 1.8.9-forge {
+        //? if = 1.8.9 {
         /*handleMouseClick(slotIn, slotId, 2, 3);
          *///?} else {
         original.call(
@@ -103,7 +103,7 @@ public abstract class MiddleClickGUIItemsMixin {
                 slotIn,
                 slotId,
                 2,
-                //? if >= 26.1-fabric {
+                //? if >= 26.1 {
                 ContainerInput.CLONE
                 //?} else {
                 /*ClickType.CLONE
@@ -114,17 +114,17 @@ public abstract class MiddleClickGUIItemsMixin {
 
 
     private static boolean hymod$shouldCallOriginal(
-            //? if = 1.8.9-forge {
+            //? if = 1.8.9 {
             /*GuiContainer instance,
              *///?} else {
             AbstractContainerScreen instance,
             //?}
             Slot slotIn,
             int clickedButton,
-            //? if = 1.8.9-forge {
+            //? if = 1.8.9 {
             /*int clickType
              *///?} else {
-            //? if >= 26.1-fabric {
+            //? if >= 26.1 {
             ContainerInput
                     //?} else {
                     /*ClickType
@@ -134,36 +134,36 @@ public abstract class MiddleClickGUIItemsMixin {
     ) {
         if (
                 clickedButton != 0
-                        //? if = 1.8.9-forge {
+                        //? if = 1.8.9 {
                         /*|| clickType != 0
                          *///?} else {
                         || clickType !=
-                        //? if >= 26.1-fabric {
+                        //? if >= 26.1 {
                         ContainerInput.PICKUP
                         //?} else {
                         /*ClickType.PICKUP
                          *///?}
                         //?}
-                        //? if = 1.8.9-forge {
+                        //? if = 1.8.9 {
                         /*|| !(instance instanceof GuiChest)
                          *///?} else {
                         || !(instance.getMenu() instanceof ChestMenu)
                         //?}
                         || !HypixelPackets.INSTANCE.getOnHypixel()
                         || slotIn == null
-            //? if = 1.8.9-forge {
+            //? if = 1.8.9 {
                         /*|| !slotIn.getHasStack()
                         || !(instance.inventorySlots instanceof ContainerChest)
                         *///?}
         ) return true;
 
-        //? if = 1.8.9-forge {
+        //? if = 1.8.9 {
         /*List<String> tooltip = slotIn.getStack().getTooltip(Minecraft.getMinecraft().thePlayer, Minecraft.getMinecraft().gameSettings.advancedItemTooltips);
          *///?} else {
         List<Component> tooltip = slotIn.getItem().getTooltipLines(Item.TooltipContext.EMPTY, Minecraft.getInstance().player, TooltipFlag.NORMAL);
         //?}
         for (
-            //? if = 1.8.9-forge {
+            //? if = 1.8.9 {
             /*String line
              *///?} else {
                 Component line
@@ -172,7 +172,7 @@ public abstract class MiddleClickGUIItemsMixin {
         ) {
             if (hymod$moreThanOneButton(
                     line
-                            //? if >= 1.21.11-fabric {
+                            //? if >= 1.21.11 {
                             .getString()
                     //?}
             )) return true;
@@ -187,7 +187,7 @@ public abstract class MiddleClickGUIItemsMixin {
 
 
         String containerTitle =
-                //? if = 1.8.9-forge {
+                //? if = 1.8.9 {
                 /*((ContainerChest) instance.inventorySlots).getLowerChestInventory().getDisplayName().getUnformattedText();
                  *///?} else {
                 instance.getTitle().getString();
