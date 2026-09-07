@@ -122,12 +122,6 @@ object NametagStats {
             if (
                 isNametagHidden(player, localPlayer) ||
                 //? if = 1.8.9 {
-                /*player.isSneaking
-            *///?} else {
-                player.isCrouching
-            //?}
-                ||
-                //? if = 1.8.9 {
                 //mc.gameSettings.hideGUI
                 //?} else if >= 26.2 {
                 /*mc.gui.hud.isHidden
@@ -372,7 +366,6 @@ object NametagStats {
             //?}
 
             var offset = 0
-
             for (text in lines) {
                 val width =
                 //? if = 1.8.9 {
