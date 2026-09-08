@@ -27,6 +27,8 @@ import net.minecraft.client.gui.Font
 import net.minecraft.client.player.LocalPlayer
 import net.minecraft.network.chat.Component
 import net.minecraft.world.entity.player.Player
+import net.minecraft.world.level.ClipContext
+import net.minecraft.world.phys.HitResult
 import net.minecraft.world.scores.DisplaySlot
 import net.minecraft.world.scores.Team
 //?}
@@ -45,7 +47,7 @@ object NametagStats {
         //?}
     }
 
-    private const val MAX_DISTANCE = 32.0
+    private const val MAX_DISTANCE = 64.0
     private const val BASE_SCALE = 0.025f
     private const val MIN_DISTANCE = 1.0
     private const val NAMETAG_OFFSET = -15f
@@ -71,21 +73,21 @@ object NametagStats {
 
         val mc =
         //? if 1.8.9 {
-                //Minecraft.getMinecraft()
+        //Minecraft.getMinecraft()
             //?} else {
             Minecraft.getInstance()
         //?}
         val level =
         //? if 1.8.9 {
-                //mc.theWorld
-                //?} else {
+        //mc.theWorld
+            //?} else {
             mc.level
             //?}
                 ?: return
 
         val players =
         //? if 1.8.9 {
-                //level.playerEntities
+        //level.playerEntities
             //?} else {
             level.players()
         //?}
@@ -101,7 +103,7 @@ object NametagStats {
 
             val uuid =
             //? if 1.8.9 {
-                    //player.uniqueID
+            //player.uniqueID
                 //?} else {
                 player.uuid
             //?}
@@ -112,7 +114,7 @@ object NametagStats {
 
             val localPlayer =
             //? if 1.8.9 {
-                    //mc.thePlayer
+            //mc.thePlayer
                 //?} else {
                 mc.player
             //?}
@@ -132,7 +134,7 @@ object NametagStats {
 
             val isFirstPerson =
             //? if 1.8.9 {
-                    //mc.gameSettings.thirdPersonView == 0
+            //mc.gameSettings.thirdPersonView == 0
                 //?} else {
                 mc.options.cameraType.isFirstPerson
             //?}
@@ -141,49 +143,49 @@ object NametagStats {
 
             val playerX =
             //? if 1.8.9 {
-                    //player.posX
+            //player.posX
                 //?} else {
                 player.x
             //?}
 
             val playerY =
             //? if 1.8.9 {
-                    //player.posY
+            //player.posY
                 //?} else {
                 player.y
             //?}
 
             val playerZ =
             //? if 1.8.9 {
-                    //player.posZ
+            //player.posZ
                 //?} else {
                 player.z
             //?}
 
             val playerLastX =
             //? if 1.8.9 {
-                    //player.lastTickPosX
+            //player.lastTickPosX
                 //?} else {
                 player.xo
             //?}
 
             val playerLastY =
             //? if 1.8.9 {
-                    //player.lastTickPosY
+            //player.lastTickPosY
                 //?} else {
                 player.yo
             //?}
 
             val playerLastZ =
             //? if 1.8.9 {
-                    //player.lastTickPosZ
+            //player.lastTickPosZ
                 //?} else {
                 player.zo
             //?}
 
             val camera =
             //? if 1.8.9 {
-                    //mc.renderManager
+            //mc.renderManager
                 //?} elif >= 26.1 {
                 context.levelState().cameraRenderState
             //?} else {
@@ -192,28 +194,28 @@ object NametagStats {
 
             val cameraX =
             //? if 1.8.9 {
-                    //camera.viewerPosX
+            //camera.viewerPosX
                 //?} else {
                 camera.pos.x
             //?}
 
             val cameraY =
             //? if 1.8.9 {
-                    //camera.viewerPosY
+            //camera.viewerPosY
                 //?} else {
                 camera.pos.y
             //?}
 
             val cameraZ =
             //? if 1.8.9 {
-                    //camera.viewerPosZ
+            //camera.viewerPosZ
                 //?} else {
                 camera.pos.z
             //?}
 
             val tickDelta =
             //? if 1.8.9 {
-                    //event.partialTicks
+            //event.partialTicks
                 //?} else {
                 mc.deltaTracker.getGameTimeDeltaPartialTick(false)
             //?}
@@ -229,14 +231,14 @@ object NametagStats {
 
             val playerHeight =
             //? if 1.8.9 {
-                    //player.height
+            //player.height
                 //?} else {
                 player.bbHeight
             //?}
 
             val hasBelowNameObjective =
             //? if 1.8.9 {
-                    //player.worldScoreboard.getObjectiveInDisplaySlot(2) != null
+            //player.worldScoreboard.getObjectiveInDisplaySlot(2) != null
                 //?} else {
                 level.scoreboard.getDisplayObjective(DisplaySlot.BELOW_NAME) != null
             //?}
@@ -257,7 +259,7 @@ object NametagStats {
                     lines.add(
                         //? if 1.8.9 {
                         //ChatComponentText(
-                            //?} else {
+                        //?} else {
                         Component.literal(
                             //?}
                             HyModConfig.nickedIndicatorText
@@ -325,6 +327,57 @@ object NametagStats {
                 }
             }
 
+            val isCrouching =
+            //? if 1.8.9 {
+            //player.isSneaking
+                //?} else {
+                player.isCrouching
+            //?}
+
+            var wallBetween = false
+            if (localPlayer != null) {
+                val start =
+                //? if 1.8.9 {
+                //localPlayer.getPositionEyes(1.0f)
+                    //?} else {
+                    localPlayer.eyePosition
+                //?}
+                val end =
+                //? if 1.8.9 {
+                //player.getPositionEyes(1.0f)
+                    //?} else {
+                    player.eyePosition
+                //?}
+
+                val hit =
+                //? if 1.8.9 {
+                        /*localPlayer.worldObj.rayTraceBlocks(
+                            start,
+                            end,
+                            false,
+                            true,
+                            false
+                        )
+                    *///?} else {
+                    level.clip(
+                        ClipContext(
+                            start,
+                            end,
+                            ClipContext.Block.COLLIDER,
+                            ClipContext.Fluid.NONE,
+                            localPlayer
+                        )
+                    )
+                //?}
+
+                wallBetween =
+                        //? if 1.8.9 {
+                        //hit != null
+                        //?} else {
+                    hit.type != HitResult.Type.MISS
+                //?}
+            }
+
             //? if 1.8.9 {
             /*GlStateManager.pushMatrix()
             GlStateManager.translate(x, y, z)
@@ -332,23 +385,13 @@ object NametagStats {
             GlStateManager.rotate(-camera.playerViewY, 0.0f, 1.0f, 0.0f)
             GlStateManager.rotate(camera.playerViewX, 1.0f, 0.0f, 0.0f)
             GlStateManager.scale(-scale, -scale, scale)
-
-            GlStateManager.disableDepth()
-            GlStateManager.depthMask(false)
-            GlStateManager.enableBlend()
-            GlStateManager.tryBlendFuncSeparate(
-                GL11.GL_SRC_ALPHA,
-                GL11.GL_ONE_MINUS_SRC_ALPHA,
-                GL11.GL_ONE,
-                GL11.GL_ZERO
-            )
             *///?} else {
             val matrices =
                 //? if >= 26.1 {
                 context.poseStack()
             //?} else {
             //context.matrices()
-        //?}
+            //?}
 
             matrices.pushPose()
 
@@ -361,115 +404,100 @@ object NametagStats {
                 context.submitNodeCollector().order(1)
             //?} else {
             //context.commandQueue()
-        //?}
             //?}
-
-            val isCrouching =
-            //? if 1.8.9 {
-                    //player.isSneaking
-                    //?} else {
-                player.isCrouching
             //?}
-
-            val normalColor = -0x1
-            val dimColor = 0x80FFFFFF.toInt()
-            val backgroundColor = 0x50000000
 
             var offset = 0
             for (text in lines) {
                 val width =
                 //? if 1.8.9 {
-                        //mc.fontRendererObj.getStringWidth(text.formattedText)
+                //mc.fontRendererObj.getStringWidth(text.formattedText)
                     //?} else {
                     mc.font.width(text)
                 //?}
 
-                //? if 1.8.9 {
-                /*val paddingX = 2
-                val paddingY = 1
-                val textHeight = 9
+                if (isCrouching && wallBetween) continue
 
-                GlStateManager.depthMask(false)
-                GlStateManager.disableDepth()
+                fun renderNametag(
+                    //? if 1.8.9 {
+                    //alpha: Float
+                    //?} else {
+                    dropShadow: Boolean,
+                    displayMode: Font.DisplayMode,
+                    color: Int,
+                    backgroundColor: Int
+                    //?}
+                ) {
+                    //? if 1.8.9 {
+                    /*Gui.drawRect(
+                        -width / 2 - 2,
+                        NAMETAG_OFFSET.toInt() + offset - 1,
+                        width / 2 + 2,
+                        NAMETAG_OFFSET.toInt() + offset + mc.fontRendererObj.FONT_HEIGHT + 1,
+                        ((alpha * 120.0f).toInt() shl 24)
+                    )
 
-                Gui.drawRect(
-                    -width / 2 - paddingX,
-                    (NAMETAG_OFFSET + offset - paddingY).toInt(),
-                    width / 2 + paddingX,
-                    (NAMETAG_OFFSET + offset + textHeight + paddingY).toInt(),
-                    0x50000000
-                )
+                    GlStateManager.enableBlend()
+                    GlStateManager.disableAlpha()
+                    GlStateManager.tryBlendFuncSeparate(
+                        GL11.GL_SRC_ALPHA,
+                        GL11.GL_ONE_MINUS_SRC_ALPHA,
+                        GL11.GL_ONE,
+                        GL11.GL_ZERO
+                    )
 
-                mc.fontRendererObj.drawString(
-                    text.formattedText,
-                    -width / 2.0f,
-                    NAMETAG_OFFSET + offset,
-                    0x66FFFFFF,
-                    false
-                )
+                    mc.fontRendererObj.drawString(
+                        text.formattedText,
+                        -width / 2.0f,
+                        NAMETAG_OFFSET + offset,
+                        ((alpha * 255.0f).toInt() shl 24) or 0xFFFFFF,
+                        true
+                    )
 
-                GlStateManager.enableDepth()
-                GlStateManager.depthMask(true)
-
-                mc.fontRendererObj.drawString(
-                    text.formattedText,
-                    -width / 2.0f,
-                    NAMETAG_OFFSET + offset,
-                    0xFFFFFFFF.toInt(),
-                    true
-                )
-                *///?} else {
-                if (isCrouching) {
+                    GlStateManager.enableAlpha()
+                    *///?} else {
                     submitNodeCollector.submitText(
                         matrices,
                         -width / 2.0f,
                         NAMETAG_OFFSET + offset,
                         text.visualOrderText,
-                        true,
-                        Font.DisplayMode.SEE_THROUGH,
+                        dropShadow,
+                        displayMode,
                         0xF000F0,
-                        dimColor,
+                        color,
                         backgroundColor,
                         0
                     )
-                } else {
-                    submitNodeCollector.submitText(
-                        matrices,
-                        -width / 2.0f,
-                        NAMETAG_OFFSET + offset,
-                        text.visualOrderText,
-                        true,
-                        Font.DisplayMode.SEE_THROUGH,
-                        0xF000F0,
-                        dimColor,
-                        backgroundColor,
-                        0
-                    )
-
-                    submitNodeCollector.submitText(
-                        matrices,
-                        -width / 2.0f,
-                        NAMETAG_OFFSET + offset,
-                        text.visualOrderText,
-                        false,
-                        Font.DisplayMode.NORMAL,
-                        0xF000F0,
-                        normalColor,
-                        0,
-                        0
-                    )
+                    //?}
                 }
-                //?}
 
+                //? if 1.8.9 {
+                /*if (wallBetween) {
+                    GlStateManager.disableDepth()
+                    GlStateManager.depthMask(false)
+
+                    renderNametag(0.4f)
+
+                    GlStateManager.depthMask(true)
+                    GlStateManager.enableDepth()
+                } else {
+                    GlStateManager.enableDepth()
+                    GlStateManager.depthMask(false)
+
+                    renderNametag(if (isCrouching) 0.4f else 1.0f)
+
+                    GlStateManager.depthMask(true)
+                }
+                *///?} else {
+                renderNametag(true, Font.DisplayMode.SEE_THROUGH, 0x80FFFFFF.toInt(), 0x50000000)
+                if (!isCrouching) renderNametag(false, Font.DisplayMode.NORMAL, -0x1, 0)
+                //?}
                 offset -= 11
             }
 
             //? if 1.8.9 {
-            /*GlStateManager.depthMask(true)
-            GlStateManager.disableBlend()
-
-            GlStateManager.popMatrix()
-            *///?} else {
+            //GlStateManager.popMatrix()
+            //?} else {
             matrices.popPose()
             //?}
         }
@@ -490,7 +518,7 @@ object NametagStats {
         if (teamNametagVisibility ==
             //? if 1.8.9 {
             //Team.EnumVisible.ALWAYS
-        //?} else {
+            //?} else {
             Team.Visibility.ALWAYS
         //?}
         ) return false
@@ -498,7 +526,7 @@ object NametagStats {
         if (teamNametagVisibility ==
             //? if 1.8.9 {
             //Team.EnumVisible.NEVER
-        //?} else {
+            //?} else {
             Team.Visibility.NEVER
         //?}
         ) return true
