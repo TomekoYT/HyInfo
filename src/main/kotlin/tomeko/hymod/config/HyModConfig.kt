@@ -13,8 +13,8 @@ import org.polyfrost.oneconfig.api.config.v1.Config
 import org.polyfrost.oneconfig.api.config.v1.annotations.*
 //?}
 //? if = 1.8.9 {
-/*import tomeko.hymod.hud.BedwarsResourceDisplay
-*///?}
+//import tomeko.hymod.hud.BedwarsResourceDisplay
+//?}
 import tomeko.hymod.utils.Constants
 
 object HyModConfig : Config(
@@ -53,8 +53,8 @@ object HyModConfig : Config(
 
     fun register() {
         //? if = 1.8.9 {
-        /*initialize()
-        *///?} else {
+        //initialize()
+        //?} else {
         preload()
         for ((condition, dependencies) in DEPENDENCIES) {
             for (dependency in dependencies) {
@@ -65,21 +65,21 @@ object HyModConfig : Config(
     }
 
     //? if = 1.8.9 {
-    /*@Exclude
-    *///?}
+    //@Exclude
+    //?}
     private const val CATEGORY_BEDWARS = "BedWars"
 
     //? if = 1.8.9 {
-    /*@Exclude
-    *///?}
+    //@Exclude
+    //?}
     private const val SUBCATEGORY_SHOP = "Shop"
 
     @Switch(
         //? if = 1.8.9 {
-        /*name
-            *///?} else {
-        title
-            //?}
+        //name
+            //?} else {
+            title
+                //?}
         = "Use Middle Click in Shop",
         description = "Replace middle click with left click in BedWars item shop",
         category = CATEGORY_BEDWARS,
@@ -89,16 +89,16 @@ object HyModConfig : Config(
 
 
     //? if = 1.8.9 {
-    /*@Exclude
-    *///?}
+    //@Exclude
+    //?}
     private const val SUBCATEGORY_BEDWARS_STATS = "Stats"
 
     @Switch(
         //? if = 1.8.9 {
-        /*name
-            *///?} else {
-        title
-            //?}
+        //name
+            //?} else {
+            title
+                //?}
         = "Show BedWars Stars In Tablist",
         description = "Show in tablist stars of every player while in Hypixel BedWars",
         category = CATEGORY_BEDWARS,
@@ -108,10 +108,10 @@ object HyModConfig : Config(
 
     @Switch(
         //? if = 1.8.9 {
-        /*name
-            *///?} else {
-        title
-            //?}
+        //name
+            //?} else {
+            title
+                //?}
         = "Show BedWars Stars Above Nametag",
         description = "Show above nametag stars of every player while in Hypixel BedWars",
         category = CATEGORY_BEDWARS,
@@ -121,20 +121,32 @@ object HyModConfig : Config(
 
     @Text(
         //? if = 1.8.9 {
-        /*name
-            *///?} else {
-        title
-            //?}
+        //name
+            //?} else {
+            title
+                //?}
         = "BedWars Text Above Nametag",
         category = CATEGORY_BEDWARS,
         subcategory = SUBCATEGORY_BEDWARS_STATS,
     )
     var bedwarsTextAboveNametag = "§fBed§cWars§f: "
 
+    //? if forge {
+    /*@Button(
+        name = "",
+        text = "Reset Text",
+        category = CATEGORY_BEDWARS,
+        subcategory = SUBCATEGORY_BEDWARS_STATS
+    )
+    private fun bedwarsTextResetButton() {
+        bedwarsTextAboveNametag = "§fBed§cWars§f: "
+    }
+    *///?}
+
 
     //? if = 1.8.9 {
-    /*@Exclude
-    *///?}
+    //@Exclude
+    //?}
     private const val SUBCATEGORY_BEDWARS_RESOURCE_DISPLAY = "Resource Display"
 
     //? if = 1.8.9 {
@@ -154,21 +166,21 @@ object HyModConfig : Config(
 
 
     //? if = 1.8.9 {
-    /*@Exclude
-    *///?}
+    //@Exclude
+    //?}
     private const val CATEGORY_SKYWARS = "SkyWars"
 
     //? if = 1.8.9 {
-    /*@Exclude
-    *///?}
+    //@Exclude
+    //?}
     private const val SUBCATEGORY_SKYWARS_STATS = "Stats"
 
     @Switch(
         //? if = 1.8.9 {
-        /*name
-            *///?} else {
-        title
-            //?}
+        //name
+            //?} else {
+            title
+                //?}
         = "Show SkyWars Stars In TabList",
         description = "Show in tablist stars of every player while in Hypixel SkyWars",
         category = CATEGORY_SKYWARS,
@@ -178,10 +190,10 @@ object HyModConfig : Config(
 
     @Switch(
         //? if = 1.8.9 {
-        /*name
-            *///?} else {
-        title
-            //?}
+        //name
+            //?} else {
+            title
+                //?}
         = "Show SkyWars Stars Above Nametag",
         description = "Show above nametag stars of every player while in Hypixel SkyWars",
         category = CATEGORY_SKYWARS,
@@ -191,33 +203,45 @@ object HyModConfig : Config(
 
     @Text(
         //? if = 1.8.9 {
-        /*name
-            *///?} else {
-        title
-            //?}
+        //name
+            //?} else {
+            title
+                //?}
         = "SkyWars Text Above Nametag",
         category = CATEGORY_SKYWARS,
         subcategory = SUBCATEGORY_SKYWARS_STATS,
     )
     var skywarsTextAboveNametag = "§bSky§aWars§f: "
 
+    //? if forge {
+    /*@Button(
+        name = "",
+        text = "Reset Text",
+        category = CATEGORY_SKYWARS,
+        subcategory = SUBCATEGORY_SKYWARS_STATS
+    )
+    private fun skywarsTextResetButton() {
+        skywarsTextAboveNametag = "§bSky§aWars§f: "
+    }
+    *///?}
+
 
     //? if = 1.8.9 {
-    /*@Exclude
-    *///?}
+    //@Exclude
+    //?}
     private const val CATEGORY_DUELS = "Duels"
 
     //? if = 1.8.9 {
-    /*@Exclude
-    *///?}
+    //@Exclude
+    //?}
     private const val SUBCATEGORY_DUELS_STATS = "Stats"
 
     @Switch(
         //? if = 1.8.9 {
-        /*name
-            *///?} else {
-        title
-            //?}
+        //name
+            //?} else {
+            title
+                //?}
         = "Show Duels Division In Tablist",
         description = "Show in tablist division of every player while in Hypixel Duels",
         category = CATEGORY_DUELS,
@@ -227,10 +251,10 @@ object HyModConfig : Config(
 
     @Switch(
         //? if = 1.8.9 {
-        /*name
-            *///?} else {
-        title
-            //?}
+        //name
+            //?} else {
+            title
+                //?}
         = "Show Duels Division Above Nametag",
         description = "Show above nametag division of every player while in Hypixel Duels",
         category = CATEGORY_DUELS,
@@ -240,10 +264,10 @@ object HyModConfig : Config(
 
     @Text(
         //? if = 1.8.9 {
-        /*name
-            *///?} else {
-        title
-            //?}
+        //name
+            //?} else {
+            title
+                //?}
         = "Duels Text Above Nametag",
         category = CATEGORY_DUELS,
         subcategory = SUBCATEGORY_DUELS_STATS,
@@ -252,10 +276,10 @@ object HyModConfig : Config(
 
     @Text(
         //? if = 1.8.9 {
-        /*name
-            *///?} else {
-        title
-            //?}
+        //name
+            //?} else {
+            title
+                //?}
         = "Overall Duels Text Above Nametag",
         category = CATEGORY_DUELS,
         subcategory = SUBCATEGORY_DUELS_STATS,
@@ -264,10 +288,10 @@ object HyModConfig : Config(
 
     @Text(
         //? if = 1.8.9 {
-        /*name
-            *///?} else {
-        title
-            //?}
+        //name
+            //?} else {
+            title
+                //?}
         = "SkyWars Duels Text Above Nametag",
         category = CATEGORY_DUELS,
         subcategory = SUBCATEGORY_DUELS_STATS,
@@ -276,10 +300,10 @@ object HyModConfig : Config(
 
     @Text(
         //? if = 1.8.9 {
-        /*name
-            *///?} else {
-        title
-            //?}
+        //name
+            //?} else {
+            title
+                //?}
         = "The Bridge Duels Text Above Nametag",
         category = CATEGORY_DUELS,
         subcategory = SUBCATEGORY_DUELS_STATS,
@@ -288,10 +312,10 @@ object HyModConfig : Config(
 
     @Text(
         //? if = 1.8.9 {
-        /*name
-            *///?} else {
-        title
-            //?}
+        //name
+            //?} else {
+            title
+                //?}
         = "BedWars Duels Text Above Nametag",
         category = CATEGORY_DUELS,
         subcategory = SUBCATEGORY_DUELS_STATS,
@@ -300,10 +324,10 @@ object HyModConfig : Config(
 
     @Text(
         //? if = 1.8.9 {
-        /*name
-            *///?} else {
-        title
-            //?}
+        //name
+            //?} else {
+            title
+                //?}
         = "Classic Duels Text Above Nametag",
         category = CATEGORY_DUELS,
         subcategory = SUBCATEGORY_DUELS_STATS,
@@ -312,10 +336,10 @@ object HyModConfig : Config(
 
     @Text(
         //? if = 1.8.9 {
-        /*name
-            *///?} else {
-        title
-            //?}
+        //name
+            //?} else {
+            title
+                //?}
         = "UHC Duels Text Above Nametag",
         category = CATEGORY_DUELS,
         subcategory = SUBCATEGORY_DUELS_STATS,
@@ -324,10 +348,10 @@ object HyModConfig : Config(
 
     @Text(
         //? if = 1.8.9 {
-        /*name
-            *///?} else {
-        title
-            //?}
+        //name
+            //?} else {
+            title
+                //?}
         = "Sumo Duels Text Above Nametag",
         category = CATEGORY_DUELS,
         subcategory = SUBCATEGORY_DUELS_STATS,
@@ -336,10 +360,10 @@ object HyModConfig : Config(
 
     @Text(
         //? if = 1.8.9 {
-        /*name
-            *///?} else {
-        title
-            //?}
+        //name
+            //?} else {
+            title
+                //?}
         = "Bow Duels Text Above Nametag",
         category = CATEGORY_DUELS,
         subcategory = SUBCATEGORY_DUELS_STATS,
@@ -348,10 +372,10 @@ object HyModConfig : Config(
 
     @Text(
         //? if = 1.8.9 {
-        /*name
-            *///?} else {
-        title
-            //?}
+        //name
+            //?} else {
+            title
+                //?}
         = "Mega Walls Duels Text Above Nametag",
         category = CATEGORY_DUELS,
         subcategory = SUBCATEGORY_DUELS_STATS,
@@ -360,10 +384,10 @@ object HyModConfig : Config(
 
     @Text(
         //? if = 1.8.9 {
-        /*name
-            *///?} else {
-        title
-            //?}
+        //name
+            //?} else {
+            title
+                //?}
         = "Parkour Duels Text Above Nametag",
         category = CATEGORY_DUELS,
         subcategory = SUBCATEGORY_DUELS_STATS,
@@ -372,10 +396,10 @@ object HyModConfig : Config(
 
     @Text(
         //? if = 1.8.9 {
-        /*name
-            *///?} else {
-        title
-            //?}
+        //name
+            //?} else {
+            title
+                //?}
         = "Quakecraft Duels Text Above Nametag",
         category = CATEGORY_DUELS,
         subcategory = SUBCATEGORY_DUELS_STATS,
@@ -384,10 +408,10 @@ object HyModConfig : Config(
 
     @Text(
         //? if = 1.8.9 {
-        /*name
-            *///?} else {
-        title
-            //?}
+        //name
+            //?} else {
+            title
+                //?}
         = "Spleef Duels Text Above Nametag",
         category = CATEGORY_DUELS,
         subcategory = SUBCATEGORY_DUELS_STATS,
@@ -396,10 +420,10 @@ object HyModConfig : Config(
 
     @Text(
         //? if = 1.8.9 {
-        /*name
-            *///?} else {
-        title
-            //?}
+        //name
+            //?} else {
+            title
+                //?}
         = "OP Duels Text Above Nametag",
         category = CATEGORY_DUELS,
         subcategory = SUBCATEGORY_DUELS_STATS,
@@ -408,10 +432,10 @@ object HyModConfig : Config(
 
     @Text(
         //? if = 1.8.9 {
-        /*name
-            *///?} else {
-        title
-            //?}
+        //name
+            //?} else {
+            title
+                //?}
         = "Blitz Duels Text Above Nametag",
         category = CATEGORY_DUELS,
         subcategory = SUBCATEGORY_DUELS_STATS,
@@ -420,10 +444,10 @@ object HyModConfig : Config(
 
     @Text(
         //? if = 1.8.9 {
-        /*name
-            *///?} else {
-        title
-            //?}
+        //name
+            //?} else {
+            title
+                //?}
         = "Combo Duels Text Above Nametag",
         category = CATEGORY_DUELS,
         subcategory = SUBCATEGORY_DUELS_STATS,
@@ -432,10 +456,10 @@ object HyModConfig : Config(
 
     @Text(
         //? if = 1.8.9 {
-        /*name
-            *///?} else {
-        title
-            //?}
+        //name
+            //?} else {
+            title
+                //?}
         = "Boxing Duels Text Above Nametag",
         category = CATEGORY_DUELS,
         subcategory = SUBCATEGORY_DUELS_STATS,
@@ -444,33 +468,62 @@ object HyModConfig : Config(
 
     @Text(
         //? if = 1.8.9 {
-        /*name
-            *///?} else {
-        title
-            //?}
+        //name
+            //?} else {
+            title
+                //?}
         = "NoDebuff Duels Text Above Nametag",
         category = CATEGORY_DUELS,
         subcategory = SUBCATEGORY_DUELS_STATS,
     )
     var noDebuffDuelsTextAboveNametag = "§dNoDebuff"
 
+    //? if forge {
+    /*@Button(
+        name = "",
+        text = "Reset Text",
+        category = CATEGORY_DUELS,
+        subcategory = SUBCATEGORY_DUELS_STATS
+    )
+    private fun duelsTextResetButton() {
+        duelsTextAboveNametag = " §3Duels§f: "
+        overallDuelsTextAboveNametag = "§eOverall"
+        skywarsDuelsTextAboveNametag = "§bSky§aWars"
+        theBridgeDuelsTextAboveNametag = "§5The Bridge"
+        bedwarsDuelsTextAboveNametag = "§fBed§cWars"
+        classicDuelsTextAboveNametag = "§fClassic"
+        uhcDuelsTextAboveNametag = "§6UHC"
+        sumoDuelsTextAboveNametag = "§bSumo"
+        bowDuelsTextAboveNametag = "§6Bow"
+        megaWallsDuelsTextAboveNametag = "§8Mega Walls"
+        parkourDuelsTextAboveNametag = "§eParkour"
+        quakecraftDuelsTextAboveNametag = "§7Quakecraft"
+        spleefDuelsTextAboveNametag = "§9Spleef"
+        opDuelsTextAboveNametag = "§5OP"
+        blitzDuelsTextAboveNametag = "§6Blitz"
+        comboDuelsTextAboveNametag = "§cCombo"
+        boxingDuelsTextAboveNametag = "§4Boxing"
+        noDebuffDuelsTextAboveNametag = "§dNoDebuff"
+    }
+    *///?}
+
 
     //? if = 1.8.9 {
-    /*@Exclude
-    *///?}
+    //@Exclude
+    //?}
     private const val CATEGORY_ARCADE = "Arcade"
 
     //? if = 1.8.9 {
-    /*@Exclude
-    *///?}
+    //@Exclude
+    //?}
     private const val SUBCATEGORY_FARM_HUNT = "Farm Hunt"
 
     @Switch(
         //? if = 1.8.9 {
-        /*name
-            *///?} else {
-        title
-            //?}
+        //name
+            //?} else {
+            title
+                //?}
         = "Dangerous Taunt Waypoint",
         description = "Show waypoint on dangerous taunt message in Farm Hunt",
         category = CATEGORY_ARCADE,
@@ -480,21 +533,21 @@ object HyModConfig : Config(
 
 
     //? if = 1.8.9 {
-    /*@Exclude
-    *///?}
+    //@Exclude
+    //?}
     private const val CATEGORY_NETWORK = "Network"
 
     //? if = 1.8.9 {
-    /*@Exclude
-    *///?}
+    //@Exclude
+    //?}
     private const val SUBCATEGORY_NETWORK_STATS = "Stats"
 
     @Switch(
         //? if = 1.8.9 {
-        /*name
-            *///?} else {
-        title
-            //?}
+        //name
+            //?} else {
+            title
+                //?}
         = "Show Network Level Above Nametag",
         description = "Show above nametag network level of every player while on Hypixel",
         category = CATEGORY_NETWORK,
@@ -504,10 +557,10 @@ object HyModConfig : Config(
 
     @Switch(
         //? if = 1.8.9 {
-        /*name
-            *///?} else {
-        title
-            //?}
+        //name
+            //?} else {
+            title
+                //?}
         = "Show Network Level with Other Nametag Stats",
         description = "Show Hypixel network level when other Hypixel stats are shown",
         category = CATEGORY_NETWORK,
@@ -517,10 +570,10 @@ object HyModConfig : Config(
 
     @Text(
         //? if = 1.8.9 {
-        /*name
-            *///?} else {
-        title
-            //?}
+        //name
+            //?} else {
+            title
+                //?}
         = "Network Level Text Above Nametag",
         category = CATEGORY_NETWORK,
         subcategory = SUBCATEGORY_NETWORK_STATS
@@ -529,10 +582,10 @@ object HyModConfig : Config(
 
     @Switch(
         //? if = 1.8.9 {
-        /*name
-            *///?} else {
-        title
-            //?}
+        //name
+            //?} else {
+            title
+                //?}
         = "Show Nicked Indicator In Tablist",
         description = "Show indicator of a nicked player in tablist while on Hypixel",
         category = CATEGORY_NETWORK,
@@ -542,10 +595,10 @@ object HyModConfig : Config(
 
     @Switch(
         //? if = 1.8.9 {
-        /*name
-            *///?} else {
-        title
-            //?}
+        //name
+            //?} else {
+            title
+                //?}
         = "Show Nicked Indicator Above Nametag",
         description = "Show indicator of a nicked player above nametag while on Hypixel",
         category = CATEGORY_NETWORK,
@@ -555,28 +608,41 @@ object HyModConfig : Config(
 
     @Text(
         //? if = 1.8.9 {
-        /*name
-            *///?} else {
-        title
-            //?}
+        //name
+            //?} else {
+            title
+                //?}
         = "Nicked Indicator Text",
         category = CATEGORY_NETWORK,
         subcategory = SUBCATEGORY_NETWORK_STATS
     )
     var nickedIndicatorText = "§5[NICKED]"
 
+    //? if forge {
+    /*@Button(
+        name = "",
+        text = "Reset Text",
+        category = CATEGORY_NETWORK,
+        subcategory = SUBCATEGORY_NETWORK_STATS
+    )
+    private fun networkTextResetButton() {
+        networkLevelTextAboveNametag = "§9Level§f: §e"
+        nickedIndicatorText = "§5[NICKED]"
+    }
+    *///?}
+
 
     //? if = 1.8.9 {
-    /*@Exclude
-    *///?}
+    //@Exclude
+    //?}
     private const val SUBCATEGORY_MIDDLE_CLICK_GUI_ITEMS = "Middle Click GUI Items in Lobby"
 
     @Switch(
         //? if = 1.8.9 {
-        /*name
-            *///?} else {
-        title
-            //?}
+        //name
+            //?} else {
+            title
+                //?}
         = "Middle Click GUI Items",
         description = "Replace left click with middle click in GUIs in Hypixel lobbies",
         category = CATEGORY_NETWORK,
@@ -586,21 +652,21 @@ object HyModConfig : Config(
 
 
     //? if = 1.8.9 {
-    /*@Exclude
-    *///?}
+    //@Exclude
+    //?}
     private const val CATEGORY_CHAT = "Chat"
 
     //? if = 1.8.9 {
-    /*@Exclude
-    *///?}
+    //@Exclude
+    //?}
     private const val SUBCATEGORY_WHITE_CHAT_MESSAGES = "White Chat Messages"
 
     @Switch(
         //? if = 1.8.9 {
-        /*name
-            *///?} else {
-        title
-            //?}
+        //name
+            //?} else {
+            title
+                //?}
         = "White Private Messages",
         description = "Color private messages white instead of gray on Hypixel",
         category = CATEGORY_CHAT,
@@ -610,10 +676,10 @@ object HyModConfig : Config(
 
     @Switch(
         //? if = 1.8.9 {
-        /*name
-            *///?} else {
-        title
-            //?}
+        //name
+            //?} else {
+            title
+                //?}
         = "White No Rank Messages",
         description = "Color messages from players with no rank white instead of gray on Hypixel",
         category = CATEGORY_CHAT,
@@ -622,16 +688,16 @@ object HyModConfig : Config(
     var whiteNoRankMessagesEnabled = true
 
     //? if = 1.8.9 {
-    /*@Exclude
-    *///?}
+    //@Exclude
+    //?}
     private const val SUBCATEGORY_HIDE_GUILD_MOTD = "Hide Guild MOTD"
 
     @Switch(
         //? if = 1.8.9 {
-        /*name
-            *///?} else {
-        title
-            //?}
+        //name
+            //?} else {
+            title
+                //?}
         = "Hide Guild MOTD",
         description = "Hide guild message of the day on Hypixel",
         category = CATEGORY_CHAT,
@@ -640,16 +706,16 @@ object HyModConfig : Config(
     var hideGuildMOTDEnabled = false
 
     //? if = 1.8.9 {
-    /*@Exclude
-    *///?}
+    //@Exclude
+    //?}
     private const val SUBCATEGORY_MVP_EMOJIS = "MVP++ Emojis"
 
     @Switch(
         //? if = 1.8.9 {
-        /*name
-            *///?} else {
-        title
-            //?}
+        //name
+            //?} else {
+            title
+                //?}
         = "MVP++ Emojis",
         description = "Replace emojis like <3 with ❤ on Hypixel",
         category = CATEGORY_CHAT,
@@ -658,16 +724,16 @@ object HyModConfig : Config(
     var mvpEmojisEnabled = true
 
     //? if = 1.8.9 {
-    /*@Exclude
-    *///?}
+    //@Exclude
+    //?}
     private const val SUBCATEGORY_SENDCOORDS_COMMAND = "/sendcoords Command"
 
     @Dropdown(
         //? if = 1.8.9 {
-        /*name
-            *///?} else {
-        title
-            //?}
+        //name
+            //?} else {
+            title
+                //?}
         = "Default Mode",
         description = "Set default /sendcoords command mode",
         options = [
@@ -681,16 +747,16 @@ object HyModConfig : Config(
     var sendcoordsMode = 1
 
     //? if = 1.8.9 {
-    /*@Exclude
-    *///?}
+    //@Exclude
+    //?}
     private const val SUBCATEGORY_COORDS_WAYPOINTS = "Coords Waypoints"
 
     @Switch(
         //? if = 1.8.9 {
-        /*name
-            *///?} else {
-        title
-            //?}
+        //name
+            //?} else {
+            title
+                //?}
         = "Coords Waypoints",
         description = "Show waypoint on coords from chat",
         category = CATEGORY_CHAT,
@@ -700,54 +766,54 @@ object HyModConfig : Config(
 
     @Color(
         //? if = 1.8.9 {
-        /*name
-            *///?} else {
-        title
-            //?}
+        //name
+            //?} else {
+            title
+                //?}
         = "Box Color",
         //? if = 1.8.9 {
-        /*allowAlpha = true,
-        *///?}
+        //allowAlpha = true,
+        //?}
         category = CATEGORY_CHAT,
         subcategory = SUBCATEGORY_COORDS_WAYPOINTS
     )
     var coordsWaypointsBoxColor =
-    //? if = 1.8.9 {
-            /*OneColor(
-            *///?} else {
-        PolyColor(
-            //?}
+        //? if = 1.8.9 {
+        //OneColor(
+            //?} else {
+            PolyColor(
+                //?}
             0xFFFFFFFF.toInt()
         )
 
     @Color(
         //? if = 1.8.9 {
-        /*name
-            *///?} else {
-        title
-            //?}
+        //name
+            //?} else {
+            title
+                //?}
         = "Beam Color",
         //? if = 1.8.9 {
-        /*allowAlpha = true,
-        *///?}
+        //allowAlpha = true,
+        //?}
         category = CATEGORY_CHAT,
         subcategory = SUBCATEGORY_COORDS_WAYPOINTS
     )
     var coordsWaypointsBeamColor =
-    //? if = 1.8.9 {
-            /*OneColor(
-            *///?} else {
-        PolyColor(
-            //?}
+        //? if = 1.8.9 {
+        //OneColor(
+            //?} else {
+            PolyColor(
+                //?}
             0xC0FFFFFF.toInt()
         )
 
     @Switch(
         //? if = 1.8.9 {
-        /*name
-            *///?} else {
-        title
-            //?}
+        //name
+            //?} else {
+            title
+                //?}
         = "Render Owner",
         category = CATEGORY_CHAT,
         subcategory = SUBCATEGORY_COORDS_WAYPOINTS
@@ -756,34 +822,34 @@ object HyModConfig : Config(
 
     @Color(
         //? if = 1.8.9 {
-        /*name
-            *///?} else {
-        title
-            //?}
+        //name
+            //?} else {
+            title
+                //?}
         = "Owner Color",
         //? if = 1.8.9 {
-        /*allowAlpha = false,
-        *///?} else {
+        //allowAlpha = false,
+        //?} else {
         alpha = false,
         //?}
         category = CATEGORY_CHAT,
         subcategory = SUBCATEGORY_COORDS_WAYPOINTS
     )
     var coordsWaypointsOwnerColor =
-    //? if = 1.8.9 {
-            /*OneColor(
-            *///?} else {
-        PolyColor(
-            //?}
+        //? if = 1.8.9 {
+        //OneColor(
+            //?} else {
+            PolyColor(
+                //?}
             0xFFFFFFFF.toInt()
         )
 
     @Switch(
         //? if = 1.8.9 {
-        /*name
-            *///?} else {
-        title
-            //?}
+        //name
+            //?} else {
+            title
+                //?}
         = "Render Text",
         category = CATEGORY_CHAT,
         subcategory = SUBCATEGORY_COORDS_WAYPOINTS
@@ -792,34 +858,34 @@ object HyModConfig : Config(
 
     @Color(
         //? if = 1.8.9 {
-        /*name
-            *///?} else {
-        title
-            //?}
+        //name
+            //?} else {
+            title
+                //?}
         = "Text Color",
         //? if = 1.8.9 {
-        /*allowAlpha = false,
-        *///?} else {
+        //allowAlpha = false,
+        //?} else {
         alpha = false,
         //?}
         category = CATEGORY_CHAT,
         subcategory = SUBCATEGORY_COORDS_WAYPOINTS
     )
     var coordsWaypointsTextColor =
-    //? if = 1.8.9 {
-            /*OneColor(
-            *///?} else {
-        PolyColor(
-            //?}
+        //? if = 1.8.9 {
+        //OneColor(
+            //?} else {
+            PolyColor(
+                //?}
             0xFFFFFFFF.toInt()
         )
 
     @Switch(
         //? if = 1.8.9 {
-        /*name
-            *///?} else {
-        title
-            //?}
+        //name
+            //?} else {
+            title
+                //?}
         = "Render Distance",
         category = CATEGORY_CHAT,
         subcategory = SUBCATEGORY_COORDS_WAYPOINTS
@@ -828,43 +894,43 @@ object HyModConfig : Config(
 
     @Color(
         //? if = 1.8.9 {
-        /*name
-            *///?} else {
-        title
-            //?}
+        //name
+            //?} else {
+            title
+                //?}
         = "Distance Text Color",
         //? if = 1.8.9 {
-        /*allowAlpha = false,
-        *///?} else {
+        //allowAlpha = false,
+        //?} else {
         alpha = false,
         //?}
         category = CATEGORY_CHAT,
         subcategory = SUBCATEGORY_COORDS_WAYPOINTS
     )
     var coordsWaypointsDistanceTextColor =
-    //? if = 1.8.9 {
-            /*OneColor(
-            *///?} else {
-        PolyColor(
-            //?}
+        //? if = 1.8.9 {
+        //OneColor(
+            //?} else {
+            PolyColor(
+                //?}
             0xFFFFFF00.toInt()
         )
 
     @Slider(
         //? if = 1.8.9 {
-        /*name
-            *///?} else {
-        title
-            //?}
+        //name
+            //?} else {
+            title
+                //?}
         = "Time",
         min = 0f,
         max = 120f,
         step =
             //? if = 1.8.9 {
-            /*1
-        *///?} else {
-            1f
-        //?}
+            //1
+        //?} else {
+        1f
+    //?}
         ,
         category = CATEGORY_CHAT,
         subcategory = SUBCATEGORY_COORDS_WAYPOINTS
@@ -872,22 +938,22 @@ object HyModConfig : Config(
     var coordsWaypointsTime = 60
 
     //? if = 1.8.9 {
-    /*@Exclude
-    *///?}
+    //@Exclude
+    //?}
     private const val CATEGORY_SETTINGS = "Settings"
 
     //? if = 1.8.9 {
-    /*@Exclude
-    *///?}
+    //@Exclude
+    //?}
     private const val SUBCATEGORY_NAMETAGS = "Nametags"
 
     @Slider(
         //? if = 1.8.9 {
-        /*name =
-            *///?} else {
-        title =
-            //?}
-        "Nametag Position Offset",
+        //name =
+            //?} else {
+            title =
+                //?}
+            "Nametag Position Offset",
         min = 0.1f,
         max = 1f,
         //? if !forge {
@@ -899,22 +965,21 @@ object HyModConfig : Config(
     var nametagOffset = 0.1f
 
 
-
     //? if = 1.8.9 {
-    /*@Exclude
-    *///?}
+    //@Exclude
+    //?}
     private const val SUBCATEGORY_DEBUG = "Debug"
 
     @Info(
         //? if = 1.8.9 {
-        /*text
-            *///?} else {
-        title
-            //?}
+        //text
+            //?} else {
+            title
+                //?}
         = "Probably should stay disabled",
         //? if = 1.8.9 {
-        /*type = InfoType.WARNING,
-        *///?}
+        //type = InfoType.WARNING,
+        //?}
         category = CATEGORY_SETTINGS,
         subcategory = SUBCATEGORY_DEBUG
     )
@@ -922,10 +987,10 @@ object HyModConfig : Config(
 
     @Switch(
         //? if = 1.8.9 {
-        /*name
-            *///?} else {
-        title
-            //?}
+        //name
+            //?} else {
+            title
+                //?}
         = "Debug Mode",
         category = CATEGORY_SETTINGS,
         subcategory = SUBCATEGORY_DEBUG
