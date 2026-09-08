@@ -62,7 +62,7 @@ public abstract class MiddleClickGUIItemsMixin {
             *///?}
             )
     )
-            //?}
+    //?}
     private void hymod$useMiddleClick(
             //? if = 1.8.9 {
             /*GuiContainer instance,
@@ -178,13 +178,8 @@ public abstract class MiddleClickGUIItemsMixin {
             )) return true;
         }
 
-
         if (HypixelPackets.INSTANCE.getInDuels() && HypixelPackets.INSTANCE.getInLobby())
             return true;
-
-        if (HyModConfig.INSTANCE.getMiddleClickInLobby() && HypixelPackets.INSTANCE.getInLobby())
-            return false;
-
 
         String containerTitle =
                 //? if = 1.8.9 {
@@ -193,8 +188,8 @@ public abstract class MiddleClickGUIItemsMixin {
                 instance.getTitle().getString();
         //?}
 
-        if (HypixelPackets.INSTANCE.getInLobby() && containerTitle.contains("Layout Editor"))
-            return true;
+        if (HyModConfig.INSTANCE.getMiddleClickInLobby() && HypixelPackets.INSTANCE.getInLobby())
+            return containerTitle.contains("Layout Editor");
 
         if (HyModConfig.INSTANCE.getMiddleClickInBedwarsShop()
                 && HypixelPackets.INSTANCE.getInBedwars()
