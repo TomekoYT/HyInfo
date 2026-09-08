@@ -20,8 +20,8 @@ object Debug {
 
     fun forceLog(message: String) {
         //? if = 1.8.9 {
-        /*println("[${Constants.MOD_NAME}] $message")
-        *///?} else {
+        //println("[${Constants.MOD_NAME}] $message")
+        //?} else {
         LOGGER.info("[${Constants.MOD_NAME}] $message")
         //?}
     }

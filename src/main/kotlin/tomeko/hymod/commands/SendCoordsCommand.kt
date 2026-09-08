@@ -24,15 +24,15 @@ import tomeko.hymod.location.HypixelPackets
 
 object SendCoordsCommand
 //? if = 1.8.9 {
-/*: CommandBase()
-*///?}
+//: CommandBase()
+//?}
 {
     private const val COMMAND_NAME = "sendcoords"
 
     fun register() {
         //? if = 1.8.9 {
-        /*ClientCommandHandler.instance.registerCommand(this)
-        *///?} else {
+        //ClientCommandHandler.instance.registerCommand(this)
+        //?} else {
         ClientCommandRegistrationCallback.EVENT.register { dispatcher, _ ->
             dispatcher.register(
                 literal(COMMAND_NAME)
@@ -77,29 +77,29 @@ object SendCoordsCommand
         )
 
         //? if = 1.8.9 {
-        /*val player: EntityPlayerSP = Minecraft.getMinecraft().thePlayer
-        *///?} else {
+        //val player: EntityPlayerSP = Minecraft.getMinecraft().thePlayer
+        //?} else {
         val player: LocalPlayer = Minecraft.getInstance().player!!
         //?}
 
         val x =
         //? if = 1.8.9 {
-                /*player.posX.toInt()
-            *///?} else {
+                //player.posX.toInt()
+            //?} else {
             player.x.toInt()
         //?}
 
         val y =
         //? if = 1.8.9 {
-                /*player.posY.toInt()
-            *///?} else {
+                //player.posY.toInt()
+            //?} else {
             player.y.toInt()
         //?}
 
         val z =
         //? if = 1.8.9 {
-                /*player.posZ.toInt()
-            *///?} else {
+                //player.posZ.toInt()
+            //?} else {
             player.z.toInt()
         //?}
 
@@ -111,8 +111,8 @@ object SendCoordsCommand
         }
 
         //? if = 1.8.9 {
-        /*player.sendChatMessage(message)
-        *///?} else {
+        //player.sendChatMessage(message)
+        //?} else {
         player.connection.sendChat(message)
         //?}
     }

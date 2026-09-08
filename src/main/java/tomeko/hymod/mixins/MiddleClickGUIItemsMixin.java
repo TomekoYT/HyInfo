@@ -17,8 +17,8 @@ import net.minecraft.world.inventory.ChestMenu;
 //? if >= 26.1 {
 import net.minecraft.world.inventory.ContainerInput;
 //?} else {
-/*import net.minecraft.world.inventory.ClickType;
- *///?}
+//import net.minecraft.world.inventory.ClickType;
+ //?}
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.TooltipFlag;
@@ -31,8 +31,8 @@ import tomeko.hymod.location.HypixelPackets;
 import java.util.List;
 
 //? if = 1.8.9 {
-/*@Mixin(GuiContainer.class)
- *///?} else {
+//@Mixin(GuiContainer.class)
+ //?} else {
 @Mixin(AbstractContainerScreen.class)
 //?}
 public abstract class MiddleClickGUIItemsMixin {
@@ -58,28 +58,28 @@ public abstract class MiddleClickGUIItemsMixin {
                             //? if >= 26.1 {
                             "Lnet/minecraft/client/gui/screens/inventory/AbstractContainerScreen;slotClicked(Lnet/minecraft/world/inventory/Slot;IILnet/minecraft/world/inventory/ContainerInput;)V"
                     //?} else {
-                    /*"Lnet/minecraft/client/gui/screens/inventory/AbstractContainerScreen;slotClicked(Lnet/minecraft/world/inventory/Slot;IILnet/minecraft/world/inventory/ClickType;)V"
-            *///?}
+                    //"Lnet/minecraft/client/gui/screens/inventory/AbstractContainerScreen;slotClicked(Lnet/minecraft/world/inventory/Slot;IILnet/minecraft/world/inventory/ClickType;)V"
+            //?}
             )
     )
     //?}
     private void hymod$useMiddleClick(
             //? if = 1.8.9 {
-            /*GuiContainer instance,
-             *///?} else {
+            //GuiContainer instance,
+             //?} else {
             AbstractContainerScreen instance,
             //?}
             Slot slotIn,
             int slotId,
             int clickedButton,
             //? if = 1.8.9 {
-            /*int clickType
-             *///?} else {
+            //int clickType
+             //?} else {
             //? if >= 26.1 {
             ContainerInput
                     //?} else {
-                    /*ClickType
-                     *///?}
+                    //ClickType
+                     //?}
                     clickType,
             //?}
             //? if >= 1.21.11 {
@@ -88,16 +88,16 @@ public abstract class MiddleClickGUIItemsMixin {
     ) {
         if (hymod$shouldCallOriginal(instance, slotIn, clickedButton, clickType)) {
             //? if = 1.8.9 {
-            /*handleMouseClick(slotIn, slotId, clickedButton, clickType);
-             *///?} else {
+            //handleMouseClick(slotIn, slotId, clickedButton, clickType);
+             //?} else {
             original.call(instance, slotIn, slotId, clickedButton, clickType);
             //?}
             return;
         }
 
         //? if = 1.8.9 {
-        /*handleMouseClick(slotIn, slotId, 2, 3);
-         *///?} else {
+        //handleMouseClick(slotIn, slotId, 2, 3);
+         //?} else {
         original.call(
                 instance,
                 slotIn,
@@ -106,8 +106,8 @@ public abstract class MiddleClickGUIItemsMixin {
                 //? if >= 26.1 {
                 ContainerInput.CLONE
                 //?} else {
-                /*ClickType.CLONE
-                 *///?}
+                //ClickType.CLONE
+                 //?}
         );
         //?}
     }
@@ -115,38 +115,38 @@ public abstract class MiddleClickGUIItemsMixin {
 
     private static boolean hymod$shouldCallOriginal(
             //? if = 1.8.9 {
-            /*GuiContainer instance,
-             *///?} else {
+            //GuiContainer instance,
+             //?} else {
             AbstractContainerScreen instance,
             //?}
             Slot slotIn,
             int clickedButton,
             //? if = 1.8.9 {
-            /*int clickType
-             *///?} else {
+            //int clickType
+             //?} else {
             //? if >= 26.1 {
             ContainerInput
                     //?} else {
-                    /*ClickType
-                     *///?}
+                    //ClickType
+                     //?}
                     clickType
             //?}
     ) {
         if (
                 clickedButton != 0
                         //? if = 1.8.9 {
-                        /*|| clickType != 0
-                         *///?} else {
+                        //|| clickType != 0
+                         //?} else {
                         || clickType !=
                         //? if >= 26.1 {
                         ContainerInput.PICKUP
                         //?} else {
-                        /*ClickType.PICKUP
-                         *///?}
+                        //ClickType.PICKUP
+                         //?}
                         //?}
                         //? if = 1.8.9 {
-                        /*|| !(instance instanceof GuiChest)
-                         *///?} else {
+                        //|| !(instance instanceof GuiChest)
+                         //?} else {
                         || !(instance.getMenu() instanceof ChestMenu)
                         //?}
                         || !HypixelPackets.INSTANCE.getOnHypixel()
@@ -158,14 +158,14 @@ public abstract class MiddleClickGUIItemsMixin {
         ) return true;
 
         //? if = 1.8.9 {
-        /*List<String> tooltip = slotIn.getStack().getTooltip(Minecraft.getMinecraft().thePlayer, Minecraft.getMinecraft().gameSettings.advancedItemTooltips);
-         *///?} else {
+        //List<String> tooltip = slotIn.getStack().getTooltip(Minecraft.getMinecraft().thePlayer, Minecraft.getMinecraft().gameSettings.advancedItemTooltips);
+         //?} else {
         List<Component> tooltip = slotIn.getItem().getTooltipLines(Item.TooltipContext.EMPTY, Minecraft.getInstance().player, TooltipFlag.NORMAL);
         //?}
         for (
             //? if = 1.8.9 {
-            /*String line
-             *///?} else {
+            //String line
+             //?} else {
                 Component line
             //?}
                 : tooltip
@@ -183,8 +183,8 @@ public abstract class MiddleClickGUIItemsMixin {
 
         String containerTitle =
                 //? if = 1.8.9 {
-                /*((ContainerChest) instance.inventorySlots).getLowerChestInventory().getDisplayName().getUnformattedText();
-                 *///?} else {
+                //((ContainerChest) instance.inventorySlots).getLowerChestInventory().getDisplayName().getUnformattedText();
+                 //?} else {
                 instance.getTitle().getString();
         //?}
 

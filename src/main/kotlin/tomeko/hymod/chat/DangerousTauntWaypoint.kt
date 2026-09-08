@@ -29,8 +29,8 @@ import tomeko.hymod.utils.removeFormatting
 object DangerousTauntWaypoint {
     private val AIR: Block =
     //? if = 1.8.9 {
-            /*Blocks.air
-        *///?} else {
+            //Blocks.air
+        //?} else {
         Blocks.AIR
     //?}
 
@@ -38,27 +38,27 @@ object DangerousTauntWaypoint {
 
     fun register() {
         //? if = 1.8.9 {
-        /*MinecraftForge.EVENT_BUS.register(this)
-        *///?} else {
+        //MinecraftForge.EVENT_BUS.register(this)
+        //?} else {
         ClientReceiveMessageEvents.GAME.register(DangerousTauntWaypoint::onChat)
         //?}
     }
 
     //? if = 1.8.9 {
-    /*@SubscribeEvent
-*///?}
+    //@SubscribeEvent
+//?}
 
     fun onChat(
         //? if = 1.8.9 {
-        /*event: ClientChatReceivedEvent
-        *///?} else {
+        //event: ClientChatReceivedEvent
+        //?} else {
         component: Component,
         fromActionBar: Boolean
         //?}
     ) {
         //? if = 1.8.9 {
-        /*if (event.type.toInt() == 2 || event.message == null)
-        *///?} else {
+        //if (event.type.toInt() == 2 || event.message == null)
+        //?} else {
         if (fromActionBar)
         //?}
             return
@@ -67,8 +67,8 @@ object DangerousTauntWaypoint {
 
         val message =
         //? if = 1.8.9 {
-                /*event.message.unformattedText
-                *///?} else {
+                //event.message.unformattedText
+                //?} else {
             component.string
                 //?}
                 .removeFormatting()
@@ -91,8 +91,8 @@ object DangerousTauntWaypoint {
         val boxColor = when (animal) {
             "Chicken" ->
                 //? if = 1.8.9 {
-                /*OneColor(
-                *///?} else {
+                //OneColor(
+                //?} else {
                 PolyColor(
                     //?}
                     0x80FFFF00.toInt()
@@ -100,8 +100,8 @@ object DangerousTauntWaypoint {
 
             "Sheep" ->
                 //? if = 1.8.9 {
-                /*OneColor(
-                *///?} else {
+                //OneColor(
+                //?} else {
                 PolyColor(
                     //?}
                     0x80FFFFFF.toInt()
@@ -109,8 +109,8 @@ object DangerousTauntWaypoint {
 
             "Pig" ->
                 //? if = 1.8.9 {
-                /*OneColor(
-                *///?} else {
+                //OneColor(
+                //?} else {
                 PolyColor(
                     //?}
                     0x80FFC0CB.toInt()
@@ -118,8 +118,8 @@ object DangerousTauntWaypoint {
 
             "Cow" ->
                 //? if = 1.8.9 {
-                /*OneColor(
-                *///?} else {
+                //OneColor(
+                //?} else {
                 PolyColor(
                     //?}
                     0x80000000.toInt()
@@ -127,8 +127,8 @@ object DangerousTauntWaypoint {
 
             "Horse" ->
                 //? if = 1.8.9 {
-                /*OneColor(
-                *///?} else {
+                //OneColor(
+                //?} else {
                 PolyColor(
                     //?}
                     0x80964B00.toInt()
@@ -136,8 +136,8 @@ object DangerousTauntWaypoint {
 
             "Ocelot" ->
                 //? if = 1.8.9 {
-                /*OneColor(
-                *///?} else {
+                //OneColor(
+                //?} else {
                 PolyColor(
                     //?}
                     0x80F1E2C9.toInt()
@@ -145,8 +145,8 @@ object DangerousTauntWaypoint {
 
             "Wolf" ->
                 //? if = 1.8.9 {
-                /*OneColor(
-                *///?} else {
+                //OneColor(
+                //?} else {
                 PolyColor(
                     //?}
                     0x80D3D3D3.toInt()
@@ -154,8 +154,8 @@ object DangerousTauntWaypoint {
 
             "Donkey" ->
                 //? if = 1.8.9 {
-                /*OneColor(
-                *///?} else {
+                //OneColor(
+                //?} else {
                 PolyColor(
                     //?}
                     0x80808080.toInt()
@@ -163,8 +163,8 @@ object DangerousTauntWaypoint {
 
             else ->
                 //? if = 1.8.9 {
-                /*OneColor(
-                *///?} else {
+                //OneColor(
+                //?} else {
                 PolyColor(
                     //?}
                     0x8000FF00.toInt()
@@ -174,8 +174,8 @@ object DangerousTauntWaypoint {
         val beamColor = when (animal) {
             "Chicken" ->
                 //? if = 1.8.9 {
-                /*OneColor(
-                *///?} else {
+                //OneColor(
+                //?} else {
                 PolyColor(
                     //?}
                     0xC0FFFF00.toInt()
@@ -183,8 +183,8 @@ object DangerousTauntWaypoint {
 
             "Sheep" ->
                 //? if = 1.8.9 {
-                /*OneColor(
-                *///?} else {
+                //OneColor(
+                //?} else {
                 PolyColor(
                     //?}
                     0xC0FFFFFF.toInt()
@@ -192,8 +192,8 @@ object DangerousTauntWaypoint {
 
             "Pig" ->
                 //? if = 1.8.9 {
-                /*OneColor(
-                *///?} else {
+                //OneColor(
+                //?} else {
                 PolyColor(
                     //?}
                     0xC0FFC0CB.toInt()
@@ -201,8 +201,8 @@ object DangerousTauntWaypoint {
 
             "Cow" ->
                 //? if = 1.8.9 {
-                /*OneColor(
-                *///?} else {
+                //OneColor(
+                //?} else {
                 PolyColor(
                     //?}
                     0xC0000000.toInt()
@@ -210,8 +210,8 @@ object DangerousTauntWaypoint {
 
             "Horse" ->
                 //? if = 1.8.9 {
-                /*OneColor(
-                *///?} else {
+                //OneColor(
+                //?} else {
                 PolyColor(
                     //?}
                     0xC0964B00.toInt()
@@ -219,8 +219,8 @@ object DangerousTauntWaypoint {
 
             "Ocelot" ->
                 //? if = 1.8.9 {
-                /*OneColor(
-                *///?} else {
+                //OneColor(
+                //?} else {
                 PolyColor(
                     //?}
                     0xC0F1E2C9.toInt()
@@ -228,8 +228,8 @@ object DangerousTauntWaypoint {
 
             "Wolf" ->
                 //? if = 1.8.9 {
-                /*OneColor(
-                *///?} else {
+                //OneColor(
+                //?} else {
                 PolyColor(
                     //?}
                     0xC0D3D3D3.toInt()
@@ -237,8 +237,8 @@ object DangerousTauntWaypoint {
 
             "Donkey" ->
                 //? if = 1.8.9 {
-                /*OneColor(
-                *///?} else {
+                //OneColor(
+                //?} else {
                 PolyColor(
                     //?}
                     0xC0808080.toInt()
@@ -246,8 +246,8 @@ object DangerousTauntWaypoint {
 
             else ->
                 //? if = 1.8.9 {
-                /*OneColor(
-                *///?} else {
+                //OneColor(
+                //?} else {
                 PolyColor(
                     //?}
                     0xC000FF00.toInt()
@@ -263,8 +263,8 @@ object DangerousTauntWaypoint {
                 renderOwner = true,
                 ownerColor =
                     //? if = 1.8.9 {
-                    /*OneColor(
-                    *///?} else {
+                    //OneColor(
+                    //?} else {
                     PolyColor(
                         //?}
                         0xFFFFFFFF.toInt()
@@ -273,8 +273,8 @@ object DangerousTauntWaypoint {
                 renderText = false,
                 textColor =
                     //? if = 1.8.9 {
-                    /*OneColor(
-                    *///?} else {
+                    //OneColor(
+                    //?} else {
                     PolyColor(
                         //?}
                         0xFFFFFFFF.toInt()
@@ -282,8 +282,8 @@ object DangerousTauntWaypoint {
                 renderDistance = true,
                 distanceTextColor =
                     //? if = 1.8.9 {
-                    /*OneColor(
-                    *///?} else {
+                    //OneColor(
+                    //?} else {
                     PolyColor(
                         //?}
                         0xFFFFFF00.toInt()
@@ -295,8 +295,8 @@ object DangerousTauntWaypoint {
 
     private fun getPos(x: Int, z: Int): BlockPos {
         //? if = 1.8.9 {
-        /*val world: WorldClient = Minecraft.getMinecraft().theWorld
-        *///?} else {
+        //val world: WorldClient = Minecraft.getMinecraft().theWorld
+        //?} else {
         val world: ClientLevel = Minecraft.getInstance().level!!
         //?}
 
@@ -315,8 +315,8 @@ object DangerousTauntWaypoint {
 
     private fun oneHigher(pos: BlockPos): BlockPos =
     //? if = 1.8.9 {
-            /*pos.up()
-        *///?} else {
+            //pos.up()
+        //?} else {
         pos.above()
     //?}
 }

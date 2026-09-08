@@ -1,8 +1,8 @@
 package tomeko.hymod.mixins;
 
 //? if = 1.8.9 {
-
-/*import net.minecraft.client.gui.GuiPlayerTabOverlay;
+/*
+import net.minecraft.client.gui.GuiPlayerTabOverlay;
 import net.minecraft.client.network.NetworkPlayerInfo;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.IChatComponent;
@@ -22,8 +22,8 @@ import java.util.UUID;
 
 @Mixin(
         //? if = 1.8.9 {
-        /*GuiPlayerTabOverlay.class
-        *///?} else {
+        //GuiPlayerTabOverlay.class
+        //?} else {
         PlayerTabOverlay.class
         //?}
 )
@@ -31,8 +31,8 @@ public abstract class TablistStatsMixin {
     @Inject(
             method =
                     //? if = 1.8.9 {
-                    /*"getPlayerName",
-                     *///?} else {
+                    //"getPlayerName",
+                     //?} else {
                     "getNameForDisplay",
             //?}
             at = @At("RETURN"),
@@ -50,24 +50,24 @@ public abstract class TablistStatsMixin {
         if (!HypixelPackets.INSTANCE.getOnHypixel()) return;
 
         //? if = 1.8.9 {
-        /*String original
-         *///?} else {
+        //String original
+         //?} else {
         Component original
                 //?}
                 = cir.getReturnValue();
 
         UUID uuid =
                 //? if = 1.8.9 {
-                /*info.getGameProfile().getId();
-                 *///?} else {
+                //info.getGameProfile().getId();
+                 //?} else {
                 info.getProfile().id();
         //?}
 
         HypixelStatsFetcher.CachedStats stats = HypixelStatsFetcher.INSTANCE.getCachedStats(uuid.toString());
 
         //? if = 1.8.9 {
-        /*IChatComponent prefix
-         *///?} else {
+        //IChatComponent prefix
+         //?} else {
         Component prefix
                 //?}
                 = null;
@@ -75,8 +75,8 @@ public abstract class TablistStatsMixin {
             if (HyModConfig.INSTANCE.getShowNickedIndicatorInTablist()) {
                 prefix =
                         //? if = 1.8.9 {
-                        /*new ChatComponentText(HyModConfig.INSTANCE.getNickedIndicatorText());
-                        *///?} else {
+                        //new ChatComponentText(HyModConfig.INSTANCE.getNickedIndicatorText());
+                        //?} else {
                         Component.literal(HyModConfig.INSTANCE.getNickedIndicatorText());
                 //?}
             }
@@ -92,8 +92,8 @@ public abstract class TablistStatsMixin {
 
         if (prefix != null) cir.setReturnValue(
                 //? if = 1.8.9 {
-                /*prefix.createCopy().appendSibling(new ChatComponentText(" ")).appendText(original).getFormattedText()
-                 *///?} else {
+                //prefix.createCopy().appendSibling(new ChatComponentText(" ")).appendText(original).getFormattedText()
+                 //?} else {
                 prefix.copy().append(Component.literal(" ")).append(original)
                 //?}
         );

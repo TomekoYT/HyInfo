@@ -16,8 +16,8 @@ import net.minecraft.item.ItemStack
 //? if >= 26.1 {
 import net.minecraft.client.gui.GuiGraphicsExtractor
 //?} else {
-/*import net.minecraft.client.gui.GuiGraphics as GuiGraphicsExtractor
-*///?}
+//import net.minecraft.client.gui.GuiGraphics as GuiGraphicsExtractor
+//?}
 import net.minecraft.world.item.Item
 import net.minecraft.world.item.ItemStack
 import net.minecraft.world.item.Items
@@ -33,14 +33,14 @@ import tomeko.hymod.utils.ItemTracker
 
 class BedwarsResourceDisplay
 //? if = 1.8.9 {
-/*: BasicHud(true)
-*///?} else {
+//: BasicHud(true)
+//?} else {
     : LegacyHud("${Constants.MOD_ID}_bedwars_resource_display.json", "BedWars Resource Display", Category.COMBAT)
 //?}
 {
     //? if = 1.8.9 {
-    /*@Exclude
-    *///?}
+    //@Exclude
+    //?}
     companion object {
         //? if >= 1.21.11 {
         fun register() {
@@ -49,48 +49,48 @@ class BedwarsResourceDisplay
         //?}
 
         //? if = 1.8.9 {
-        /*@Exclude
-        *///?}
+        //@Exclude
+        //?}
         private val IRON: Item =
         //? if = 1.8.9 {
-                /*Items.iron_ingot
-            *///?} else {
+                //Items.iron_ingot
+            //?} else {
             Items.IRON_INGOT
         //?}
 
         //? if = 1.8.9 {
-        /*@Exclude
-        *///?}
+        //@Exclude
+        //?}
         private val GOLD: Item =
         //? if = 1.8.9 {
-                /*Items.gold_ingot
-            *///?} else {
+                //Items.gold_ingot
+            //?} else {
             Items.GOLD_INGOT
         //?}
 
         //? if = 1.8.9 {
-        /*@Exclude
-        *///?}
+        //@Exclude
+        //?}
         private val DIAMOND: Item =
         //? if = 1.8.9 {
-                /*Items.diamond
-            *///?} else {
+                //Items.diamond
+            //?} else {
             Items.DIAMOND
         //?}
 
         //? if = 1.8.9 {
-        /*@Exclude
-        *///?}
+        //@Exclude
+        //?}
         private val EMERALD: Item =
         //? if = 1.8.9 {
-                /*Items.emerald
-            *///?} else {
+                //Items.emerald
+            //?} else {
             Items.EMERALD
         //?}
 
         //? if = 1.8.9 {
-        /*@Exclude
-        *///?}
+        //@Exclude
+        //?}
         val items = mutableListOf(
             IRON,
             GOLD,
@@ -140,8 +140,8 @@ class BedwarsResourceDisplay
 
     @Slider(
         //? if = 1.8.9 {
-        /*name
-            *///?} else {
+        //name
+            //?} else {
         title
             //?}
         = "Item Padding",
@@ -157,8 +157,8 @@ class BedwarsResourceDisplay
 
     @Slider(
         //? if = 1.8.9 {
-        /*name
-            *///?} else {
+        //name
+            //?} else {
         title
             //?}
         = "Icon Padding",
@@ -174,8 +174,8 @@ class BedwarsResourceDisplay
 
     @Switch(
         //? if = 1.8.9 {
-        /*name
-            *///?} else {
+        //name
+            //?} else {
         title
             //?}
         = "Show Iron"
@@ -188,8 +188,8 @@ class BedwarsResourceDisplay
 
     @Switch(
         //? if = 1.8.9 {
-        /*name
-            *///?} else {
+        //name
+            //?} else {
         title
             //?}
         = "Show Gold"
@@ -202,8 +202,8 @@ class BedwarsResourceDisplay
 
     @Switch(
         //? if = 1.8.9 {
-        /*name
-            *///?} else {
+        //name
+            //?} else {
         title
             //?}
         = "Show Diamond"
@@ -216,8 +216,8 @@ class BedwarsResourceDisplay
 
     @Switch(
         //? if = 1.8.9 {
-        /*name
-            *///?} else {
+        //name
+            //?} else {
         title
             //?}
         = "Show Emerald"
@@ -230,8 +230,8 @@ class BedwarsResourceDisplay
 
     @Switch(
         //? if = 1.8.9 {
-        /*name
-            *///?} else {
+        //name
+            //?} else {
         title
             //?}
         = "Show Inventory"
@@ -244,8 +244,8 @@ class BedwarsResourceDisplay
 
     @Switch(
         //? if = 1.8.9 {
-        /*name
-            *///?} else {
+        //name
+            //?} else {
         title
             //?}
         = "Show Ender Chest"
@@ -258,8 +258,8 @@ class BedwarsResourceDisplay
 
     @Switch(
         //? if = 1.8.9 {
-        /*name
-            *///?} else {
+        //name
+            //?} else {
         title
             //?}
         = "Show Total"
@@ -294,13 +294,13 @@ class BedwarsResourceDisplay
     //?}
 
     //? if = 1.8.9 {
-    /*@Exclude
-    *///?}
+    //@Exclude
+    //?}
     private var actualWidth = 1f
 
     //? if = 1.8.9 {
-    /*@Exclude
-    *///?}
+    //@Exclude
+    //?}
     private var actualHeight = 1f
 
     //? if = 1.8.9 {
@@ -317,8 +317,8 @@ class BedwarsResourceDisplay
     {
         if (
         //? if = 1.8.9 {
-        /*!example
-        *///?} else {
+        //!example
+        //?} else {
             !HudManager.isEditing
             //?}
             && !HyModConfig.debugModeEnabled
@@ -328,8 +328,8 @@ class BedwarsResourceDisplay
 
         val mc =
         //? if = 1.8.9 {
-                /*Minecraft.getMinecraft()
-            *///?} else {
+                //Minecraft.getMinecraft()
+            //?} else {
             Minecraft.getInstance()
         //?}
 
@@ -343,8 +343,8 @@ class BedwarsResourceDisplay
             longestWidth = maxOf(
                 longestWidth,
                 //? if = 1.8.9 {
-                /*mc.fontRendererObj.getStringWidth(
-                    *///?} else {
+                //mc.fontRendererObj.getStringWidth(
+                    //?} else {
                 mc.font.width(
                     //?}
                     getText(item)
@@ -404,8 +404,8 @@ class BedwarsResourceDisplay
             //? if >= 26.1 {
             mcCtx.item(
             //?} else {
-            /*mcCtx.renderItem(
-                *///?}
+            //mcCtx.renderItem(
+                //?}
                 stack,
                 iconX,
                 itemY
@@ -413,8 +413,8 @@ class BedwarsResourceDisplay
             //?}
 
             //? if = 1.8.9 {
-            /*RenderHelper.disableStandardItemLighting()
-            *///?}
+            //RenderHelper.disableStandardItemLighting()
+            //?}
 
             //? if = 1.8.9 {
             /*TextRenderer.drawScaledString(
@@ -432,8 +432,8 @@ class BedwarsResourceDisplay
                 //? if >= 26.1 {
                 mcCtx.text(
                 //?} else {
-                /*mcCtx.drawString(
-                    *///?}
+                //mcCtx.drawString(
+                    //?}
                     mc.font,
                     getText(item),
                     textX + 1,
@@ -446,8 +446,8 @@ class BedwarsResourceDisplay
             //? if >= 26.1 {
             mcCtx.text(
             //?} else {
-            /*mcCtx.drawString(
-                *///?}
+            //mcCtx.drawString(
+                //?}
                 mc.font,
                 getText(item),
                 textX,
@@ -461,8 +461,8 @@ class BedwarsResourceDisplay
         }
 
         //? if = 1.8.9 {
-        /*UGraphics.GL.popMatrix()
-        *///?} else {
+        //UGraphics.GL.popMatrix()
+        //?} else {
         mcCtx.pose().popMatrix()
         //?}
 

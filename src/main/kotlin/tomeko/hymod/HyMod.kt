@@ -31,18 +31,18 @@ class HyMod
 //?}
 {
     //? if = 1.8.9 {
-    /*@Mod.EventHandler
-    *///?} else {
+    //@Mod.EventHandler
+    //?} else {
     override
     //?}
     fun onInitializeClient(
         //? if = 1.8.9 {
-        /*event: FMLInitializationEvent
-        *///?}
+        //event: FMLInitializationEvent
+        //?}
     ) {
         //? if = 1.8.9 {
-        /*EventManager.INSTANCE.register(this)
-        *///?}
+        //EventManager.INSTANCE.register(this)
+        //?}
 
         CoordsWaypoints.register()
         DangerousTauntWaypoint.register()

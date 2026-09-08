@@ -133,8 +133,8 @@ object HypixelStatsFetcher {
                         val body = connection.inputStream.bufferedReader().use { it.readText() }
                         val root =
                         //? if = 1.8.9 {
-                                /*JsonParser().parse(body).asJsonObject
-                                *///?} else {
+                                //JsonParser().parse(body).asJsonObject
+                                //?} else {
                             JsonParser.parseString(body).asJsonObject
                         //?}
 
@@ -175,8 +175,8 @@ object HypixelStatsFetcher {
 
                 val root =
                 //? if = 1.8.9 {
-                        /*JsonParser().parse(body).asJsonObject
-                        *///?} else {
+                        //JsonParser().parse(body).asJsonObject
+                        //?} else {
                     JsonParser.parseString(body).asJsonObject
                 //?}
 
@@ -836,8 +836,8 @@ object HypixelStatsFetcher {
             )
 
             //? if = 1.8.9 {
-            /*ChatComponentText(
-                *///?} else {
+            //ChatComponentText(
+                //?} else {
             Component.literal(
                 //?}
                 divisionText
@@ -848,15 +848,15 @@ object HypixelStatsFetcher {
     private fun formatStars(text: String, vararg colors: ChatFormatting): Component {
         val result =
         //? if = 1.8.9 {
-                /*ChatComponentText("")
-            *///?} else {
+                //ChatComponentText("")
+            //?} else {
             Component.empty()
         //?}
         text.forEachIndexed { i, char ->
             val color = if (i < colors.size) colors[i] else colors.last()
             //? if = 1.8.9 {
-            /*result.appendSibling(ChatComponentText(char.toString()).setChatStyle(ChatStyle().setColor(color)))
-            *///?} else {
+            //result.appendSibling(ChatComponentText(char.toString()).setChatStyle(ChatStyle().setColor(color)))
+            //?} else {
             result.append(Component.literal(char.toString()).withStyle(color))
             //?}
         }
@@ -866,8 +866,8 @@ object HypixelStatsFetcher {
     private fun formatStarsObfuscated(text: String, vararg colors: ChatFormatting): Component {
         val result =
         //? if = 1.8.9 {
-                /*ChatComponentText("")
-            *///?} else {
+                //ChatComponentText("")
+            //?} else {
             Component.empty()
         //?}
         text.forEachIndexed { i, char ->
@@ -885,8 +885,8 @@ object HypixelStatsFetcher {
             //?}
             else
             //? if = 1.8.9 {
-            /*result.appendSibling(ChatComponentText(char.toString()).setChatStyle(ChatStyle().setColor(color)))
-        *///?} else {
+            //result.appendSibling(ChatComponentText(char.toString()).setChatStyle(ChatStyle().setColor(color)))
+        //?} else {
                 result.append(Component.literal(char.toString()).withStyle(color))
             //?}
         }

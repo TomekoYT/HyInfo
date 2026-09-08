@@ -41,8 +41,8 @@ object HypixelPackets {
 
     fun register() {
         //? if = 1.8.9 {
-        /*MinecraftForge.EVENT_BUS.register(this)
-        *///?} else {
+        //MinecraftForge.EVENT_BUS.register(this)
+        //?} else {
         ClientTickEvents.END_CLIENT_TICK.register(this::onTick)
         //?}
         HypixelModAPI.getInstance().createHandler(ClientboundLocationPacket::class.java, this::onLocationPacket)
@@ -50,18 +50,18 @@ object HypixelPackets {
     }
 
     //? if = 1.8.9 {
-    /*@SubscribeEvent
-    *///?}
+    //@SubscribeEvent
+    //?}
     fun onTick(
         //? if = 1.8.9 {
-        /*event: TickEvent.ClientTickEvent
-        *///?} else {
+        //event: TickEvent.ClientTickEvent
+        //?} else {
         mc: Minecraft
         //?}
     ) {
         //? if = 1.8.9 {
-        /*if (event.phase != TickEvent.Phase.END) return
-        *///?}
+        //if (event.phase != TickEvent.Phase.END) return
+        //?}
 
         checkHypixel()
     }
@@ -69,15 +69,15 @@ object HypixelPackets {
     private fun checkHypixel() {
         val server: ServerData? =
         //? if = 1.8.9 {
-                /*Minecraft.getMinecraft().currentServerData
-            *///?} else {
+                //Minecraft.getMinecraft().currentServerData
+            //?} else {
             Minecraft.getInstance().currentServer
         //?}
 
         val ip =
         //? if = 1.8.9 {
-                /*server?.serverIP ?: return
-            *///?} else {
+                //server?.serverIP ?: return
+            //?} else {
             server?.ip ?: return
         //?}
 

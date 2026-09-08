@@ -28,8 +28,8 @@ import net.minecraft.client.Minecraft
 import net.minecraft.client.gui.Font
 import net.minecraft.client.renderer.OrderedSubmitNodeCollector
 //? if >= 26.2 {
-/*import net.minecraft.client.renderer.SubmitNodeCollector
-*///?} else {
+//import net.minecraft.client.renderer.SubmitNodeCollector
+//?} else {
 import net.minecraft.client.renderer.MultiBufferSource
 //?}
 import net.minecraft.client.renderer.rendertype.RenderTypes
@@ -65,15 +65,15 @@ object WaypointRenderer {
     //? if >= 26.1 {
             "textures/entity/beacon/beacon_beam.png"
             //?} else {
-        /*"textures/entity/beacon_beam.png"
-    *///?}
+        //"textures/entity/beacon_beam.png"
+    //?}
 
     private const val TEXT_SCALE_START_DISTANCE = 12.0
     private const val TEXT_SCALE_EXPONENT = 1.3
 
     //? if = 1.8.9 {
-    /*private val BEAM_TEXTURE = ResourceLocation(BEACON_PNG)
-    *///?} else {
+    //private val BEAM_TEXTURE = ResourceLocation(BEACON_PNG)
+    //?} else {
     private val BEAM_TEXTURE = Identifier.parse(BEACON_PNG)
     //?}
 
@@ -81,26 +81,26 @@ object WaypointRenderer {
 
     fun register() {
         //? if = 1.8.9 {
-        /*MinecraftForge.EVENT_BUS.register(WaypointRenderer)
-        *///?} else {
+        //MinecraftForge.EVENT_BUS.register(WaypointRenderer)
+        //?} else {
         //? if >= 26.1 {
         LevelRenderEvents.AFTER_TRANSLUCENT_FEATURES.register(::onWorldRender)
         //?} else {
-        /*LevelRenderEvents.AFTER_ENTITIES.register(::onWorldRender)
-        *///?}
+        //LevelRenderEvents.AFTER_ENTITIES.register(::onWorldRender)
+        //?}
         ClientTickEvents.END_CLIENT_TICK.register(::onTick)
         //?}
     }
 
     //? if = 1.8.9 {
-    /*@SubscribeEvent
-    *///?} else {
+    //@SubscribeEvent
+    //?} else {
     @JvmStatic
     //?}
     fun onWorldRender(
         //? if = 1.8.9 {
-        /*event: RenderWorldLastEvent
-        *///?} else {
+        //event: RenderWorldLastEvent
+        //?} else {
         context: LevelRenderContext
         //?}
     ) {
@@ -108,8 +108,8 @@ object WaypointRenderer {
             renderWaypoint(
                 waypoint,
                 //? if = 1.8.9 {
-                /*event
-                *///?} else {
+                //event
+                //?} else {
                 context
                 //?}
             )
@@ -117,20 +117,20 @@ object WaypointRenderer {
     }
 
     //? if = 1.8.9 {
-    /*@SubscribeEvent
-    *///?} else {
+    //@SubscribeEvent
+    //?} else {
     @JvmStatic
     //?}
     fun onTick(
         //? if = 1.8.9 {
-        /*event: TickEvent.ClientTickEvent
-        *///?} else {
+        //event: TickEvent.ClientTickEvent
+        //?} else {
         mc: Minecraft
         //?}
     ) {
         //? if = 1.8.9 {
-        /*if (event.phase != TickEvent.Phase.END) return
-        *///?}
+        //if (event.phase != TickEvent.Phase.END) return
+        //?}
 
         val iterator = waypoints.iterator()
         while (iterator.hasNext()) {
@@ -146,8 +146,8 @@ object WaypointRenderer {
     private fun renderWaypoint(
         waypoint: Waypoint?,
         //? if = 1.8.9 {
-        /*event: RenderWorldLastEvent
-        *///?} else {
+        //event: RenderWorldLastEvent
+        //?} else {
         context: LevelRenderContext
         //?}
     ) {
@@ -159,26 +159,26 @@ object WaypointRenderer {
 
         val viewerX =
         //? if = 1.8.9 {
-                /*Minecraft.getMinecraft().renderViewEntity.let { it.lastTickPosX + (it.posX - it.lastTickPosX) * event.partialTicks }
-                *///?} else if >= 26.2 {
-                /*Minecraft.getInstance().gameRenderer.mainCamera().position().x
-            *///?} else {
+                //Minecraft.getMinecraft().renderViewEntity.let { it.lastTickPosX + (it.posX - it.lastTickPosX) * event.partialTicks }
+                //?} else if >= 26.2 {
+                //Minecraft.getInstance().gameRenderer.mainCamera().position().x
+            //?} else {
             Minecraft.getInstance().gameRenderer.mainCamera.position().x
 //?}
         val viewerY =
         //? if = 1.8.9 {
-                /*Minecraft.getMinecraft().renderViewEntity.let { it.lastTickPosY + (it.posY - it.lastTickPosY) * event.partialTicks }
-                *///?} else if >= 26.2 {
-                /*Minecraft.getInstance().gameRenderer.mainCamera().position().y
-            *///?} else {
+                //Minecraft.getMinecraft().renderViewEntity.let { it.lastTickPosY + (it.posY - it.lastTickPosY) * event.partialTicks }
+                //?} else if >= 26.2 {
+                //Minecraft.getInstance().gameRenderer.mainCamera().position().y
+            //?} else {
             Minecraft.getInstance().gameRenderer.mainCamera.position().y
 //?}
         val viewerZ =
         //? if = 1.8.9 {
-                /*Minecraft.getMinecraft().renderViewEntity.let { it.lastTickPosZ + (it.posZ - it.lastTickPosZ) * event.partialTicks }
-                *///?} else if >= 26.2 {
-                /*Minecraft.getInstance().gameRenderer.mainCamera().position().z
-            *///?} else {
+                //Minecraft.getMinecraft().renderViewEntity.let { it.lastTickPosZ + (it.posZ - it.lastTickPosZ) * event.partialTicks }
+                //?} else if >= 26.2 {
+                //Minecraft.getInstance().gameRenderer.mainCamera().position().z
+            //?} else {
             Minecraft.getInstance().gameRenderer.mainCamera.position().z
 //?}
         val renderX = waypoint.pos.x - viewerX
@@ -190,15 +190,15 @@ object WaypointRenderer {
             //? if >= 26.1 {
             context.poseStack(),
             //?} else {
-            /*context.matrices(),
-            *///?}
+            //context.matrices(),
+            //?}
             //? if >= 26.2 {
-            /*context.submitNodeCollector().order(1),
-            *///?} else if >= 26.1 {
+            //context.submitNodeCollector().order(1),
+            //?} else if >= 26.1 {
             context.bufferSource(),
             //?} else {
-            /*context.consumers(),
-            *///?}
+            //context.consumers(),
+            //?}
             //?}
             renderX, renderY, renderZ,
             waypoint.boxColor.red / 255f,
@@ -212,15 +212,15 @@ object WaypointRenderer {
             //? if >= 26.1 {
             context.poseStack(),
             //?} else {
-            /*context.matrices(),
-            *///?}
+            //context.matrices(),
+            //?}
             //? if >= 26.2 {
-            /*context.submitNodeCollector().order(1),
-            *///?} else if >= 26.1 {
+            //context.submitNodeCollector().order(1),
+            //?} else if >= 26.1 {
             context.bufferSource(),
             //?} else {
-            /*context.consumers(),
-            *///?}
+            //context.consumers(),
+            //?}
             //?}
             renderX, renderY + 1, renderZ,
             waypoint.beamColor.red / 255f,
@@ -228,8 +228,8 @@ object WaypointRenderer {
             waypoint.beamColor.blue / 255f,
             waypoint.beamColor.alpha / 255f
             //? if = 1.8.9 {
-            /*, event.partialTicks
-            *///?}
+            //, event.partialTicks
+            //?}
         )
 
         val textArgb =
@@ -244,15 +244,15 @@ object WaypointRenderer {
             //? if >= 26.1 {
             context.poseStack(),
             //?} else {
-            /*context.matrices(),
-            *///?}
+            //context.matrices(),
+            //?}
             //? if >= 26.2 {
-            /*context.submitNodeCollector().order(1),
-            *///?} else if >= 26.1 {
+            //context.submitNodeCollector().order(1),
+            //?} else if >= 26.1 {
             context.bufferSource(),
             //?} else {
-            /*context.consumers(),
-            *///?}
+            //context.consumers(),
+            //?}
             //?}
             waypoint.text, waypoint.owner, waypoint.pos,
             waypoint.renderText, waypoint.renderOwner, waypoint.renderDistance,
@@ -265,8 +265,8 @@ object WaypointRenderer {
         //? if >= 1.21.11 {
         matrices: PoseStack,
         //? if >= 26.2 {
-        /*collector: OrderedSubmitNodeCollector,
-        *///?} else {
+        //collector: OrderedSubmitNodeCollector,
+        //?} else {
         consumers: MultiBufferSource,
         //?}
         //?}
@@ -291,8 +291,8 @@ object WaypointRenderer {
         matrices.translate(x, y, z)
 
         //? if >= 26.2 {
-        /*collector.submitCustomGeometry(matrices, RenderTypes.debugFilledBox()) { pose, buffer ->
-            *///?} else {
+        //collector.submitCustomGeometry(matrices, RenderTypes.debugFilledBox()) { pose, buffer ->
+            //?} else {
         val buffer = consumers.getBuffer(RenderTypes.debugFilledBox())
         val pose = matrices.last().pose()
         //?}
@@ -352,8 +352,8 @@ object WaypointRenderer {
         //? if >= 1.21.11 {
         buffer: VertexConsumer,
         //? if >= 26.2 {
-        /*pose: PoseStack.Pose,
-        *///?} else {
+        //pose: PoseStack.Pose,
+        //?} else {
         pose: Matrix4f,
         //?}
         //?}
@@ -376,8 +376,8 @@ object WaypointRenderer {
         wr.pos(x1.toDouble(), y1.toDouble(), z1.toDouble()).endVertex()
         *///?} else {
         //? if >= 26.2 {
-        /*val p = pose.pose()
-        *///?} else {
+        //val p = pose.pose()
+        //?} else {
         val p = pose
         //?}
 
@@ -397,20 +397,20 @@ object WaypointRenderer {
         //? if >= 1.21.11 {
         matrices: PoseStack,
         //? if >= 26.2 {
-        /*collector: OrderedSubmitNodeCollector,
-        *///?} else {
+        //collector: OrderedSubmitNodeCollector,
+        //?} else {
         consumers: MultiBufferSource,
         //?}
         //?}
         x: Double, y: Double, z: Double,
         r: Float, g: Float, b: Float, a: Float
         //? if = 1.8.9 {
-        /*, partialTicks: Float
-        *///?}
+        //, partialTicks: Float
+        //?}
     ) {
         //? if = 1.8.9 {
-        /*val time = Minecraft.getMinecraft().theWorld.totalWorldTime + partialTicks.toDouble()
-        *///?} else {
+        //val time = Minecraft.getMinecraft().theWorld.totalWorldTime + partialTicks.toDouble()
+        //?} else {
         val time =
             Minecraft.getInstance().level!!.gameTime + Minecraft.getInstance().deltaTracker.gameTimeDeltaTicks.toDouble()
         //?}
@@ -453,8 +453,8 @@ object WaypointRenderer {
         matrices.pushPose()
         matrices.translate(x, y, z)
         //? if >= 26.2 {
-        /*collector.submitCustomGeometry(matrices, RenderTypes.beaconBeam(BEAM_TEXTURE, true)) { pose, buffer ->
-            *///?} else {
+        //collector.submitCustomGeometry(matrices, RenderTypes.beaconBeam(BEAM_TEXTURE, true)) { pose, buffer ->
+            //?} else {
         val pose = matrices.last()
         val buffer = consumers.getBuffer(RenderTypes.beaconBeam(BEAM_TEXTURE, true))
         //?}
@@ -537,8 +537,8 @@ object WaypointRenderer {
         wr.pos(x2.toDouble(), yMax.toDouble(), z2.toDouble()).tex(u2.toDouble(), v2.toDouble()).color(r, g, b, topA).endVertex()
         *///?} else {
         //? if >= 26.2 {
-        /*val p = pose.pose()
-        *///?} else {
+        //val p = pose.pose()
+        //?} else {
         val p = pose
         //?}
         buffer.addVertex(p, x1, yMax, z1).setColor(r, g, b, topA).setUv(u1, v2).setUv2(15, 15)
@@ -564,8 +564,8 @@ object WaypointRenderer {
         //? if >= 1.21.11 {
         matrices: PoseStack,
         //? if >= 26.2 {
-        /*collector: OrderedSubmitNodeCollector,
-        *///?} else {
+        //collector: OrderedSubmitNodeCollector,
+        //?} else {
         consumers: MultiBufferSource,
         //?}
         //?}
@@ -603,8 +603,8 @@ object WaypointRenderer {
         *///?} else {
         val camera =
         //? if >= 26.2 {
-                /*Minecraft.getInstance().gameRenderer.mainCamera()
-            *///?} else {
+                //Minecraft.getInstance().gameRenderer.mainCamera()
+            //?} else {
             Minecraft.getInstance().gameRenderer.mainCamera
         //?}
 
@@ -625,8 +625,8 @@ object WaypointRenderer {
                 //? if >= 1.21.11 {
                 matrices,
                 //? if >= 26.2 {
-                /*collector
-                *///?} else {
+                //collector
+                //?} else {
                 consumers
                 //?}
                 //?}
@@ -649,8 +649,8 @@ object WaypointRenderer {
                 //? if >= 1.21.11 {
                 matrices,
                 //? if >= 26.2 {
-                /*collector
-                *///?} else {
+                //collector
+                //?} else {
                 consumers
                 //?}
                 //?}
@@ -673,8 +673,8 @@ object WaypointRenderer {
                 //? if >= 1.21.11 {
                 matrices,
                 //? if >= 26.2 {
-                /*collector
-                *///?} else {
+                //collector
+                //?} else {
                 consumers
                 //?}
                 //?}
@@ -694,8 +694,8 @@ object WaypointRenderer {
         //? if >= 1.21.11 {
         matrices: PoseStack,
         //? if >= 26.2 {
-        /*collector: OrderedSubmitNodeCollector
-        *///?} else {
+        //collector: OrderedSubmitNodeCollector
+        //?} else {
         consumers: MultiBufferSource
         //?}
         //?}

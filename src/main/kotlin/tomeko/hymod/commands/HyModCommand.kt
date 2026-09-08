@@ -15,16 +15,16 @@ import org.polyfrost.oneconfig.utils.v1.dsl.openUI
 //? if >= 26.1 {
 import net.fabricmc.fabric.api.client.command.v2.ClientCommands.literal
 //?} else {
-/*import net.fabricmc.fabric.api.client.command.v2.ClientCommandManager.literal
-*///?}
+//import net.fabricmc.fabric.api.client.command.v2.ClientCommandManager.literal
+//?}
 import net.minecraft.client.Minecraft
 //?}
 import tomeko.hymod.config.HyModConfig
 import tomeko.hymod.utils.Constants
 
 //? if = 1.8.9 {
-/*@Command(value = Constants.MOD_ID)
-*///?}
+//@Command(value = Constants.MOD_ID)
+//?}
 object HyModCommand {
     //? if >= 1.21.11 {
     private var shouldOpenConfig: Boolean = false
@@ -32,8 +32,8 @@ object HyModCommand {
 
     fun register() {
         //? if = 1.8.9 {
-        /*CommandManager.INSTANCE.registerCommand(this)
-        *///?} else {
+        //CommandManager.INSTANCE.registerCommand(this)
+        //?} else {
         ClientCommandRegistrationCallback.EVENT.register { dispatcher: CommandDispatcher<FabricClientCommandSource>, _: CommandBuildContext ->
             dispatcher.register(
                 literal(Constants.MOD_ID)

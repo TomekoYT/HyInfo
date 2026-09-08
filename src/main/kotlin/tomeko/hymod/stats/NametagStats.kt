@@ -37,8 +37,8 @@ import kotlin.math.sqrt
 object NametagStats {
     fun register() {
         //? if = 1.8.9 {
-        /*MinecraftForge.EVENT_BUS.register(this)
-        *///?} elif >= 26.1 {
+        //MinecraftForge.EVENT_BUS.register(this)
+        //?} elif >= 26.1 {
         LevelRenderEvents.COLLECT_SUBMITS.register(::render)
         //?} else {
         //LevelRenderEvents.AFTER_ENTITIES.register(::render)
@@ -51,12 +51,12 @@ object NametagStats {
     private const val NAMETAG_OFFSET = -15f
 
     //? if = 1.8.9 {
-    /*@SubscribeEvent
-    *///?}
+    //@SubscribeEvent
+    //?}
     fun render(
         //? if = 1.8.9 {
-        /*event: RenderWorldLastEvent,
-        *///?} else {
+        //event: RenderWorldLastEvent,
+        //?} else {
         context: LevelRenderContext
         //?}
     ) {
@@ -71,29 +71,29 @@ object NametagStats {
 
         val mc =
         //? if = 1.8.9 {
-                /*Minecraft.getMinecraft()
-            *///?} else {
+                //Minecraft.getMinecraft()
+            //?} else {
             Minecraft.getInstance()
         //?}
         val level =
         //? if = 1.8.9 {
-                /*mc.theWorld
-                *///?} else {
+                //mc.theWorld
+                //?} else {
             mc.level
             //?}
                 ?: return
 
         val players =
         //? if = 1.8.9 {
-                /*level.playerEntities
-            *///?} else {
+                //level.playerEntities
+            //?} else {
             level.players()
         //?}
 
         for (player in players) {
             if (//? if = 1.8.9 {
-            /*!player.isEntityAlive
-            *///?} else {
+            //!player.isEntityAlive
+            //?} else {
                 !player.isAlive
                 //?}
                 || player.isInvisible
@@ -101,8 +101,8 @@ object NametagStats {
 
             val uuid =
             //? if = 1.8.9 {
-                    /*player.uniqueID
-                *///?} else {
+                    //player.uniqueID
+                //?} else {
                 player.uuid
             //?}
 
@@ -112,8 +112,8 @@ object NametagStats {
 
             val localPlayer =
             //? if = 1.8.9 {
-                    /*mc.thePlayer
-                *///?} else {
+                    //mc.thePlayer
+                //?} else {
                 mc.player
             //?}
 
@@ -121,10 +121,10 @@ object NametagStats {
             if (
                 isNametagHidden(player, localPlayer) ||
                 //? if = 1.8.9 {
-                /*mc.gameSettings.hideGUI
-                *///?} else if >= 26.2 {
-                /*mc.gui.hud.isHidden
-                *///?} else {
+                //mc.gameSettings.hideGUI
+                //?} else if >= 26.2 {
+                //mc.gui.hud.isHidden
+                //?} else {
                 mc.options.hideGui
             //?}
             ) continue
@@ -132,8 +132,8 @@ object NametagStats {
 
             val isFirstPerson =
             //? if = 1.8.9 {
-                    /*mc.gameSettings.thirdPersonView == 0
-                *///?} else {
+                    //mc.gameSettings.thirdPersonView == 0
+                //?} else {
                 mc.options.cameraType.isFirstPerson
             //?}
             if (player == localPlayer && isFirstPerson) continue
@@ -141,50 +141,50 @@ object NametagStats {
 
             val playerX =
             //? if = 1.8.9 {
-                    /*player.posX
-                *///?} else {
+                    //player.posX
+                //?} else {
                 player.x
             //?}
 
             val playerY =
             //? if = 1.8.9 {
-                    /*player.posY
-                *///?} else {
+                    //player.posY
+                //?} else {
                 player.y
             //?}
 
             val playerZ =
             //? if = 1.8.9 {
-                    /*player.posZ
-                *///?} else {
+                    //player.posZ
+                //?} else {
                 player.z
             //?}
 
             val playerLastX =
             //? if = 1.8.9 {
-                    /*player.lastTickPosX
-                *///?} else {
+                    //player.lastTickPosX
+                //?} else {
                 player.xo
             //?}
 
             val playerLastY =
             //? if = 1.8.9 {
-                    /*player.lastTickPosY
-                *///?} else {
+                    //player.lastTickPosY
+                //?} else {
                 player.yo
             //?}
 
             val playerLastZ =
             //? if = 1.8.9 {
-                    /*player.lastTickPosZ
-                *///?} else {
+                    //player.lastTickPosZ
+                //?} else {
                 player.zo
             //?}
 
             val camera =
             //? if = 1.8.9 {
-                    /*mc.renderManager
-                *///?} elif >= 26.1 {
+                    //mc.renderManager
+                //?} elif >= 26.1 {
                 context.levelState().cameraRenderState
             //?} else {
             //context.worldState().cameraRenderState
@@ -192,29 +192,29 @@ object NametagStats {
 
             val cameraX =
             //? if = 1.8.9 {
-                    /*camera.viewerPosX
-                *///?} else {
+                    //camera.viewerPosX
+                //?} else {
                 camera.pos.x
             //?}
 
             val cameraY =
             //? if = 1.8.9 {
-                    /*camera.viewerPosY
-                *///?} else {
+                    //camera.viewerPosY
+                //?} else {
                 camera.pos.y
             //?}
 
             val cameraZ =
             //? if = 1.8.9 {
-                    /*camera.viewerPosZ
-                *///?} else {
+                    //camera.viewerPosZ
+                //?} else {
                 camera.pos.z
             //?}
 
             val tickDelta =
             //? if = 1.8.9 {
-                    /*event.partialTicks
-                *///?} else {
+                    //event.partialTicks
+                //?} else {
                 mc.deltaTracker.getGameTimeDeltaPartialTick(false)
             //?}
 
@@ -229,15 +229,15 @@ object NametagStats {
 
             val playerHeight =
             //? if = 1.8.9 {
-                    /*player.height
-                *///?} else {
+                    //player.height
+                //?} else {
                 player.bbHeight
             //?}
 
             val hasBelowNameObjective =
             //? if = 1.8.9 {
-                    /*player.worldScoreboard.getObjectiveInDisplaySlot(2) != null
-                *///?} else {
+                    //player.worldScoreboard.getObjectiveInDisplaySlot(2) != null
+                //?} else {
                 level.scoreboard.getDisplayObjective(DisplaySlot.BELOW_NAME) != null
             //?}
 
@@ -256,8 +256,8 @@ object NametagStats {
                 if (HyModConfig.showNickedIndicatorAboveNametag) {
                     lines.add(
                         //? if = 1.8.9 {
-                        /*ChatComponentText(
-                            *///?} else {
+                        //ChatComponentText(
+                            //?} else {
                         Component.literal(
                             //?}
                             HyModConfig.nickedIndicatorText
@@ -284,8 +284,8 @@ object NametagStats {
                     cached.bedwars?.let { bedwars ->
                         lines.add(
                             //? if = 1.8.9 {
-                            /*ChatComponentText(HyModConfig.bedwarsTextAboveNametag).appendSibling(bedwars)
-                            *///?} else {
+                            //ChatComponentText(HyModConfig.bedwarsTextAboveNametag).appendSibling(bedwars)
+                            //?} else {
                             Component.literal(HyModConfig.bedwarsTextAboveNametag).append(bedwars)
                             //?}
                         )
@@ -296,8 +296,8 @@ object NametagStats {
                     cached.skywars?.let { skywars ->
                         lines.add(
                             //? if = 1.8.9 {
-                            /*ChatComponentText(HyModConfig.skywarsTextAboveNametag).appendSibling(skywars)
-                            *///?} else {
+                            //ChatComponentText(HyModConfig.skywarsTextAboveNametag).appendSibling(skywars)
+                            //?} else {
                             Component.literal(HyModConfig.skywarsTextAboveNametag).append(skywars)
                             //?}
                         )
@@ -316,8 +316,8 @@ object NametagStats {
                     cached.level?.let { networkLevel ->
                         lines.add(
                             //? if = 1.8.9 {
-                            /*ChatComponentText(HyModConfig.networkLevelTextAboveNametag + networkLevel)
-                            *///?} else {
+                            //ChatComponentText(HyModConfig.networkLevelTextAboveNametag + networkLevel)
+                            //?} else {
                             Component.literal(HyModConfig.networkLevelTextAboveNametag + networkLevel)
                             //?}
                         )
@@ -347,8 +347,8 @@ object NametagStats {
                 //? if >= 26.1 {
                 context.poseStack()
             //?} else {
-            /*context.matrices()
-        *///?}
+            //context.matrices()
+        //?}
 
             matrices.pushPose()
 
@@ -360,14 +360,14 @@ object NametagStats {
                 //? if >= 26.1 {
                 context.submitNodeCollector().order(1)
             //?} else {
-            /*context.commandQueue()
-        *///?}
+            //context.commandQueue()
+        //?}
             //?}
 
             val isCrouching =
             //? if = 1.8.9 {
-                    /*player.isSneaking
-                    *///?} else {
+                    //player.isSneaking
+                    //?} else {
                 player.isCrouching
             //?}
 
@@ -379,8 +379,8 @@ object NametagStats {
             for (text in lines) {
                 val width =
                 //? if = 1.8.9 {
-                        /*mc.fontRendererObj.getStringWidth(text.formattedText)
-                    *///?} else {
+                        //mc.fontRendererObj.getStringWidth(text.formattedText)
+                    //?} else {
                     mc.font.width(text)
                 //?}
 
@@ -489,16 +489,16 @@ object NametagStats {
 
         if (teamNametagVisibility ==
             //? if = 1.8.9 {
-            /*Team.EnumVisible.ALWAYS
-        *///?} else {
+            //Team.EnumVisible.ALWAYS
+        //?} else {
             Team.Visibility.ALWAYS
         //?}
         ) return false
 
         if (teamNametagVisibility ==
             //? if = 1.8.9 {
-            /*Team.EnumVisible.NEVER
-        *///?} else {
+            //Team.EnumVisible.NEVER
+        //?} else {
             Team.Visibility.NEVER
         //?}
         ) return true
@@ -507,8 +507,8 @@ object NametagStats {
 
         if (teamNametagVisibility ==
             //? if = 1.8.9 {
-            /*Team.EnumVisible.HIDE_FOR_OWN_TEAM
-            *///?} else {
+            //Team.EnumVisible.HIDE_FOR_OWN_TEAM
+            //?} else {
             Team.Visibility.HIDE_FOR_OWN_TEAM
             //?}
             && team == localPlayer.team
@@ -516,8 +516,8 @@ object NametagStats {
 
         if (teamNametagVisibility ==
             //? if = 1.8.9 {
-            /*Team.EnumVisible.HIDE_FOR_OTHER_TEAMS
-            *///?} else {
+            //Team.EnumVisible.HIDE_FOR_OTHER_TEAMS
+            //?} else {
             Team.Visibility.HIDE_FOR_OTHER_TEAMS
             //?}
             && team != localPlayer.team

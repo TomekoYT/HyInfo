@@ -21,19 +21,19 @@ import tomeko.hymod.utils.removeFormatting
 object WhiteChatMessages {
     fun register() {
         //? if = 1.8.9 {
-        /*MinecraftForge.EVENT_BUS.register(this)
-        *///?} else {
+        //MinecraftForge.EVENT_BUS.register(this)
+        //?} else {
         ClientReceiveMessageEvents.MODIFY_GAME.register(WhiteChatMessages::onChatReceive)
         //?}
     }
 
     //? if = 1.8.9 {
-    /*@SubscribeEvent
-*///?}
+    //@SubscribeEvent
+//?}
     fun onChatReceive(
         //? if = 1.8.9 {
-        /*event: ClientChatReceivedEvent
-        *///?} else {
+        //event: ClientChatReceivedEvent
+        //?} else {
         message: Component, fromActionBar: Boolean
         //?}
     )
@@ -54,8 +54,8 @@ object WhiteChatMessages {
 
     private fun modifyMessage(
         //? if = 1.8.9 {
-        /*message: IChatComponent
-        *///?} else {
+        //message: IChatComponent
+        //?} else {
         message: Component
         //?}
     ) =
