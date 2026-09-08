@@ -127,7 +127,7 @@ object NametagStats {
                 /*mc.gui.hud.isHidden
                 *///?} else {
                 mc.options.hideGui
-                //?}
+            //?}
             ) continue
 
 
@@ -365,6 +365,17 @@ object NametagStats {
         *///?}
             //?}
 
+            val isCrouching =
+            //? if = 1.8.9 {
+                    /*player.isSneaking
+                    *///?} else {
+                player.isCrouching
+            //?}
+
+            val normalColor = -0x1
+            val dimColor = 0x80FFFFFF.toInt()
+            val backgroundColor = 0x50000000
+
             var offset = 0
             for (text in lines) {
                 val width =
@@ -409,31 +420,46 @@ object NametagStats {
                     true
                 )
                 *///?} else {
-                submitNodeCollector.submitText(
-                    matrices,
-                    -width / 2.0f,
-                    NAMETAG_OFFSET + offset,
-                    text.visualOrderText,
-                    true,
-                    Font.DisplayMode.SEE_THROUGH,
-                    0xF000F0,
-                    -0x1,
-                    0x50000000,
-                    0
-                )
+                if (isCrouching) {
+                    submitNodeCollector.submitText(
+                        matrices,
+                        -width / 2.0f,
+                        NAMETAG_OFFSET + offset,
+                        text.visualOrderText,
+                        true,
+                        Font.DisplayMode.SEE_THROUGH,
+                        0xF000F0,
+                        dimColor,
+                        backgroundColor,
+                        0
+                    )
+                } else {
+                    submitNodeCollector.submitText(
+                        matrices,
+                        -width / 2.0f,
+                        NAMETAG_OFFSET + offset,
+                        text.visualOrderText,
+                        true,
+                        Font.DisplayMode.SEE_THROUGH,
+                        0xF000F0,
+                        dimColor,
+                        backgroundColor,
+                        0
+                    )
 
-                submitNodeCollector.submitText(
-                    matrices,
-                    -width / 2.0f,
-                    NAMETAG_OFFSET + offset,
-                    text.visualOrderText,
-                    false,
-                    Font.DisplayMode.NORMAL,
-                    0xF000F0,
-                    -0x1,
-                    0,
-                    0
-                )
+                    submitNodeCollector.submitText(
+                        matrices,
+                        -width / 2.0f,
+                        NAMETAG_OFFSET + offset,
+                        text.visualOrderText,
+                        false,
+                        Font.DisplayMode.NORMAL,
+                        0xF000F0,
+                        normalColor,
+                        0,
+                        0
+                    )
+                }
                 //?}
 
                 offset -= 11
