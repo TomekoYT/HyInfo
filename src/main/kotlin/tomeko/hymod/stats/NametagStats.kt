@@ -1,6 +1,6 @@
 package tomeko.hymod.stats
 
-//? if = 1.8.9 {
+//? if 1.8.9 {
 /*import net.minecraft.client.Minecraft
 import net.minecraft.client.entity.EntityPlayerSP
 import net.minecraft.client.gui.Gui
@@ -36,7 +36,7 @@ import kotlin.math.sqrt
 
 object NametagStats {
     fun register() {
-        //? if = 1.8.9 {
+        //? if 1.8.9 {
         //MinecraftForge.EVENT_BUS.register(this)
         //?} elif >= 26.1 {
         LevelRenderEvents.COLLECT_SUBMITS.register(::render)
@@ -50,11 +50,11 @@ object NametagStats {
     private const val MIN_DISTANCE = 1.0
     private const val NAMETAG_OFFSET = -15f
 
-    //? if = 1.8.9 {
+    //? if 1.8.9 {
     //@SubscribeEvent
     //?}
     fun render(
-        //? if = 1.8.9 {
+        //? if 1.8.9 {
         //event: RenderWorldLastEvent,
         //?} else {
         context: LevelRenderContext
@@ -70,13 +70,13 @@ object NametagStats {
         ) return
 
         val mc =
-        //? if = 1.8.9 {
+        //? if 1.8.9 {
                 //Minecraft.getMinecraft()
             //?} else {
             Minecraft.getInstance()
         //?}
         val level =
-        //? if = 1.8.9 {
+        //? if 1.8.9 {
                 //mc.theWorld
                 //?} else {
             mc.level
@@ -84,14 +84,14 @@ object NametagStats {
                 ?: return
 
         val players =
-        //? if = 1.8.9 {
+        //? if 1.8.9 {
                 //level.playerEntities
             //?} else {
             level.players()
         //?}
 
         for (player in players) {
-            if (//? if = 1.8.9 {
+            if (//? if 1.8.9 {
             //!player.isEntityAlive
             //?} else {
                 !player.isAlive
@@ -100,7 +100,7 @@ object NametagStats {
             ) continue
 
             val uuid =
-            //? if = 1.8.9 {
+            //? if 1.8.9 {
                     //player.uniqueID
                 //?} else {
                 player.uuid
@@ -111,7 +111,7 @@ object NametagStats {
             if (uuid.version() == 4) HypixelStatsFetcher.requestStats(uuid.toString())
 
             val localPlayer =
-            //? if = 1.8.9 {
+            //? if 1.8.9 {
                     //mc.thePlayer
                 //?} else {
                 mc.player
@@ -120,7 +120,7 @@ object NametagStats {
 
             if (
                 isNametagHidden(player, localPlayer) ||
-                //? if = 1.8.9 {
+                //? if 1.8.9 {
                 //mc.gameSettings.hideGUI
                 //?} else if >= 26.2 {
                 //mc.gui.hud.isHidden
@@ -131,7 +131,7 @@ object NametagStats {
 
 
             val isFirstPerson =
-            //? if = 1.8.9 {
+            //? if 1.8.9 {
                     //mc.gameSettings.thirdPersonView == 0
                 //?} else {
                 mc.options.cameraType.isFirstPerson
@@ -140,49 +140,49 @@ object NametagStats {
 
 
             val playerX =
-            //? if = 1.8.9 {
+            //? if 1.8.9 {
                     //player.posX
                 //?} else {
                 player.x
             //?}
 
             val playerY =
-            //? if = 1.8.9 {
+            //? if 1.8.9 {
                     //player.posY
                 //?} else {
                 player.y
             //?}
 
             val playerZ =
-            //? if = 1.8.9 {
+            //? if 1.8.9 {
                     //player.posZ
                 //?} else {
                 player.z
             //?}
 
             val playerLastX =
-            //? if = 1.8.9 {
+            //? if 1.8.9 {
                     //player.lastTickPosX
                 //?} else {
                 player.xo
             //?}
 
             val playerLastY =
-            //? if = 1.8.9 {
+            //? if 1.8.9 {
                     //player.lastTickPosY
                 //?} else {
                 player.yo
             //?}
 
             val playerLastZ =
-            //? if = 1.8.9 {
+            //? if 1.8.9 {
                     //player.lastTickPosZ
                 //?} else {
                 player.zo
             //?}
 
             val camera =
-            //? if = 1.8.9 {
+            //? if 1.8.9 {
                     //mc.renderManager
                 //?} elif >= 26.1 {
                 context.levelState().cameraRenderState
@@ -191,28 +191,28 @@ object NametagStats {
             //?}
 
             val cameraX =
-            //? if = 1.8.9 {
+            //? if 1.8.9 {
                     //camera.viewerPosX
                 //?} else {
                 camera.pos.x
             //?}
 
             val cameraY =
-            //? if = 1.8.9 {
+            //? if 1.8.9 {
                     //camera.viewerPosY
                 //?} else {
                 camera.pos.y
             //?}
 
             val cameraZ =
-            //? if = 1.8.9 {
+            //? if 1.8.9 {
                     //camera.viewerPosZ
                 //?} else {
                 camera.pos.z
             //?}
 
             val tickDelta =
-            //? if = 1.8.9 {
+            //? if 1.8.9 {
                     //event.partialTicks
                 //?} else {
                 mc.deltaTracker.getGameTimeDeltaPartialTick(false)
@@ -228,14 +228,14 @@ object NametagStats {
             val distance = sqrt(distanceSquared)
 
             val playerHeight =
-            //? if = 1.8.9 {
+            //? if 1.8.9 {
                     //player.height
                 //?} else {
                 player.bbHeight
             //?}
 
             val hasBelowNameObjective =
-            //? if = 1.8.9 {
+            //? if 1.8.9 {
                     //player.worldScoreboard.getObjectiveInDisplaySlot(2) != null
                 //?} else {
                 level.scoreboard.getDisplayObjective(DisplaySlot.BELOW_NAME) != null
@@ -255,7 +255,7 @@ object NametagStats {
             if (uuid.version() == 1) {
                 if (HyModConfig.showNickedIndicatorAboveNametag) {
                     lines.add(
-                        //? if = 1.8.9 {
+                        //? if 1.8.9 {
                         //ChatComponentText(
                             //?} else {
                         Component.literal(
@@ -268,7 +268,7 @@ object NametagStats {
                 if (HypixelPackets.inDuels && HyModConfig.showDuelsDivisionAboveNametag) {
                     cached.duels?.let { division ->
                         lines.add(
-                            //? if = 1.8.9 {
+                            //? if 1.8.9 {
                             /*ChatComponentText(HypixelPackets.duelsMode.modeName + HyModConfig.duelsTextAboveNametag).appendSibling(
                                 division
                             )
@@ -283,7 +283,7 @@ object NametagStats {
                 if (HypixelPackets.inBedwars && HyModConfig.showBedwarsStarsAboveNametag) {
                     cached.bedwars?.let { bedwars ->
                         lines.add(
-                            //? if = 1.8.9 {
+                            //? if 1.8.9 {
                             //ChatComponentText(HyModConfig.bedwarsTextAboveNametag).appendSibling(bedwars)
                             //?} else {
                             Component.literal(HyModConfig.bedwarsTextAboveNametag).append(bedwars)
@@ -295,7 +295,7 @@ object NametagStats {
                 if (HypixelPackets.inSkywars && HyModConfig.showSkywarsStarsAboveNametag) {
                     cached.skywars?.let { skywars ->
                         lines.add(
-                            //? if = 1.8.9 {
+                            //? if 1.8.9 {
                             //ChatComponentText(HyModConfig.skywarsTextAboveNametag).appendSibling(skywars)
                             //?} else {
                             Component.literal(HyModConfig.skywarsTextAboveNametag).append(skywars)
@@ -315,7 +315,7 @@ object NametagStats {
                 ) {
                     cached.level?.let { networkLevel ->
                         lines.add(
-                            //? if = 1.8.9 {
+                            //? if 1.8.9 {
                             //ChatComponentText(HyModConfig.networkLevelTextAboveNametag + networkLevel)
                             //?} else {
                             Component.literal(HyModConfig.networkLevelTextAboveNametag + networkLevel)
@@ -325,7 +325,7 @@ object NametagStats {
                 }
             }
 
-            //? if = 1.8.9 {
+            //? if 1.8.9 {
             /*GlStateManager.pushMatrix()
             GlStateManager.translate(x, y, z)
 
@@ -365,7 +365,7 @@ object NametagStats {
             //?}
 
             val isCrouching =
-            //? if = 1.8.9 {
+            //? if 1.8.9 {
                     //player.isSneaking
                     //?} else {
                 player.isCrouching
@@ -378,13 +378,13 @@ object NametagStats {
             var offset = 0
             for (text in lines) {
                 val width =
-                //? if = 1.8.9 {
+                //? if 1.8.9 {
                         //mc.fontRendererObj.getStringWidth(text.formattedText)
                     //?} else {
                     mc.font.width(text)
                 //?}
 
-                //? if = 1.8.9 {
+                //? if 1.8.9 {
                 /*val paddingX = 2
                 val paddingY = 1
                 val textHeight = 9
@@ -464,7 +464,7 @@ object NametagStats {
                 offset -= 11
             }
 
-            //? if = 1.8.9 {
+            //? if 1.8.9 {
             /*GlStateManager.depthMask(true)
             GlStateManager.disableBlend()
 
@@ -476,7 +476,7 @@ object NametagStats {
     }
 
     private fun isNametagHidden(
-        //? if = 1.8.9 {
+        //? if 1.8.9 {
         /*player: EntityPlayer,
         localPlayer: EntityPlayerSP?,
         *///?} else {
@@ -488,7 +488,7 @@ object NametagStats {
         val teamNametagVisibility = team.nameTagVisibility
 
         if (teamNametagVisibility ==
-            //? if = 1.8.9 {
+            //? if 1.8.9 {
             //Team.EnumVisible.ALWAYS
         //?} else {
             Team.Visibility.ALWAYS
@@ -496,7 +496,7 @@ object NametagStats {
         ) return false
 
         if (teamNametagVisibility ==
-            //? if = 1.8.9 {
+            //? if 1.8.9 {
             //Team.EnumVisible.NEVER
         //?} else {
             Team.Visibility.NEVER
@@ -506,7 +506,7 @@ object NametagStats {
         if (localPlayer == null) return false
 
         if (teamNametagVisibility ==
-            //? if = 1.8.9 {
+            //? if 1.8.9 {
             //Team.EnumVisible.HIDE_FOR_OWN_TEAM
             //?} else {
             Team.Visibility.HIDE_FOR_OWN_TEAM
@@ -515,7 +515,7 @@ object NametagStats {
         ) return true
 
         if (teamNametagVisibility ==
-            //? if = 1.8.9 {
+            //? if 1.8.9 {
             //Team.EnumVisible.HIDE_FOR_OTHER_TEAMS
             //?} else {
             Team.Visibility.HIDE_FOR_OTHER_TEAMS

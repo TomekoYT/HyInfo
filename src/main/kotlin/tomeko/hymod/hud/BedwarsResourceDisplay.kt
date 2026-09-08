@@ -1,7 +1,7 @@
 package tomeko.hymod.hud
 
 import net.minecraft.client.Minecraft
-//? if = 1.8.9 {
+//? if 1.8.9 {
 /*import cc.polyfrost.oneconfig.config.annotations.*
 import cc.polyfrost.oneconfig.config.core.OneColor
 import cc.polyfrost.oneconfig.hud.BasicHud
@@ -32,13 +32,13 @@ import tomeko.hymod.location.HypixelPackets
 import tomeko.hymod.utils.ItemTracker
 
 class BedwarsResourceDisplay
-//? if = 1.8.9 {
+//? if 1.8.9 {
 //: BasicHud(true)
 //?} else {
     : LegacyHud("${Constants.MOD_ID}_bedwars_resource_display.json", "BedWars Resource Display", Category.COMBAT)
 //?}
 {
-    //? if = 1.8.9 {
+    //? if 1.8.9 {
     //@Exclude
     //?}
     companion object {
@@ -48,47 +48,47 @@ class BedwarsResourceDisplay
         }
         //?}
 
-        //? if = 1.8.9 {
+        //? if 1.8.9 {
         //@Exclude
         //?}
         private val IRON: Item =
-        //? if = 1.8.9 {
+        //? if 1.8.9 {
                 //Items.iron_ingot
             //?} else {
             Items.IRON_INGOT
         //?}
 
-        //? if = 1.8.9 {
+        //? if 1.8.9 {
         //@Exclude
         //?}
         private val GOLD: Item =
-        //? if = 1.8.9 {
+        //? if 1.8.9 {
                 //Items.gold_ingot
             //?} else {
             Items.GOLD_INGOT
         //?}
 
-        //? if = 1.8.9 {
+        //? if 1.8.9 {
         //@Exclude
         //?}
         private val DIAMOND: Item =
-        //? if = 1.8.9 {
+        //? if 1.8.9 {
                 //Items.diamond
             //?} else {
             Items.DIAMOND
         //?}
 
-        //? if = 1.8.9 {
+        //? if 1.8.9 {
         //@Exclude
         //?}
         private val EMERALD: Item =
-        //? if = 1.8.9 {
+        //? if 1.8.9 {
                 //Items.emerald
             //?} else {
             Items.EMERALD
         //?}
 
-        //? if = 1.8.9 {
+        //? if 1.8.9 {
         //@Exclude
         //?}
         val items = mutableListOf(
@@ -106,7 +106,7 @@ class BedwarsResourceDisplay
         //?}
     }
 
-    //? if = 1.8.9 {
+    //? if 1.8.9 {
     /*@Dropdown(
         name = "Text Type",
         options = ["No Shadow", "Shadow", "Full Shadow"]
@@ -139,7 +139,7 @@ class BedwarsResourceDisplay
     //?}
 
     @Slider(
-        //? if = 1.8.9 {
+        //? if 1.8.9 {
         //name
             //?} else {
         title
@@ -156,7 +156,7 @@ class BedwarsResourceDisplay
     var itemPadding = 5f
 
     @Slider(
-        //? if = 1.8.9 {
+        //? if 1.8.9 {
         //name
             //?} else {
         title
@@ -173,7 +173,7 @@ class BedwarsResourceDisplay
     var iconPadding = 5f
 
     @Switch(
-        //? if = 1.8.9 {
+        //? if 1.8.9 {
         //name
             //?} else {
         title
@@ -187,7 +187,7 @@ class BedwarsResourceDisplay
     var showIron = true
 
     @Switch(
-        //? if = 1.8.9 {
+        //? if 1.8.9 {
         //name
             //?} else {
         title
@@ -201,7 +201,7 @@ class BedwarsResourceDisplay
     var showGold = true
 
     @Switch(
-        //? if = 1.8.9 {
+        //? if 1.8.9 {
         //name
             //?} else {
         title
@@ -215,7 +215,7 @@ class BedwarsResourceDisplay
     var showDiamond = true
 
     @Switch(
-        //? if = 1.8.9 {
+        //? if 1.8.9 {
         //name
             //?} else {
         title
@@ -229,7 +229,7 @@ class BedwarsResourceDisplay
     var showEmerald = true
 
     @Switch(
-        //? if = 1.8.9 {
+        //? if 1.8.9 {
         //name
             //?} else {
         title
@@ -243,7 +243,7 @@ class BedwarsResourceDisplay
     var showInventory = true
 
     @Switch(
-        //? if = 1.8.9 {
+        //? if 1.8.9 {
         //name
             //?} else {
         title
@@ -257,7 +257,7 @@ class BedwarsResourceDisplay
     var showEnderChest = true
 
     @Switch(
-        //? if = 1.8.9 {
+        //? if 1.8.9 {
         //name
             //?} else {
         title
@@ -293,17 +293,17 @@ class BedwarsResourceDisplay
     var backgroundRadius = 5f
     //?}
 
-    //? if = 1.8.9 {
+    //? if 1.8.9 {
     //@Exclude
     //?}
     private var actualWidth = 1f
 
-    //? if = 1.8.9 {
+    //? if 1.8.9 {
     //@Exclude
     //?}
     private var actualHeight = 1f
 
-    //? if = 1.8.9 {
+    //? if 1.8.9 {
     /*override fun draw(
         matrices: UMatrixStack,
         x: Float,
@@ -316,7 +316,7 @@ class BedwarsResourceDisplay
     //?}
     {
         if (
-        //? if = 1.8.9 {
+        //? if 1.8.9 {
         //!example
         //?} else {
             !HudManager.isEditing
@@ -327,7 +327,7 @@ class BedwarsResourceDisplay
         ) return
 
         val mc =
-        //? if = 1.8.9 {
+        //? if 1.8.9 {
                 //Minecraft.getMinecraft()
             //?} else {
             Minecraft.getInstance()
@@ -342,7 +342,7 @@ class BedwarsResourceDisplay
 
             longestWidth = maxOf(
                 longestWidth,
-                //? if = 1.8.9 {
+                //? if 1.8.9 {
                 //mc.fontRendererObj.getStringWidth(
                     //?} else {
                 mc.font.width(
@@ -357,7 +357,7 @@ class BedwarsResourceDisplay
             if (showItem(item)) size++
         }
 
-        //? if = 1.8.9 {
+        //? if 1.8.9 {
         /*UGraphics.GL.pushMatrix()
         UGraphics.GL.scale(scale, scale, 1f)
         UGraphics.GL.translate(x / scale, y / scale, 0f)
@@ -386,12 +386,12 @@ class BedwarsResourceDisplay
             val iconX = 0
             val textX = (iconSize + iconPadding).toInt()
 
-            //? if = 1.8.9 {
+            //? if 1.8.9 {
             /*RenderHelper.enableGUIStandardItemLighting()
             mc.renderItem.zLevel = 200f
             *///?}
 
-            //? if = 1.8.9 {
+            //? if 1.8.9 {
             /*mc.renderItem.renderItemAndEffectIntoGUI(stack, iconX, itemY)
             mc.renderItem.renderItemOverlayIntoGUI(
                 mc.fontRendererObj,
@@ -412,11 +412,11 @@ class BedwarsResourceDisplay
             )
             //?}
 
-            //? if = 1.8.9 {
+            //? if 1.8.9 {
             //RenderHelper.disableStandardItemLighting()
             //?}
 
-            //? if = 1.8.9 {
+            //? if 1.8.9 {
             /*TextRenderer.drawScaledString(
                 getText(item),
                 textX.toFloat(),
@@ -460,7 +460,7 @@ class BedwarsResourceDisplay
             i++
         }
 
-        //? if = 1.8.9 {
+        //? if 1.8.9 {
         //UGraphics.GL.popMatrix()
         //?} else {
         mcCtx.pose().popMatrix()
@@ -470,7 +470,7 @@ class BedwarsResourceDisplay
         actualHeight = size * offset - itemPadding
     }
 
-    //? if = 1.8.9 {
+    //? if 1.8.9 {
     /*override fun getWidth(scale: Float, example: Boolean): Float =
         actualWidth * scale
 

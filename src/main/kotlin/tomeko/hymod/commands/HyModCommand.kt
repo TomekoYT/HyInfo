@@ -1,6 +1,6 @@
 package tomeko.hymod.commands
 
-//? if = 1.8.9 {
+//? if 1.8.9 {
 /*import cc.polyfrost.oneconfig.utils.commands.CommandManager
 import cc.polyfrost.oneconfig.utils.commands.annotations.Command
 import cc.polyfrost.oneconfig.utils.commands.annotations.Main
@@ -22,7 +22,7 @@ import net.minecraft.client.Minecraft
 import tomeko.hymod.config.HyModConfig
 import tomeko.hymod.utils.Constants
 
-//? if = 1.8.9 {
+//? if 1.8.9 {
 //@Command(value = Constants.MOD_ID)
 //?}
 object HyModCommand {
@@ -31,7 +31,7 @@ object HyModCommand {
     //?}
 
     fun register() {
-        //? if = 1.8.9 {
+        //? if 1.8.9 {
         //CommandManager.INSTANCE.registerCommand(this)
         //?} else {
         ClientCommandRegistrationCallback.EVENT.register { dispatcher: CommandDispatcher<FabricClientCommandSource>, _: CommandBuildContext ->
@@ -54,7 +54,7 @@ object HyModCommand {
         //?}
     }
 
-    //? if = 1.8.9 {
+    //? if 1.8.9 {
     /*@Main
     fun handle() {
         HyModConfig.openGui()

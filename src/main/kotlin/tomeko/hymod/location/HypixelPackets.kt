@@ -4,7 +4,7 @@ import net.hypixel.modapi.HypixelModAPI
 import net.hypixel.modapi.packet.impl.clientbound.event.ClientboundLocationPacket
 import net.minecraft.client.Minecraft
 import net.minecraft.client.multiplayer.ServerData
-//? if = 1.8.9 {
+//? if 1.8.9 {
 /*import net.minecraftforge.common.MinecraftForge
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
 import net.minecraftforge.fml.common.gameevent.TickEvent
@@ -40,7 +40,7 @@ object HypixelPackets {
         private set
 
     fun register() {
-        //? if = 1.8.9 {
+        //? if 1.8.9 {
         //MinecraftForge.EVENT_BUS.register(this)
         //?} else {
         ClientTickEvents.END_CLIENT_TICK.register(this::onTick)
@@ -49,17 +49,17 @@ object HypixelPackets {
         HypixelModAPI.getInstance().subscribeToEventPacket(ClientboundLocationPacket::class.java)
     }
 
-    //? if = 1.8.9 {
+    //? if 1.8.9 {
     //@SubscribeEvent
     //?}
     fun onTick(
-        //? if = 1.8.9 {
+        //? if 1.8.9 {
         //event: TickEvent.ClientTickEvent
         //?} else {
         mc: Minecraft
         //?}
     ) {
-        //? if = 1.8.9 {
+        //? if 1.8.9 {
         //if (event.phase != TickEvent.Phase.END) return
         //?}
 
@@ -68,14 +68,14 @@ object HypixelPackets {
 
     private fun checkHypixel() {
         val server: ServerData? =
-        //? if = 1.8.9 {
+        //? if 1.8.9 {
                 //Minecraft.getMinecraft().currentServerData
             //?} else {
             Minecraft.getInstance().currentServer
         //?}
 
         val ip =
-        //? if = 1.8.9 {
+        //? if 1.8.9 {
                 //server?.serverIP ?: return
             //?} else {
             server?.ip ?: return

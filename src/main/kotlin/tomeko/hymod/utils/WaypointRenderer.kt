@@ -1,6 +1,6 @@
 package tomeko.hymod.utils
 
-//? if = 1.8.9 {
+//? if 1.8.9 {
 /*import cc.polyfrost.oneconfig.config.core.OneColor as PolyColor
 import net.minecraft.client.Minecraft
 import net.minecraft.client.renderer.GlStateManager
@@ -71,7 +71,7 @@ object WaypointRenderer {
     private const val TEXT_SCALE_START_DISTANCE = 12.0
     private const val TEXT_SCALE_EXPONENT = 1.3
 
-    //? if = 1.8.9 {
+    //? if 1.8.9 {
     //private val BEAM_TEXTURE = ResourceLocation(BEACON_PNG)
     //?} else {
     private val BEAM_TEXTURE = Identifier.parse(BEACON_PNG)
@@ -80,7 +80,7 @@ object WaypointRenderer {
     val waypoints: MutableList<Waypoint> = ArrayList()
 
     fun register() {
-        //? if = 1.8.9 {
+        //? if 1.8.9 {
         //MinecraftForge.EVENT_BUS.register(WaypointRenderer)
         //?} else {
         //? if >= 26.1 {
@@ -92,13 +92,13 @@ object WaypointRenderer {
         //?}
     }
 
-    //? if = 1.8.9 {
+    //? if 1.8.9 {
     //@SubscribeEvent
     //?} else {
     @JvmStatic
     //?}
     fun onWorldRender(
-        //? if = 1.8.9 {
+        //? if 1.8.9 {
         //event: RenderWorldLastEvent
         //?} else {
         context: LevelRenderContext
@@ -107,7 +107,7 @@ object WaypointRenderer {
         for (waypoint in waypoints) {
             renderWaypoint(
                 waypoint,
-                //? if = 1.8.9 {
+                //? if 1.8.9 {
                 //event
                 //?} else {
                 context
@@ -116,19 +116,19 @@ object WaypointRenderer {
         }
     }
 
-    //? if = 1.8.9 {
+    //? if 1.8.9 {
     //@SubscribeEvent
     //?} else {
     @JvmStatic
     //?}
     fun onTick(
-        //? if = 1.8.9 {
+        //? if 1.8.9 {
         //event: TickEvent.ClientTickEvent
         //?} else {
         mc: Minecraft
         //?}
     ) {
-        //? if = 1.8.9 {
+        //? if 1.8.9 {
         //if (event.phase != TickEvent.Phase.END) return
         //?}
 
@@ -145,7 +145,7 @@ object WaypointRenderer {
 
     private fun renderWaypoint(
         waypoint: Waypoint?,
-        //? if = 1.8.9 {
+        //? if 1.8.9 {
         //event: RenderWorldLastEvent
         //?} else {
         context: LevelRenderContext
@@ -158,7 +158,7 @@ object WaypointRenderer {
         //?}
 
         val viewerX =
-        //? if = 1.8.9 {
+        //? if 1.8.9 {
                 //Minecraft.getMinecraft().renderViewEntity.let { it.lastTickPosX + (it.posX - it.lastTickPosX) * event.partialTicks }
                 //?} else if >= 26.2 {
                 //Minecraft.getInstance().gameRenderer.mainCamera().position().x
@@ -166,7 +166,7 @@ object WaypointRenderer {
             Minecraft.getInstance().gameRenderer.mainCamera.position().x
 //?}
         val viewerY =
-        //? if = 1.8.9 {
+        //? if 1.8.9 {
                 //Minecraft.getMinecraft().renderViewEntity.let { it.lastTickPosY + (it.posY - it.lastTickPosY) * event.partialTicks }
                 //?} else if >= 26.2 {
                 //Minecraft.getInstance().gameRenderer.mainCamera().position().y
@@ -174,7 +174,7 @@ object WaypointRenderer {
             Minecraft.getInstance().gameRenderer.mainCamera.position().y
 //?}
         val viewerZ =
-        //? if = 1.8.9 {
+        //? if 1.8.9 {
                 //Minecraft.getMinecraft().renderViewEntity.let { it.lastTickPosZ + (it.posZ - it.lastTickPosZ) * event.partialTicks }
                 //?} else if >= 26.2 {
                 //Minecraft.getInstance().gameRenderer.mainCamera().position().z
@@ -227,7 +227,7 @@ object WaypointRenderer {
             waypoint.beamColor.green / 255f,
             waypoint.beamColor.blue / 255f,
             waypoint.beamColor.alpha / 255f
-            //? if = 1.8.9 {
+            //? if 1.8.9 {
             //, event.partialTicks
             //?}
         )
@@ -273,7 +273,7 @@ object WaypointRenderer {
         x: Double, y: Double, z: Double,
         r: Float, g: Float, b: Float, a: Float
     ) {
-        //? if = 1.8.9 {
+        //? if 1.8.9 {
         /*GlStateManager.pushMatrix()
         GlStateManager.translate(x, y, z)
 
@@ -335,7 +335,7 @@ object WaypointRenderer {
             1f, 0f, 0f, 1f, 0f, 1f, 1f, 1f, 1f, 1f, 1f, 0f, r, g, b, a
         )
 
-        //? if = 1.8.9 {
+        //? if 1.8.9 {
         /*tessellator.draw()
     GlStateManager.enableTexture2D()
     GlStateManager.disableBlend()
@@ -363,7 +363,7 @@ object WaypointRenderer {
         x4: Float, y4: Float, z4: Float,
         r: Float, g: Float, b: Float, a: Float
     ) {
-        //? if = 1.8.9 {
+        //? if 1.8.9 {
         /*val wr = Tessellator.getInstance().worldRenderer
         wr.pos(x1.toDouble(), y1.toDouble(), z1.toDouble()).endVertex()
         wr.pos(x2.toDouble(), y2.toDouble(), z2.toDouble()).endVertex()
@@ -404,11 +404,11 @@ object WaypointRenderer {
         //?}
         x: Double, y: Double, z: Double,
         r: Float, g: Float, b: Float, a: Float
-        //? if = 1.8.9 {
+        //? if 1.8.9 {
         //, partialTicks: Float
         //?}
     ) {
-        //? if = 1.8.9 {
+        //? if 1.8.9 {
         //val time = Minecraft.getMinecraft().theWorld.totalWorldTime + partialTicks.toDouble()
         //?} else {
         val time =
@@ -432,7 +432,7 @@ object WaypointRenderer {
         val d10 = (0.5 + cos(d2 + 5.497787143782138) * 0.2).toFloat()
         val d11 = (0.5 + sin(d2 + 5.497787143782138) * 0.2).toFloat()
 
-        //? if = 1.8.9 {
+        //? if 1.8.9 {
         /*GlStateManager.pushMatrix()
         GlStateManager.translate(x, y, z)
 
@@ -480,7 +480,7 @@ object WaypointRenderer {
             r, g, b, a, 1.0f, yMin, yMax, d8, d9, d4, d5, 1.0f, 0.0f, d14, d15
         )
 
-        //? if = 1.8.9 {
+        //? if 1.8.9 {
         /*tessellator.draw()
         GlStateManager.disableCull()
         worldrenderer.begin(7, DefaultVertexFormats.POSITION_TEX_COLOR)
@@ -506,7 +506,7 @@ object WaypointRenderer {
             r, g, b, innerTopA, innerBotA, yMin, yMax, 0.2f, 0.8f, 0.2f, 0.2f, 1.0f, 0.0f, d12, d13
         )
 
-        //? if = 1.8.9 {
+        //? if 1.8.9 {
         /*tessellator.draw()
         GlStateManager.popMatrix()
         *///?} else if >= 26.2 {
@@ -529,7 +529,7 @@ object WaypointRenderer {
         u1: Float, u2: Float,
         v1: Float, v2: Float
     ) {
-        //? if = 1.8.9 {
+        //? if 1.8.9 {
         /*val wr = Tessellator.getInstance().worldRenderer
         wr.pos(x1.toDouble(), yMax.toDouble(), z1.toDouble()).tex(u1.toDouble(), v2.toDouble()).color(r, g, b, topA).endVertex()
         wr.pos(x1.toDouble(), yMin.toDouble(), z1.toDouble()).tex(u1.toDouble(), v1.toDouble()).color(r, g, b, botA).endVertex()
@@ -590,7 +590,7 @@ object WaypointRenderer {
             else
                 1f
 
-        //? if = 1.8.9 {
+        //? if 1.8.9 {
         /*val viewer = Minecraft.getMinecraft().renderViewEntity
         val x = dx
         val y = dy - viewer.eyeHeight
@@ -632,7 +632,7 @@ object WaypointRenderer {
                 //?}
             )
 
-            //? if = 1.8.9 {
+            //? if 1.8.9 {
             /*GlStateManager.rotate(-Minecraft.getMinecraft().renderManager.playerViewY, 0.0F, 1.0F, 0.0F)
             GlStateManager.rotate(Minecraft.getMinecraft().renderManager.playerViewX, 1.0F, 0.0F, 0.0F)
             GlStateManager.translate(0.0f, -0.25f * scaleMultiplier, 0.0f)
@@ -656,7 +656,7 @@ object WaypointRenderer {
                 //?}
             )
 
-            //? if = 1.8.9 {
+            //? if 1.8.9 {
             /*GlStateManager.rotate(-Minecraft.getMinecraft().renderManager.playerViewY, 0.0F, 1.0F, 0.0F)
             GlStateManager.rotate(Minecraft.getMinecraft().renderManager.playerViewX, 1.0F, 0.0F, 0.0F)
             GlStateManager.translate(0.0f, -0.25f * scaleMultiplier, 0.0f)
@@ -681,7 +681,7 @@ object WaypointRenderer {
             )
         }
 
-        //? if = 1.8.9 {
+        //? if 1.8.9 {
         /*GlStateManager.popMatrix()
         GlStateManager.disableLighting()
         *///?} else {
@@ -700,7 +700,7 @@ object WaypointRenderer {
         //?}
         //?}
     ) {
-        //? if = 1.8.9 {
+        //? if 1.8.9 {
         /*val fontrenderer = Minecraft.getMinecraft().fontRendererObj
         val f1 = 0.016666668F * 1.6F * scaleMultiplier
         GlStateManager.pushMatrix()

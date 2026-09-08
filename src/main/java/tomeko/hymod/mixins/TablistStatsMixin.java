@@ -1,6 +1,6 @@
 package tomeko.hymod.mixins;
 
-//? if = 1.8.9 {
+//? if 1.8.9 {
 /*
 import net.minecraft.client.gui.GuiPlayerTabOverlay;
 import net.minecraft.client.network.NetworkPlayerInfo;
@@ -21,7 +21,7 @@ import tomeko.hymod.stats.HypixelStatsFetcher;
 import java.util.UUID;
 
 @Mixin(
-        //? if = 1.8.9 {
+        //? if 1.8.9 {
         //GuiPlayerTabOverlay.class
         //?} else {
         PlayerTabOverlay.class
@@ -30,7 +30,7 @@ import java.util.UUID;
 public abstract class TablistStatsMixin {
     @Inject(
             method =
-                    //? if = 1.8.9 {
+                    //? if 1.8.9 {
                     //"getPlayerName",
                      //?} else {
                     "getNameForDisplay",
@@ -39,7 +39,7 @@ public abstract class TablistStatsMixin {
             cancellable = true
     )
     private void hymod$tablistStats(
-            //? if = 1.8.9 {
+            //? if 1.8.9 {
             /*NetworkPlayerInfo info,
             CallbackInfoReturnable<String> cir
             *///?} else {
@@ -49,7 +49,7 @@ public abstract class TablistStatsMixin {
     ) {
         if (!HypixelPackets.INSTANCE.getOnHypixel()) return;
 
-        //? if = 1.8.9 {
+        //? if 1.8.9 {
         //String original
          //?} else {
         Component original
@@ -57,7 +57,7 @@ public abstract class TablistStatsMixin {
                 = cir.getReturnValue();
 
         UUID uuid =
-                //? if = 1.8.9 {
+                //? if 1.8.9 {
                 //info.getGameProfile().getId();
                  //?} else {
                 info.getProfile().id();
@@ -65,7 +65,7 @@ public abstract class TablistStatsMixin {
 
         HypixelStatsFetcher.CachedStats stats = HypixelStatsFetcher.INSTANCE.getCachedStats(uuid.toString());
 
-        //? if = 1.8.9 {
+        //? if 1.8.9 {
         //IChatComponent prefix
          //?} else {
         Component prefix
@@ -74,7 +74,7 @@ public abstract class TablistStatsMixin {
         if (uuid.version() == 1) {
             if (HyModConfig.INSTANCE.getShowNickedIndicatorInTablist()) {
                 prefix =
-                        //? if = 1.8.9 {
+                        //? if 1.8.9 {
                         //new ChatComponentText(HyModConfig.INSTANCE.getNickedIndicatorText());
                         //?} else {
                         Component.literal(HyModConfig.INSTANCE.getNickedIndicatorText());
@@ -91,7 +91,7 @@ public abstract class TablistStatsMixin {
         }
 
         if (prefix != null) cir.setReturnValue(
-                //? if = 1.8.9 {
+                //? if 1.8.9 {
                 //prefix.createCopy().appendSibling(new ChatComponentText(" ")).appendText(original).getFormattedText()
                  //?} else {
                 prefix.copy().append(Component.literal(" ")).append(original)
