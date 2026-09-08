@@ -46,7 +46,6 @@ object NametagStats {
     }
 
     private const val MAX_DISTANCE = 32.0
-    private const val HEIGHT_OFFSET = 0.1
     private const val BASE_SCALE = 0.025f
     private const val MIN_DISTANCE = 1.0
     private const val NAMETAG_OFFSET = -15f
@@ -122,8 +121,8 @@ object NametagStats {
             if (
                 isNametagHidden(player, localPlayer) ||
                 //? if = 1.8.9 {
-                //mc.gameSettings.hideGUI
-                //?} else if >= 26.2 {
+                /*mc.gameSettings.hideGUI
+                *///?} else if >= 26.2 {
                 /*mc.gui.hud.isHidden
                 *///?} else {
                 mc.options.hideGui
@@ -245,7 +244,7 @@ object NametagStats {
             var objectiveCorrection = 0.3
             if (hasBelowNameObjective && distanceSquared < 100.0) objectiveCorrection *= 2
 
-            val y = relativeY + HEIGHT_OFFSET + playerHeight + objectiveCorrection
+            val y = relativeY + HyModConfig.nametagOffset + playerHeight + objectiveCorrection
 
             val scale =
                 (BASE_SCALE * (0.75 + 0.25 * (1.0 - 1.0.coerceAtMost(0.0.coerceAtLeast((distance - MIN_DISTANCE) / (MAX_DISTANCE - MIN_DISTANCE)))))).toFloat()

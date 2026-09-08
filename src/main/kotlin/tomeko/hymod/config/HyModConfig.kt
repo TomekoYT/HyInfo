@@ -860,7 +860,7 @@ object HyModConfig : Config(
         min = 0f,
         max = 120f,
         step =
-            //? if = 1.8.9{
+            //? if = 1.8.9 {
             /*1
         *///?} else {
             1f
@@ -874,7 +874,36 @@ object HyModConfig : Config(
     //? if = 1.8.9 {
     /*@Exclude
     *///?}
-    private const val CATEGORY_DEBUG = "Debug"
+    private const val CATEGORY_SETTINGS = "Settings"
+
+    //? if = 1.8.9 {
+    /*@Exclude
+    *///?}
+    private const val SUBCATEGORY_NAMETAGS = "Nametags"
+
+    @Slider(
+        //? if = 1.8.9 {
+        /*name =
+            *///?} else {
+        title =
+            //?}
+        "Nametag Position Offset",
+        min = 0.1f,
+        max = 1f,
+        //? if !forge {
+        step = 0.1f,
+        //?}
+        category = CATEGORY_SETTINGS,
+        subcategory = SUBCATEGORY_NAMETAGS
+    )
+    var nametagOffset = 0.1f
+
+
+
+    //? if = 1.8.9 {
+    /*@Exclude
+    *///?}
+    private const val SUBCATEGORY_DEBUG = "Debug"
 
     @Info(
         //? if = 1.8.9 {
@@ -886,7 +915,8 @@ object HyModConfig : Config(
         //? if = 1.8.9 {
         /*type = InfoType.WARNING,
         *///?}
-        category = CATEGORY_DEBUG
+        category = CATEGORY_SETTINGS,
+        subcategory = SUBCATEGORY_DEBUG
     )
     var debugModeInfo: Nothing? = null
 
@@ -897,7 +927,8 @@ object HyModConfig : Config(
         title
             //?}
         = "Debug Mode",
-        category = CATEGORY_DEBUG
+        category = CATEGORY_SETTINGS,
+        subcategory = SUBCATEGORY_DEBUG
     )
     var debugModeEnabled = false
 }
