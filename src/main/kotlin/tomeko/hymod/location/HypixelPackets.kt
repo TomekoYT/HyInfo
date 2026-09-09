@@ -1,24 +1,24 @@
 package tomeko.hymod.location
 
 import net.hypixel.modapi.HypixelModAPI
+import net.hypixel.modapi.packet.impl.clientbound.ClientboundHelloPacket
 import net.hypixel.modapi.packet.impl.clientbound.event.ClientboundLocationPacket
-import net.minecraft.client.Minecraft
-import net.minecraft.client.multiplayer.ServerData
 //? if forge {
 /*import net.minecraftforge.common.MinecraftForge
+import net.minecraftforge.fml.common.FMLCommonHandler
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
 import net.minecraftforge.fml.common.gameevent.TickEvent
+import net.minecraftforge.fml.common.network.FMLNetworkEvent
 *///?} elif ornithe {
-//import net.ornithemc.osl.lifecycle.api.client.MinecraftClientEvents
+//import net.ornithemc.osl.networking.api.client.ClientConnectionEvents
 //?} else {
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents
+import net.fabricmc.fabric.api.client.networking.v1.ClientPlayConnectionEvents
 //?}
 import tomeko.hymod.utils.Debug
 
 object HypixelPackets {
     var onHypixel = false
-        private set
-    var onRBW = false
         private set
 
     var currentServerName: String? = null
@@ -42,12 +42,13 @@ object HypixelPackets {
         private set
 
     fun register() {
+        HypixelModAPI.getInstance().createHandler(ClientboundHelloPacket::class.java, { onHypixel = true })
         //? if forge {
         //MinecraftForge.EVENT_BUS.register(this)
         //?} elif ornithe {
-        //MinecraftClientEvents.TICK_END.register(::onTick)
+        //ClientConnectionEvents.DISCONNECT.register { disableHypixel() }
         //?} else {
-        ClientTickEvents.END_CLIENT_TICK.register(::onTick)
+        ClientPlayConnectionEvents.DISCONNECT.register { _, _ -> disableHypixel() }
         //?}
         HypixelModAPI.getInstance().createHandler(ClientboundLocationPacket::class.java, ::onLocationPacket)
         HypixelModAPI.getInstance().subscribeToEventPacket(ClientboundLocationPacket::class.java)
@@ -56,44 +57,17 @@ object HypixelPackets {
     //? if forge {
     //@SubscribeEvent
     //?}
-    fun onTick(
+    fun disableHypixel(
         //? if forge {
-        //event: TickEvent.ClientTickEvent
-        //?} else {
-        mc: Minecraft
+        //event: FMLNetworkEvent.ClientDisconnectionFromServerEvent
         //?}
     ) {
-        //? if forge {
-        //if (event.phase != TickEvent.Phase.END) return
-        //?}
-
-        checkHypixel()
-    }
-
-    private fun checkHypixel() {
-        val server: ServerData? =
-        //? if 1.8.9 {
-                //Minecraft.getMinecraft().currentServerData
-            //?} else {
-            Minecraft.getInstance().currentServer
-        //?}
-
-        val ip =
-        //? if 1.8.9 {
-                //server?.serverIP ?: return
-            //?} else {
-            server?.ip ?: return
-        //?}
-
-        onHypixel = ip.endsWith("hypixel.net") || ip.endsWith("overlag.link") || ip == "free.stopthelag.lol" || ip == "mc.hypixel.fast"
-        onRBW = ip.endsWith("rbw.gg")
-
-        if (!onHypixel) {
-            disableAll()
-        }
+        onHypixel = false
     }
 
     private fun onLocationPacket(packet: ClientboundLocationPacket) {
+        Debug.log("onHypixel: $onHypixel")
+
         if (!packet.serverType.isPresent) {
             disableAll()
             return

@@ -361,7 +361,7 @@ object ItemTracker {
 
         lastServerName = HypixelPackets.currentServerName
 
-        if (HyModConfig.debugModeEnabled || HypixelPackets.inBedwars || HypixelPackets.onRBW) return
+        if (HyModConfig.debugModeEnabled || HypixelPackets.inBedwars) return
 
         resetTracker()
     }

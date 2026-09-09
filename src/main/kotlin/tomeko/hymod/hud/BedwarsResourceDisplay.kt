@@ -285,7 +285,6 @@ class BedwarsResourceDisplay
             //?}
             && !HyModConfig.debugModeEnabled
             && !HypixelPackets.inBedwars
-            && !HypixelPackets.onRBW
         ) return
 
         val mc =
@@ -540,7 +539,7 @@ class BedwarsResourceDisplay
         actualHeight * scale
 
     override fun shouldShow(): Boolean =
-        super.shouldShow() && (HyModConfig.debugModeEnabled || HypixelPackets.inBedwars || HypixelPackets.onRBW)
+        super.shouldShow() && (HyModConfig.debugModeEnabled || HypixelPackets.inBedwars)
     *///?} else {
     override val width: Float = actualWidth
     override val height: Float = actualHeight
