@@ -40,6 +40,7 @@ import tomeko.hymod.config.HyModConfig
 import tomeko.hymod.event.RenderWorldLastEvent
 *///?}
 import tomeko.hymod.location.HypixelPackets
+import kotlin.math.min
 import kotlin.math.sqrt
 
 object NametagStats {
@@ -262,11 +263,11 @@ object NametagStats {
             val y =
                 relativeY + HyModConfig.nametagOffset + playerHeight + objectiveCorrection -
                         if (isCrouching)
-                            //? if 1.8.9 {
-                            //0.44
-                            //?} else {
+                        //? if 1.8.9 {
+                        //0.44
+                        //?} else {
                             0.14
-                            //?}
+                        //?}
                         else
                             0.0
 
@@ -439,17 +440,24 @@ object NametagStats {
                     //?} else {
                     dropShadow: Boolean,
                     displayMode: Font.DisplayMode,
-                    color: Int,
-                    backgroundColor: Int
+                    color: Int
                     //?}
                 ) {
                     //? if 1.8.9 {
-                    /*Gui.drawRect(
+                    /*val argb =
+                        //? if forge {
+                        //HyModConfig.nametagBackgroundColor.rgb
+                        //?} else {
+                    HyModConfig.nametagBackgroundColor.argb
+                    //?}
+                    val newAlpha = min(argb ushr 24, (alpha * 120.0f).toInt())
+
+                    Gui.drawRect(
                         -width / 2 - 2,
                         NAMETAG_OFFSET.toInt() + offset - 1,
                         width / 2 + 2,
                         NAMETAG_OFFSET.toInt() + offset + mc.fontRendererObj.FONT_HEIGHT + 1,
-                        ((alpha * 120.0f).toInt() shl 24)
+                        (newAlpha shl 24) or (argb and 0x00FFFFFF)
                     )
 
                     GlStateManager.enableBlend()
@@ -471,6 +479,11 @@ object NametagStats {
 
                     GlStateManager.enableAlpha()
                     *///?} else {
+                    val newAlpha = min(HyModConfig.nametagBackgroundColor.argb ushr 24, (0.4 * 255.0).toInt())
+                    val backgroundColor =
+                        if (displayMode == Font.DisplayMode.NORMAL) 0
+                        else (newAlpha shl 24) or (HyModConfig.nametagBackgroundColor.argb and 0x00FFFFFF)
+
                     submitNodeCollector.submitText(
                         matrices,
                         -width / 2.0f,
@@ -504,8 +517,8 @@ object NametagStats {
                     GlStateManager.depthMask(true)
                 }
                 *///?} else {
-                renderNametag(true, Font.DisplayMode.SEE_THROUGH, 0x80FFFFFF.toInt(), 0x50000000)
-                if (!isCrouching) renderNametag(false, Font.DisplayMode.NORMAL, -0x1, 0)
+                renderNametag(true, Font.DisplayMode.SEE_THROUGH, 0x80FFFFFF.toInt())
+                if (!isCrouching) renderNametag(false, Font.DisplayMode.NORMAL, -0x1)
                 //?}
                 offset -= 11
             }

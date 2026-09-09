@@ -928,6 +928,21 @@ object HyModConfig : Config(
     )
     var nametagOffset = 0.1f
 
+    @Color(
+        //? if forge {
+        //name =
+        //?} else {
+        title =
+            //?}
+            "Nametag Background Color",
+        //? if forge {
+        //allowAlpha = true,
+        //?}
+        category = CATEGORY_SETTINGS,
+        subcategory = SUBCATEGORY_NAMETAGS
+    )
+    var nametagBackgroundColor = PolyColor(0x50000000.toInt())
+
 
     //? if forge {
     //@Exclude
