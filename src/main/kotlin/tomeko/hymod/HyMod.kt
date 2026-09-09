@@ -1,13 +1,14 @@
 package tomeko.hymod
 
-//? if 1.8.9 {
+//? if forge {
 /*import cc.polyfrost.oneconfig.events.EventManager
 import net.minecraftforge.fml.common.Mod
 import net.minecraftforge.fml.common.event.FMLInitializationEvent
-*///?} else {
+*///?} elif ornithe {
+//import net.ornithemc.osl.entrypoints.api.ModInitializer
+//?} else {
 import net.fabricmc.api.ClientModInitializer
 //?}
-
 import tomeko.hymod.chat.*
 import tomeko.hymod.commands.*
 import tomeko.hymod.config.*
@@ -16,7 +17,7 @@ import tomeko.hymod.location.*
 import tomeko.hymod.stats.*
 import tomeko.hymod.utils.*
 
-//? if 1.8.9 {
+//? if forge {
 /*@Mod(
     modid = Constants.MOD_ID,
     name = Constants.MOD_NAME,
@@ -26,28 +27,35 @@ import tomeko.hymod.utils.*
 )
 *///?}
 class HyMod
-//? if >= 1.21.11 {
+//? if ornithe {
+//: ModInitializer
+//?} elif fabric {
     : ClientModInitializer
 //?}
 {
-    //? if 1.8.9 {
+    //? if forge {
     //@Mod.EventHandler
     //?} else {
     override
     //?}
-    fun onInitializeClient(
-        //? if 1.8.9 {
+    fun
+    //? if ornithe {
+    //init(
+    //?} elif fabric {
+            onInitializeClient(
+        //?}
+        //? if forge {
         //event: FMLInitializationEvent
         //?}
     ) {
-        //? if 1.8.9 {
+        //? if forge {
         //EventManager.INSTANCE.register(this)
         //?}
 
         CoordsWaypoints.register()
         DangerousTauntWaypoint.register()
         HideGuildMOTD.register()
-        //? if >= 1.21.11 {
+        //? if fabric {
         MVPEmoji.register()
         //?}
         WhiteChatMessages.register()
@@ -57,7 +65,7 @@ class HyMod
 
         HyModConfig.register()
 
-        //? if >= 1.21.11 {
+        //? if !forge {
         BedwarsResourceDisplay.register()
         //?}
 
