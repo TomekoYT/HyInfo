@@ -12,7 +12,7 @@
 
 # HyMod
 
-Multiversion mod for Hypixel and Ranked BedWars adding features for BedWars (resource display), stats, levelhead, chat waypoints
+Multiversion mod for Hypixel adding features for BedWars (resource display), stats, levelhead, chat waypoints
 and more!
 
 ## Features
@@ -33,7 +33,6 @@ and more!
 - Show Iron, Gold, Diamond, Emerald
 - Show Inventory, Ender Chest, Total
 - Works with Hypixel Ender Chest punching feature
-- Works on Ranked BedWars Server: rbw.gg
 
 ### SkyWars
 
