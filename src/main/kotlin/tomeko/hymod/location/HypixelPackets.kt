@@ -4,11 +4,13 @@ import net.hypixel.modapi.HypixelModAPI
 import net.hypixel.modapi.packet.impl.clientbound.event.ClientboundLocationPacket
 import net.minecraft.client.Minecraft
 import net.minecraft.client.multiplayer.ServerData
-//? if 1.8.9 {
+//? if forge {
 /*import net.minecraftforge.common.MinecraftForge
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
 import net.minecraftforge.fml.common.gameevent.TickEvent
-*///?} else {
+*///?} elif ornithe {
+//import net.ornithemc.osl.lifecycle.api.client.MinecraftClientEvents
+//?} else {
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents
 //?}
 import tomeko.hymod.utils.Debug
@@ -40,26 +42,28 @@ object HypixelPackets {
         private set
 
     fun register() {
-        //? if 1.8.9 {
+        //? if forge {
         //MinecraftForge.EVENT_BUS.register(this)
+        //?} elif ornithe {
+        //MinecraftClientEvents.TICK_END.register(::onTick)
         //?} else {
-        ClientTickEvents.END_CLIENT_TICK.register(this::onTick)
+        ClientTickEvents.END_CLIENT_TICK.register(::onTick)
         //?}
-        HypixelModAPI.getInstance().createHandler(ClientboundLocationPacket::class.java, this::onLocationPacket)
+        HypixelModAPI.getInstance().createHandler(ClientboundLocationPacket::class.java, ::onLocationPacket)
         HypixelModAPI.getInstance().subscribeToEventPacket(ClientboundLocationPacket::class.java)
     }
 
-    //? if 1.8.9 {
+    //? if forge {
     //@SubscribeEvent
     //?}
     fun onTick(
-        //? if 1.8.9 {
+        //? if forge {
         //event: TickEvent.ClientTickEvent
         //?} else {
         mc: Minecraft
         //?}
     ) {
-        //? if 1.8.9 {
+        //? if forge {
         //if (event.phase != TickEvent.Phase.END) return
         //?}
 
@@ -81,7 +85,7 @@ object HypixelPackets {
             server?.ip ?: return
         //?}
 
-        onHypixel = ip.endsWith("hypixel.net")
+        onHypixel = ip.endsWith("hypixel.net") || ip.endsWith("overlag.link") || ip == "free.stopthelag.lol" || ip == "mc.hypixel.fast"
         onRBW = ip.endsWith("rbw.gg")
 
         if (!onHypixel) {

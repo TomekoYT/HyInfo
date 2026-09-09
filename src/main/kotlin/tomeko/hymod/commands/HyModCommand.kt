@@ -1,50 +1,58 @@
 package tomeko.hymod.commands
 
-//? if 1.8.9 {
+//? if forge {
 /*import cc.polyfrost.oneconfig.utils.commands.CommandManager
 import cc.polyfrost.oneconfig.utils.commands.annotations.Command
 import cc.polyfrost.oneconfig.utils.commands.annotations.Main
 *///?} else {
-import com.mojang.brigadier.CommandDispatcher
-import com.mojang.brigadier.context.CommandContext
+//? if fabric {
 import net.fabricmc.fabric.api.client.command.v2.ClientCommandRegistrationCallback
-import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource
-import net.minecraft.commands.CommandBuildContext
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents
-import org.polyfrost.oneconfig.utils.v1.dsl.openUI
 //? if >= 26.1 {
 import net.fabricmc.fabric.api.client.command.v2.ClientCommands.literal
 //?} else {
 //import net.fabricmc.fabric.api.client.command.v2.ClientCommandManager.literal
 //?}
-import net.minecraft.client.Minecraft
+//?}
+//? if ornithe {
+/*import net.ornithemc.osl.lifecycle.api.client.MinecraftClientEvents
+import org.polyfrost.oneconfig.api.commands.v1.CommandManager.literal
+*///?}
+import org.polyfrost.oneconfig.utils.v1.dsl.openUI
+//? if ornithe {
+//import org.polyfrost.oneconfig.internal.legacy.command.ClientCommandRegistrationCallback
+//?}
 //?}
 import tomeko.hymod.config.HyModConfig
 import tomeko.hymod.utils.Constants
 
-//? if 1.8.9 {
+//? if forge {
 //@Command(value = Constants.MOD_ID)
 //?}
 object HyModCommand {
-    //? if >= 1.21.11 {
+    //? if !forge {
     private var shouldOpenConfig: Boolean = false
     //?}
 
     fun register() {
-        //? if 1.8.9 {
+        //? if forge {
         //CommandManager.INSTANCE.registerCommand(this)
         //?} else {
-        ClientCommandRegistrationCallback.EVENT.register { dispatcher: CommandDispatcher<FabricClientCommandSource>, _: CommandBuildContext ->
+        ClientCommandRegistrationCallback.EVENT.register { dispatcher, _ ->
             dispatcher.register(
                 literal(Constants.MOD_ID)
-                    .executes { _: CommandContext<FabricClientCommandSource> ->
+                    .executes { _ ->
                         shouldOpenConfig = true
                         return@executes 1
                     }
             )
         }
 
-        ClientTickEvents.END_CLIENT_TICK.register {_: Minecraft ->
+        //? if ornithe {
+        //MinecraftClientEvents.TICK_END.register {
+            //?} else {
+        ClientTickEvents.END_CLIENT_TICK.register {
+            //?}
             if (!shouldOpenConfig) return@register
 
             HyModConfig.openUI()
@@ -54,7 +62,7 @@ object HyModCommand {
         //?}
     }
 
-    //? if 1.8.9 {
+    //? if forge {
     /*@Main
     fun handle() {
         HyModConfig.openGui()

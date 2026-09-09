@@ -9,9 +9,11 @@ import net.minecraft.entity.player.EntityPlayer
 import net.minecraft.scoreboard.Team
 import net.minecraft.util.ChatComponentText
 import net.minecraft.util.IChatComponent as Component
-import net.minecraftforge.client.event.RenderWorldLastEvent
+//? if forge {
+/*import net.minecraftforge.client.event.RenderWorldLastEvent
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
 import net.minecraftforge.common.MinecraftForge
+*///?}
 import org.lwjgl.opengl.GL11
 *///?} else {
 import com.mojang.math.Axis
@@ -33,12 +35,16 @@ import net.minecraft.world.scores.DisplaySlot
 import net.minecraft.world.scores.Team
 //?}
 import tomeko.hymod.config.HyModConfig
+//? if ornithe {
+/*import tomeko.hymod.event.LevelRenderEvents
+import tomeko.hymod.event.RenderWorldLastEvent
+*///?}
 import tomeko.hymod.location.HypixelPackets
 import kotlin.math.sqrt
 
 object NametagStats {
     fun register() {
-        //? if 1.8.9 {
+        //? if forge {
         //MinecraftForge.EVENT_BUS.register(this)
         //?} elif >= 26.1 {
         LevelRenderEvents.COLLECT_SUBMITS.register(::render)
@@ -52,7 +58,7 @@ object NametagStats {
     private const val MIN_DISTANCE = 1.0
     private const val NAMETAG_OFFSET = -15f
 
-    //? if 1.8.9 {
+    //? if forge {
     //@SubscribeEvent
     //?}
     fun render(

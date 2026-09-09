@@ -41,7 +41,7 @@ class HyMod
     fun
     //? if ornithe {
     //init(
-    //?} elif fabric {
+    //?} else {
             onInitializeClient(
         //?}
         //? if forge {
@@ -76,6 +76,6 @@ class HyMod
         ItemTracker.register()
         WaypointRenderer.register()
 
-        Debug.forceLog("Initialized!")
+        Debug.forceLog("${Constants.MOD_VERSION} Initialized!")
     }
 }

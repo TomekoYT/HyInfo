@@ -1,16 +1,23 @@
 package tomeko.hymod.utils
 
 //? if 1.8.9 {
-/*import cc.polyfrost.oneconfig.config.core.OneColor as PolyColor
+/*//? if forge {
+//import cc.polyfrost.oneconfig.config.core.OneColor as PolyColor
+//?}
 import net.minecraft.client.Minecraft
 import net.minecraft.client.renderer.GlStateManager
 import net.minecraft.client.renderer.Tessellator
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats
 import net.minecraft.util.*
-import net.minecraftforge.client.event.RenderWorldLastEvent
+//? if ornithe {
+//import net.ornithemc.osl.lifecycle.api.client.MinecraftClientEvents
+//?}
+//? if forge {
+/*import net.minecraftforge.client.event.RenderWorldLastEvent
 import net.minecraftforge.common.MinecraftForge
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
 import net.minecraftforge.fml.common.gameevent.TickEvent
+*///?}
 import org.lwjgl.opengl.GL11
 *///?} else {
 import com.mojang.blaze3d.vertex.PoseStack
@@ -39,8 +46,14 @@ import net.minecraft.resources.Identifier
 //? if <= 26.1 {
 import org.joml.Matrix4f
 //?}
+//?}
+//? if !forge {
 import org.polyfrost.compose.render.PolyColor
 //?}
+//? if ornithe {
+/*import tomeko.hymod.event.RenderWorldLastEvent
+import tomeko.hymod.event.LevelRenderEvents
+*///?}
 
 import java.util.ArrayList
 import kotlin.math.*
@@ -80,7 +93,7 @@ object WaypointRenderer {
     val waypoints: MutableList<Waypoint> = ArrayList()
 
     fun register() {
-        //? if 1.8.9 {
+        //? if forge {
         //MinecraftForge.EVENT_BUS.register(WaypointRenderer)
         //?} else {
         //? if >= 26.1 {
@@ -88,14 +101,16 @@ object WaypointRenderer {
         //?} else {
         //LevelRenderEvents.AFTER_ENTITIES.register(::onWorldRender)
         //?}
+        //? if ornithe {
+        //MinecraftClientEvents.TICK_END.register(::onTick)
+        //?} else {
         ClientTickEvents.END_CLIENT_TICK.register(::onTick)
+        //?}
         //?}
     }
 
-    //? if 1.8.9 {
+    //? if forge {
     //@SubscribeEvent
-    //?} else {
-    @JvmStatic
     //?}
     fun onWorldRender(
         //? if 1.8.9 {
@@ -116,19 +131,17 @@ object WaypointRenderer {
         }
     }
 
-    //? if 1.8.9 {
+    //? if forge {
     //@SubscribeEvent
-    //?} else {
-    @JvmStatic
     //?}
     fun onTick(
-        //? if 1.8.9 {
+        //? if forge {
         //event: TickEvent.ClientTickEvent
         //?} else {
         mc: Minecraft
         //?}
     ) {
-        //? if 1.8.9 {
+        //? if forge {
         //if (event.phase != TickEvent.Phase.END) return
         //?}
 
@@ -153,7 +166,7 @@ object WaypointRenderer {
     ) {
         if (waypoint == null) return
 
-        //? if >= 1.21.11 {
+        //? if fabric {
         if (Minecraft.getInstance().player == null || Minecraft.getInstance().level == null) return
         //?}
 
@@ -186,7 +199,7 @@ object WaypointRenderer {
         val renderZ = waypoint.pos.z - viewerZ
 
         drawBox(
-            //? if >= 1.21.11 {
+            //? if fabric {
             //? if >= 26.1 {
             context.poseStack(),
             //?} else {
@@ -208,7 +221,7 @@ object WaypointRenderer {
         )
 
         renderBeaconBeam(
-            //? if >= 1.21.11 {
+            //? if fabric {
             //? if >= 26.1 {
             context.poseStack(),
             //?} else {
@@ -240,7 +253,7 @@ object WaypointRenderer {
             (waypoint.distanceTextColor.alpha shl 24) or (waypoint.distanceTextColor.red shl 16) or (waypoint.distanceTextColor.green shl 8) or waypoint.distanceTextColor.blue
 
         renderWaypointText(
-            //? if >= 1.21.11 {
+            //? if fabric {
             //? if >= 26.1 {
             context.poseStack(),
             //?} else {
@@ -262,7 +275,7 @@ object WaypointRenderer {
     }
 
     private fun drawBox(
-        //? if >= 1.21.11 {
+        //? if fabric {
         matrices: PoseStack,
         //? if >= 26.2 {
         //collector: OrderedSubmitNodeCollector,
@@ -299,37 +312,37 @@ object WaypointRenderer {
         //?}
 
         addDoubleSidedQuad(
-            //? if >= 1.21.11 {
+            //? if fabric {
             buffer, pose,
             //?}
             0f, 0f, 0f, 1f, 0f, 0f, 1f, 0f, 1f, 0f, 0f, 1f, r, g, b, a
         )
         addDoubleSidedQuad(
-            //? if >= 1.21.11 {
+            //? if fabric {
             buffer, pose,
             //?}
             0f, 1f, 1f, 1f, 1f, 1f, 1f, 1f, 0f, 0f, 1f, 0f, r, g, b, a
         )
         addDoubleSidedQuad(
-            //? if >= 1.21.11 {
+            //? if fabric {
             buffer, pose,
             //?}
             0f, 0f, 0f, 1f, 0f, 0f, 1f, 1f, 0f, 0f, 1f, 0f, r, g, b, a
         )
         addDoubleSidedQuad(
-            //? if >= 1.21.11 {
+            //? if fabric {
             buffer, pose,
             //?}
             0f, 0f, 1f, 1f, 0f, 1f, 1f, 1f, 1f, 0f, 1f, 1f, r, g, b, a
         )
         addDoubleSidedQuad(
-            //? if >= 1.21.11 {
+            //? if fabric {
             buffer, pose,
             //?}
             0f, 0f, 0f, 0f, 0f, 1f, 0f, 1f, 1f, 0f, 1f, 0f, r, g, b, a
         )
         addDoubleSidedQuad(
-            //? if >= 1.21.11 {
+            //? if fabric {
             buffer, pose,
             //?}
             1f, 0f, 0f, 1f, 0f, 1f, 1f, 1f, 1f, 1f, 1f, 0f, r, g, b, a
@@ -349,7 +362,7 @@ object WaypointRenderer {
     }
 
     private fun addDoubleSidedQuad(
-        //? if >= 1.21.11 {
+        //? if fabric {
         buffer: VertexConsumer,
         //? if >= 26.2 {
         //pose: PoseStack.Pose,
@@ -394,7 +407,7 @@ object WaypointRenderer {
     }
 
     private fun renderBeaconBeam(
-        //? if >= 1.21.11 {
+        //? if fabric {
         matrices: PoseStack,
         //? if >= 26.2 {
         //collector: OrderedSubmitNodeCollector,
@@ -463,19 +476,19 @@ object WaypointRenderer {
         val yMin = 0.0f
         val yMax = 300.0f
 
-        renderBeamSide(//? if >= 1.21.11 {
+        renderBeamSide(//? if fabric {
             pose, buffer, //?}
             r, g, b, a, 1.0f, yMin, yMax, d4, d5, d6, d7, 1.0f, 0.0f, d14, d15
         )
-        renderBeamSide(//? if >= 1.21.11 {
+        renderBeamSide(//? if fabric {
             pose, buffer, //?}
             r, g, b, a, 1.0f, yMin, yMax, d10, d11, d8, d9, 1.0f, 0.0f, d14, d15
         )
-        renderBeamSide(//? if >= 1.21.11 {
+        renderBeamSide(//? if fabric {
             pose, buffer, //?}
             r, g, b, a, 1.0f, yMin, yMax, d6, d7, d10, d11, 1.0f, 0.0f, d14, d15
         )
-        renderBeamSide(//? if >= 1.21.11 {
+        renderBeamSide(//? if fabric {
             pose, buffer, //?}
             r, g, b, a, 1.0f, yMin, yMax, d8, d9, d4, d5, 1.0f, 0.0f, d14, d15
         )
@@ -489,19 +502,19 @@ object WaypointRenderer {
         val innerTopA = 0.25f * a
         val innerBotA = 0.25f
 
-        renderBeamSide(//? if >= 1.21.11 {
+        renderBeamSide(//? if fabric {
             pose, buffer, //?}
             r, g, b, innerTopA, innerBotA, yMin, yMax, 0.2f, 0.2f, 0.8f, 0.2f, 1.0f, 0.0f, d12, d13
         )
-        renderBeamSide(//? if >= 1.21.11 {
+        renderBeamSide(//? if fabric {
             pose, buffer, //?}
             r, g, b, innerTopA, innerBotA, yMin, yMax, 0.8f, 0.8f, 0.2f, 0.8f, 1.0f, 0.0f, d12, d13
         )
-        renderBeamSide(//? if >= 1.21.11 {
+        renderBeamSide(//? if fabric {
             pose, buffer, //?}
             r, g, b, innerTopA, innerBotA, yMin, yMax, 0.8f, 0.2f, 0.8f, 0.8f, 1.0f, 0.0f, d12, d13
         )
-        renderBeamSide(//? if >= 1.21.11 {
+        renderBeamSide(//? if fabric {
             pose, buffer, //?}
             r, g, b, innerTopA, innerBotA, yMin, yMax, 0.2f, 0.8f, 0.2f, 0.2f, 1.0f, 0.0f, d12, d13
         )
@@ -518,7 +531,7 @@ object WaypointRenderer {
     }
 
     private fun renderBeamSide(
-        //? if >= 1.21.11 {
+        //? if fabric {
         pose: PoseStack.Pose,
         buffer: VertexConsumer,
         //?}
@@ -561,7 +574,7 @@ object WaypointRenderer {
     }
 
     private fun renderWaypointText(
-        //? if >= 1.21.11 {
+        //? if fabric {
         matrices: PoseStack,
         //? if >= 26.2 {
         //collector: OrderedSubmitNodeCollector,
@@ -622,7 +635,7 @@ object WaypointRenderer {
         if (renderOwner && owner.isNotEmpty()) {
             drawNametag(
                 owner, ownerArgb, lineOffset, scaleMultiplier,
-                //? if >= 1.21.11 {
+                //? if fabric {
                 matrices,
                 //? if >= 26.2 {
                 //collector
@@ -646,7 +659,7 @@ object WaypointRenderer {
         if (renderText && str.isNotEmpty()) {
             drawNametag(
                 str, textArgb, lineOffset, scaleMultiplier,
-                //? if >= 1.21.11 {
+                //? if fabric {
                 matrices,
                 //? if >= 26.2 {
                 //collector
@@ -670,7 +683,7 @@ object WaypointRenderer {
         if (renderDistance) {
             drawNametag(
                 distText, distArgb, lineOffset, scaleMultiplier,
-                //? if >= 1.21.11 {
+                //? if fabric {
                 matrices,
                 //? if >= 26.2 {
                 //collector
@@ -691,7 +704,7 @@ object WaypointRenderer {
 
     private fun drawNametag(
         text: String, colorArgb: Int, line: Int, scaleMultiplier: Float,
-        //? if >= 1.21.11 {
+        //? if fabric {
         matrices: PoseStack,
         //? if >= 26.2 {
         //collector: OrderedSubmitNodeCollector

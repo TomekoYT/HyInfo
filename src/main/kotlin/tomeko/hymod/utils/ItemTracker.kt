@@ -5,14 +5,20 @@ package tomeko.hymod.utils
 import net.minecraft.client.Minecraft
 import net.minecraft.client.gui.inventory.GuiChest
 import net.minecraft.init.Blocks
+import net.minecraft.init.Items
 import net.minecraft.inventory.ContainerChest
 import net.minecraft.item.Item
 import net.minecraft.item.ItemStack
+import net.minecraft.util.IChatComponent as Component
 import net.minecraft.util.MovingObjectPosition
-import net.minecraftforge.client.event.ClientChatReceivedEvent
+//? if forge {
+/*import net.minecraftforge.client.event.ClientChatReceivedEvent
 import net.minecraftforge.common.MinecraftForge
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
 import net.minecraftforge.fml.common.gameevent.TickEvent
+*///?} elif ornithe {
+//import net.ornithemc.osl.lifecycle.api.client.MinecraftClientEvents
+//?}
 *///?} else {
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents
 import net.fabricmc.fabric.api.client.message.v1.ClientReceiveMessageEvents
@@ -23,31 +29,22 @@ import net.minecraft.network.chat.Component
 import net.minecraft.resources.Identifier
 import net.minecraft.world.entity.player.Inventory
 import net.minecraft.world.item.Item
+import net.minecraft.world.item.Items
 import net.minecraft.world.level.block.Block
 import net.minecraft.world.level.block.Blocks
 import net.minecraft.world.phys.BlockHitResult
 //?}
 
 import tomeko.hymod.config.HyModConfig
-import tomeko.hymod.hud.BedwarsResourceDisplay
+//? if ornithe {
+//import tomeko.hymod.event.ClientReceiveMessageEvents
+//?}
 import tomeko.hymod.location.HypixelPackets
 import java.util.regex.Pattern
 
 object ItemTracker {
-    private val mc =
-    //? if 1.8.9 {
-            //Minecraft.getMinecraft()
-        //?} else {
-        Minecraft.getInstance()
-//?}
-
     private var lastServerName: String? = null
-    private var lastBlock: Block =
-    //? if 1.8.9 {
-            //Blocks.chest
-        //?} else {
-        Blocks.CHEST
-    //?}
+    private var lastBlock: Block? = null
 
     var inventory = HashMap<Item, Int>()
     var enderChest = HashMap<Item, Int>()
@@ -60,38 +57,85 @@ object ItemTracker {
     )
 
     fun register() {
-        //? if 1.8.9 {
+        //? if forge {
         //MinecraftForge.EVENT_BUS.register(this)
         //?} else {
-        ClientTickEvents.END_CLIENT_TICK.register { _ ->
+        //? if ornithe {
+        //MinecraftClientEvents.TICK_END.register {
+            //?} else {
+            ClientTickEvents.END_CLIENT_TICK.register {
+            //?}
             scanInventory()
             scanEnderChest()
             stopTracking()
             trackBlock()
         }
 
-        ClientReceiveMessageEvents.GAME.register(ItemTracker::scanMessage)
+        ClientReceiveMessageEvents.GAME.register(::scanMessage)
         //?}
-
-        resetTracker()
     }
 
-    //? if 1.8.9 {
+    //? if forge {
     //@SubscribeEvent
     //?}
     fun scanInventory(
-        //? if 1.8.9 {
+        //? if forge {
         //event: TickEvent.ClientTickEvent
         //?}
     ) {
+        val mc =
+            //? if 1.8.9 {
+            //Minecraft.getMinecraft()
+            //?} else {
+            Minecraft.getInstance()
+        //?}
+
         //? if 1.8.9 {
-        //if (event.phase != TickEvent.Phase.END || mc.thePlayer == null || mc.thePlayer.inventory == null) return
-        //?} else {
+        /*//? if forge {
+        //if (event.phase != TickEvent.Phase.END) return
+        //?}
+        if (mc.thePlayer == null || mc.thePlayer.inventory == null) return
+        *///?} else {
         if (mc.player == null) return
         //?}
 
+        val IRON: Item =
+            //? if 1.8.9 {
+            //Items.iron_ingot
+        //?} else {
+        Items.IRON_INGOT
+        //?}
+
+        val GOLD: Item =
+            //? if 1.8.9 {
+            //Items.gold_ingot
+        //?} else {
+        Items.GOLD_INGOT
+        //?}
+
+        val DIAMOND: Item =
+            //? if 1.8.9 {
+            //Items.diamond
+        //?} else {
+        Items.DIAMOND
+        //?}
+
+        val EMERALD: Item =
+            //? if 1.8.9 {
+            //Items.emerald
+        //?} else {
+        Items.EMERALD
+        //?}
+
+        val items = mutableListOf(
+            IRON,
+            GOLD,
+            DIAMOND,
+            EMERALD
+        )
+
         val newInventory = HashMap<Item, Int>()
-        for (item in BedwarsResourceDisplay.items) {
+        for (item in items) {
             newInventory[item] = 0
         }
 
@@ -108,13 +152,13 @@ object ItemTracker {
             if (stack.isEmpty) continue
             //?}
 
-            for (item in BedwarsResourceDisplay.items) {
+            for (item in items) {
                 if (item == stack.item) {
                     val count =
-                    //? if 1.8.9 {
-                            //stack.stackSize
-                        //?} else {
-                        stack.count
+                        //? if 1.8.9 {
+                        //stack.stackSize
+                    //?} else {
+                    stack.count
                     //?}
 
                     newInventory[item] = newInventory[item]!! + count
@@ -125,26 +169,36 @@ object ItemTracker {
         inventory = newInventory
     }
 
-    //? if 1.8.9 {
+    //? if forge {
     //@SubscribeEvent
     //?}
     fun scanEnderChest(
-        //? if 1.8.9 {
+        //? if forge {
         //event: TickEvent.ClientTickEvent
         //?}
     ) {
+        val mc =
+            //? if 1.8.9 {
+            //Minecraft.getMinecraft()
+        //?} else {
+        Minecraft.getInstance()
+        //?}
+
         val screen =
-        //? if 1.8.9 {
-                //mc.currentScreen
-            //?} else if >= 26.2 {
-                //mc.gui.screen()
-                //?} else {
-            mc.screen
+            //? if 1.8.9 {
+            //mc.currentScreen
+        //?} else if >= 26.2 {
+        //mc.gui.screen()
+        //?} else {
+        mc.screen
         //?}
 
         //? if 1.8.9 {
-        //if (event.phase != TickEvent.Phase.END || screen !is GuiChest || mc.thePlayer.openContainer !is ContainerChest) return
-        //?} else {
+        /*//? if forge {
+        //if (event.phase != TickEvent.Phase.END) return
+        //?}
+        if (screen !is GuiChest || mc.thePlayer.openContainer !is ContainerChest) return
+        *///?} else {
         if (screen !is ContainerScreen) return
         //?}
 
@@ -152,19 +206,54 @@ object ItemTracker {
             //? if 1.8.9 {
             //Blocks.ender_chest
         //?} else {
-            Blocks.ENDER_CHEST
+        Blocks.ENDER_CHEST
         //?}
         ) return
 
         val containerInventory =
-        //? if 1.8.9 {
-                //(mc.thePlayer.openContainer as ContainerChest).lowerChestInventory
-            //?} else {
-            screen.menu.container
+            //? if 1.8.9 {
+            //(mc.thePlayer.openContainer as ContainerChest).lowerChestInventory
+        //?} else {
+        screen.menu.container
         //?}
 
+        val IRON: Item =
+            //? if 1.8.9 {
+            //Items.iron_ingot
+        //?} else {
+        Items.IRON_INGOT
+        //?}
+
+        val GOLD: Item =
+            //? if 1.8.9 {
+            //Items.gold_ingot
+        //?} else {
+        Items.GOLD_INGOT
+        //?}
+
+        val DIAMOND: Item =
+            //? if 1.8.9 {
+            //Items.diamond
+        //?} else {
+        Items.DIAMOND
+        //?}
+
+        val EMERALD: Item =
+            //? if 1.8.9 {
+            //Items.emerald
+        //?} else {
+        Items.EMERALD
+        //?}
+
+        val items = mutableListOf(
+            IRON,
+            GOLD,
+            DIAMOND,
+            EMERALD
+        )
+
         val newEnderChest = HashMap<Item, Int>()
-        for (item in BedwarsResourceDisplay.items) {
+        for (item in items) {
             newEnderChest[item] = 0
         }
 
@@ -173,27 +262,27 @@ object ItemTracker {
                 //? if 1.8.9 {
                 //containerInventory.sizeInventory
         //?} else {
-                containerInventory.containerSize
+        containerInventory.containerSize
 //?}
         ) {
             val stack =
-            //? if 1.8.9 {
-                    //containerInventory.getStackInSlot(i) ?: continue
-                //?} else {
-                containerInventory.getItem(i)
+                //? if 1.8.9 {
+                //containerInventory.getStackInSlot(i) ?: continue
+            //?} else {
+            containerInventory.getItem(i)
             //?}
 
-            //? if >= 1.21.11 {
+            //? if fabric {
             if (stack.isEmpty) continue
             //?}
 
-            for (item in BedwarsResourceDisplay.items) {
+            for (item in items) {
                 if (item == stack.item) {
                     val count =
-                    //? if 1.8.9 {
-                            //stack.stackSize
-                        //?} else {
-                        stack.count
+                        //? if 1.8.9 {
+                        //stack.stackSize
+                    //?} else {
+                    stack.count
                     //?}
 
                     newEnderChest[item] = newEnderChest[item]!! + count
@@ -204,30 +293,31 @@ object ItemTracker {
         enderChest = newEnderChest
     }
 
-    //? if 1.8.9 {
+    //? if forge {
     //@SubscribeEvent
     //?}
     fun scanMessage(
-        //? if 1.8.9 {
+        //? if forge {
         //event: ClientChatReceivedEvent
         //?} else {
         component: Component,
         fromActionBar: Boolean
         //?}
     ) {
-        //? if 1.8.9 {
+        //? if forge {
         //if (event.type.toInt() == 2 || event.message == null) return
         //?} else {
         if (fromActionBar) return
         //?}
 
         val message =
-        //? if 1.8.9 {
-                //event.message.unformattedText
+            //? if forge {
+            //event.message.unformattedText.removeFormatting()
+            //? elif ornithe {
+            //component.unformattedText.removeFormatting()
                 //?} else {
-            component.string
+                component.string.removeFormatting()
                 //?}
-                .removeFormatting()
 
         val pattern =
             Pattern.compile("^Deposited x\\d+ (.+) into Ender Chest! \\((\\d+) Total\\)$")
@@ -253,15 +343,15 @@ object ItemTracker {
         ] = amount
     }
 
-    //? if 1.8.9 {
+    //? if forge {
     //@SubscribeEvent
     //?}
     fun stopTracking(
-        //? if 1.8.9 {
+        //? if forge {
         //event: TickEvent.ClientTickEvent
         //?}
     ) {
-        //? if 1.8.9 {
+        //? if forge {
         //if (event.phase != TickEvent.Phase.END) return
         //?}
 
@@ -277,29 +367,71 @@ object ItemTracker {
     }
 
     private fun resetTracker() {
-        for (item in BedwarsResourceDisplay.items) {
+        val IRON: Item =
+            //? if 1.8.9 {
+            //Items.iron_ingot
+        //?} else {
+        Items.IRON_INGOT
+        //?}
+
+        val GOLD: Item =
+            //? if 1.8.9 {
+            //Items.gold_ingot
+        //?} else {
+        Items.GOLD_INGOT
+        //?}
+
+        val DIAMOND: Item =
+            //? if 1.8.9 {
+            //Items.diamond
+        //?} else {
+        Items.DIAMOND
+        //?}
+
+        val EMERALD: Item =
+            //? if 1.8.9 {
+            //Items.emerald
+        //?} else {
+        Items.EMERALD
+        //?}
+
+        val items = mutableListOf(
+            IRON,
+            GOLD,
+            DIAMOND,
+            EMERALD
+        )
+
+        for (item in items) {
             inventory[item] = 0
             enderChest[item] = 0
         }
     }
 
-    //? if 1.8.9 {
+    //? if forge {
     //@SubscribeEvent
     //?}
     fun trackBlock(
-        //? if 1.8.9 {
+        //? if forge {
         //event: TickEvent.ClientTickEvent
         //?}
     ) {
-        //? if 1.8.9 {
+        //? if forge {
         //if (event.phase != TickEvent.Phase.END) return
         //?}
 
+        val mc =
+            //? if 1.8.9 {
+            //Minecraft.getMinecraft()
+        //?} else {
+        Minecraft.getInstance()
+        //?}
+
         val lookingAt =
-        //? if 1.8.9 {
-                //mc.objectMouseOver ?: return
-            //?} else {
-            mc.hitResult ?: return
+            //? if 1.8.9 {
+            //mc.objectMouseOver ?: return
+        //?} else {
+        mc.hitResult ?: return
         //?}
 
         //? if 1.8.9 {
@@ -309,10 +441,10 @@ object ItemTracker {
         //?}
 
         val block =
-        //? if 1.8.9 {
-                //mc.theWorld?.getBlockState(lookingAt.blockPos)?.block ?: return
-            //?} else {
-            mc.level?.getBlockState(lookingAt.blockPos)?.block ?: return
+            //? if 1.8.9 {
+            //mc.theWorld?.getBlockState(lookingAt.blockPos)?.block ?: return
+        //?} else {
+        mc.level?.getBlockState(lookingAt.blockPos)?.block ?: return
         //?}
 
         //? if 1.8.9 {

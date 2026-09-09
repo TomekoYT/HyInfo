@@ -7,6 +7,7 @@ package tomeko.hymod.chat
 import net.minecraftforge.common.MinecraftForge
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
 *///?} else {
+import net.minecraft.util.IChatComponent as Component
 //?}
 *///?} else {
 import net.fabricmc.fabric.api.client.message.v1.ClientReceiveMessageEvents
@@ -14,6 +15,9 @@ import net.minecraft.core.BlockPos
 import net.minecraft.network.chat.Component
 //?}
 import tomeko.hymod.config.HyModConfig
+//? if ornithe {
+//import tomeko.hymod.event.ClientReceiveMessageEvents
+//?}
 import tomeko.hymod.utils.Waypoint
 import tomeko.hymod.utils.WaypointRenderer
 import tomeko.hymod.utils.removeFormatting
@@ -27,19 +31,17 @@ object CoordsWaypoints {
         //?}
     }
 
-    //? if 1.8.9 {
+    //? if forge {
     //@SubscribeEvent
-    //?} else {
-    @JvmStatic
     //?}
     fun onChatReceive(
-        //? if 1.8.9 {
+        //? if forge {
         //event: ClientChatReceivedEvent
         //?} else {
         component: Component, fromActionBar: Boolean
         //?}
     ) {
-        //? if 1.8.9 {
+        //? if forge {
         //if (event.type.toInt() == 2 || event.message == null) return
         //?} else {
         if (fromActionBar) return
@@ -48,12 +50,13 @@ object CoordsWaypoints {
         if (!HyModConfig.coordsWaypointsEnabled) return
 
         val message =
-        //? if 1.8.9 {
-                //event.message.unformattedText
-                //?} else {
-            component.string
-                //?}
-                .removeFormatting()
+        //? if forge {
+        //event.message.unformattedText.removeFormatting()
+            //? elif ornithe {
+            //component.unformattedText.removeFormatting()
+        //?} else {
+        component.string.removeFormatting()
+        //?}
 
         val regex = Regex(
             "^(?:\\w+\\s*>\\s*)?" +

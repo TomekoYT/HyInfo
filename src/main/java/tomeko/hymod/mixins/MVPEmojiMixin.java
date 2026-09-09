@@ -11,7 +11,7 @@ import tomeko.hymod.chat.MVPEmoji;
 public abstract class MVPEmojiMixin {
     @ModifyVariable(method = "sendChatMessage(Ljava/lang/String;Z)V", at = @At("HEAD"), ordinal = 0, argsOnly = true)
     private String hymod$replaceMessage(String message) {
-        return MVPEmoji.replaceWithEmoji(message);
+        return MVPEmoji.INSTANCE.replaceWithEmoji(message);
     }
 }
 *///?}

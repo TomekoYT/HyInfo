@@ -82,7 +82,7 @@ public abstract class MiddleClickGUIItemsMixin {
                      //?}
                     clickType,
             //?}
-            //? if >= 1.21.11 {
+            //? if fabric {
             Operation<Void> original
             //?}
     ) {
@@ -172,7 +172,7 @@ public abstract class MiddleClickGUIItemsMixin {
         ) {
             if (hymod$moreThanOneButton(
                     line
-                            //? if >= 1.21.11 {
+                            //? if fabric {
                             .getString()
                     //?}
             )) return true;

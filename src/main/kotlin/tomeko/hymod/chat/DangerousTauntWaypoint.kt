@@ -2,61 +2,65 @@ package tomeko.hymod.chat
 
 import net.minecraft.client.Minecraft
 //? if 1.8.9 {
-/*import cc.polyfrost.oneconfig.config.core.OneColor
+/*//? if forge {
+//import cc.polyfrost.oneconfig.config.core.OneColor as PolyColor
+//?}
 import net.minecraft.block.Block
 import net.minecraft.client.multiplayer.WorldClient
 import net.minecraft.init.Blocks
 import net.minecraft.util.BlockPos
-import net.minecraftforge.client.event.ClientChatReceivedEvent
+//? if ornithe {
+//import net.minecraft.util.IChatComponent as Component
+//?}
+//? if forge {
+/*import net.minecraftforge.client.event.ClientChatReceivedEvent
 import net.minecraftforge.common.MinecraftForge
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
+*///?}
 *///?} else {
 import net.fabricmc.fabric.api.client.message.v1.ClientReceiveMessageEvents
 import net.minecraft.client.multiplayer.ClientLevel
 import net.minecraft.core.BlockPos
 import net.minecraft.network.chat.Component
-import net.minecraft.world.level.block.Block
 import net.minecraft.world.level.block.Blocks
+//?}
+//? if !forge {
 import org.polyfrost.compose.render.PolyColor
 //?}
 
 import tomeko.hymod.config.HyModConfig
+//? if ornithe {
+//import tomeko.hymod.event.ClientReceiveMessageEvents
+//?}
 import tomeko.hymod.location.HypixelPackets
 import tomeko.hymod.utils.Waypoint
 import tomeko.hymod.utils.WaypointRenderer
 import tomeko.hymod.utils.removeFormatting
 
 object DangerousTauntWaypoint {
-    private val AIR: Block =
-    //? if 1.8.9 {
-            //Blocks.air
-        //?} else {
-        Blocks.AIR
-    //?}
-
     private const val SECONDS = 15
 
     fun register() {
-        //? if 1.8.9 {
+        //? if forge {
         //MinecraftForge.EVENT_BUS.register(this)
         //?} else {
-        ClientReceiveMessageEvents.GAME.register(DangerousTauntWaypoint::onChat)
+        ClientReceiveMessageEvents.GAME.register(::onChat)
         //?}
     }
 
-    //? if 1.8.9 {
+    //? if forge {
     //@SubscribeEvent
-//?}
+    //?}
 
     fun onChat(
-        //? if 1.8.9 {
+        //? if forge {
         //event: ClientChatReceivedEvent
         //?} else {
         component: Component,
         fromActionBar: Boolean
         //?}
     ) {
-        //? if 1.8.9 {
+        //? if forge {
         //if (event.type.toInt() == 2 || event.message == null)
         //?} else {
         if (fromActionBar)
@@ -66,12 +70,13 @@ object DangerousTauntWaypoint {
         if (!HyModConfig.debugModeEnabled && (!HyModConfig.dangerousTauntWaypointEnabled || !HypixelPackets.inFarmHunt)) return
 
         val message =
-        //? if 1.8.9 {
-                //event.message.unformattedText
-                //?} else {
-            component.string
-                //?}
-                .removeFormatting()
+        //? if forge {
+        //event.message.unformattedText.removeFormatting()
+            //?} elif ornithe {
+            //component.unformattedText.removeFormatting()
+        //?} else {
+        component.string.removeFormatting()
+        //?}
 
         val words = message.split(" ")
         if (words.size != 12
@@ -89,169 +94,27 @@ object DangerousTauntWaypoint {
         val z = words[11].substring(0, words[11].length - 1).toInt()
 
         val boxColor = when (animal) {
-            "Chicken" ->
-                //? if 1.8.9 {
-                //OneColor(
-                //?} else {
-                PolyColor(
-                    //?}
-                    0x80FFFF00.toInt()
-                )
-
-            "Sheep" ->
-                //? if 1.8.9 {
-                //OneColor(
-                //?} else {
-                PolyColor(
-                    //?}
-                    0x80FFFFFF.toInt()
-                )
-
-            "Pig" ->
-                //? if 1.8.9 {
-                //OneColor(
-                //?} else {
-                PolyColor(
-                    //?}
-                    0x80FFC0CB.toInt()
-                )
-
-            "Cow" ->
-                //? if 1.8.9 {
-                //OneColor(
-                //?} else {
-                PolyColor(
-                    //?}
-                    0x80000000.toInt()
-                )
-
-            "Horse" ->
-                //? if 1.8.9 {
-                //OneColor(
-                //?} else {
-                PolyColor(
-                    //?}
-                    0x80964B00.toInt()
-                )
-
-            "Ocelot" ->
-                //? if 1.8.9 {
-                //OneColor(
-                //?} else {
-                PolyColor(
-                    //?}
-                    0x80F1E2C9.toInt()
-                )
-
-            "Wolf" ->
-                //? if 1.8.9 {
-                //OneColor(
-                //?} else {
-                PolyColor(
-                    //?}
-                    0x80D3D3D3.toInt()
-                )
-
-            "Donkey" ->
-                //? if 1.8.9 {
-                //OneColor(
-                //?} else {
-                PolyColor(
-                    //?}
-                    0x80808080.toInt()
-                )
-
-            else ->
-                //? if 1.8.9 {
-                //OneColor(
-                //?} else {
-                PolyColor(
-                    //?}
-                    0x8000FF00.toInt()
-                )
+            "Chicken" -> PolyColor(0x80FFFF00.toInt())
+            "Sheep" -> PolyColor(0x80FFFFFF.toInt())
+            "Pig" -> PolyColor(0x80FFC0CB.toInt())
+            "Cow" -> PolyColor(0x80000000.toInt())
+            "Horse" -> PolyColor(0x80964B00.toInt())
+            "Ocelot" -> PolyColor(0x80F1E2C9.toInt())
+            "Wolf" -> PolyColor(0x80D3D3D3.toInt())
+            "Donkey" -> PolyColor(0x80808080.toInt())
+            else -> PolyColor(0x8000FF00.toInt())
         }
 
         val beamColor = when (animal) {
-            "Chicken" ->
-                //? if 1.8.9 {
-                //OneColor(
-                //?} else {
-                PolyColor(
-                    //?}
-                    0xC0FFFF00.toInt()
-                )
-
-            "Sheep" ->
-                //? if 1.8.9 {
-                //OneColor(
-                //?} else {
-                PolyColor(
-                    //?}
-                    0xC0FFFFFF.toInt()
-                )
-
-            "Pig" ->
-                //? if 1.8.9 {
-                //OneColor(
-                //?} else {
-                PolyColor(
-                    //?}
-                    0xC0FFC0CB.toInt()
-                )
-
-            "Cow" ->
-                //? if 1.8.9 {
-                //OneColor(
-                //?} else {
-                PolyColor(
-                    //?}
-                    0xC0000000.toInt()
-                )
-
-            "Horse" ->
-                //? if 1.8.9 {
-                //OneColor(
-                //?} else {
-                PolyColor(
-                    //?}
-                    0xC0964B00.toInt()
-                )
-
-            "Ocelot" ->
-                //? if 1.8.9 {
-                //OneColor(
-                //?} else {
-                PolyColor(
-                    //?}
-                    0xC0F1E2C9.toInt()
-                )
-
-            "Wolf" ->
-                //? if 1.8.9 {
-                //OneColor(
-                //?} else {
-                PolyColor(
-                    //?}
-                    0xC0D3D3D3.toInt()
-                )
-
-            "Donkey" ->
-                //? if 1.8.9 {
-                //OneColor(
-                //?} else {
-                PolyColor(
-                    //?}
-                    0xC0808080.toInt()
-                )
-
-            else ->
-                //? if 1.8.9 {
-                //OneColor(
-                //?} else {
-                PolyColor(
-                    //?}
-                    0xC000FF00.toInt()
-                )
+            "Chicken" -> PolyColor(0xC0FFFF00.toInt())
+            "Sheep" -> PolyColor(0xC0FFFFFF.toInt())
+            "Pig" -> PolyColor(0xC0FFC0CB.toInt())
+            "Cow" -> PolyColor(0xC0000000.toInt())
+            "Horse" -> PolyColor(0xC0964B00.toInt())
+            "Ocelot" -> PolyColor(0xC0F1E2C9.toInt())
+            "Wolf" -> PolyColor(0xC0D3D3D3.toInt())
+            "Donkey" -> PolyColor(0xC0808080.toInt())
+            else -> PolyColor(0xC000FF00.toInt())
         }
 
         WaypointRenderer.waypoints.add(
@@ -261,33 +124,12 @@ object DangerousTauntWaypoint {
                 beamColor = beamColor,
                 owner = animal,
                 renderOwner = true,
-                ownerColor =
-                    //? if 1.8.9 {
-                    //OneColor(
-                    //?} else {
-                    PolyColor(
-                        //?}
-                        0xFFFFFFFF.toInt()
-                    ),
+                ownerColor = PolyColor(0xFFFFFFFF.toInt()),
                 text = "",
                 renderText = false,
-                textColor =
-                    //? if 1.8.9 {
-                    //OneColor(
-                    //?} else {
-                    PolyColor(
-                        //?}
-                        0xFFFFFFFF.toInt()
-                    ),
+                textColor = PolyColor(0xFFFFFFFF.toInt()),
                 renderDistance = true,
-                distanceTextColor =
-                    //? if 1.8.9 {
-                    //OneColor(
-                    //?} else {
-                    PolyColor(
-                        //?}
-                        0xFFFFFF00.toInt()
-                    ),
+                distanceTextColor = PolyColor(0xFFFFFF00.toInt()),
                 tickTime = 20 * SECONDS
             )
         )
@@ -302,11 +144,23 @@ object DangerousTauntWaypoint {
 
         var pos = BlockPos(x, 0, z)
 
-        while (world.getBlockState(pos).block == AIR) {
+        while (world.getBlockState(pos).block ==
+            //? if 1.8.9 {
+            //Blocks.air
+        //?} else {
+        Blocks.AIR
+        //?}
+        ) {
             pos = oneHigher(pos)
         }
 
-        while (world.getBlockState(pos).block != AIR) {
+        while (world.getBlockState(pos).block !=
+            //? if 1.8.9 {
+            //Blocks.air
+        //?} else {
+        Blocks.AIR
+        //?}
+        ) {
             pos = oneHigher(pos)
         }
 
@@ -314,9 +168,9 @@ object DangerousTauntWaypoint {
     }
 
     private fun oneHigher(pos: BlockPos): BlockPos =
-    //? if 1.8.9 {
-            //pos.up()
-        //?} else {
-        pos.above()
+        //? if 1.8.9 {
+        //pos.up()
+    //?} else {
+    pos.above()
     //?}
 }

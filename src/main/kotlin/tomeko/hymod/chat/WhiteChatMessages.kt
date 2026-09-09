@@ -3,10 +3,12 @@ package tomeko.hymod.chat
 //? if 1.8.9 {
 /*import net.minecraft.util.ChatComponentText
 import net.minecraft.util.EnumChatFormatting
-import net.minecraft.util.IChatComponent
-import net.minecraftforge.client.event.ClientChatReceivedEvent
+import net.minecraft.util.IChatComponent as Component
+//? if forge {
+/*import net.minecraftforge.client.event.ClientChatReceivedEvent
 import net.minecraftforge.common.MinecraftForge
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
+*///?}
 *///?} else {
 import net.fabricmc.fabric.api.client.message.v1.ClientReceiveMessageEvents
 import net.minecraft.ChatFormatting
@@ -15,35 +17,37 @@ import net.minecraft.network.chat.MutableComponent
 //?}
 
 import tomeko.hymod.config.HyModConfig
+//? if ornithe {
+//import tomeko.hymod.event.ClientReceiveMessageEvents
+//?}
 import tomeko.hymod.location.HypixelPackets
 import tomeko.hymod.utils.removeFormatting
 
 object WhiteChatMessages {
     fun register() {
-        //? if 1.8.9 {
+        //? if forge {
         //MinecraftForge.EVENT_BUS.register(this)
         //?} else {
-        ClientReceiveMessageEvents.MODIFY_GAME.register(WhiteChatMessages::onChatReceive)
+        ClientReceiveMessageEvents.MODIFY_GAME.register(::onChatReceive)
         //?}
     }
 
-    //? if 1.8.9 {
+    //? if forge {
     //@SubscribeEvent
-//?}
+    //?}
     fun onChatReceive(
-        //? if 1.8.9 {
+        //? if forge {
         //event: ClientChatReceivedEvent
         //?} else {
         message: Component, fromActionBar: Boolean
         //?}
     )
-    //? if >= 1.21.11 {
+    //? if !forge {
             : Component
     //?}
     {
-        //? if 1.8.9 {
+        //? if forge {
         /*if (event.type.toInt() == 2 || event.message == null) return
-
         event.message = modifyMessage(event.message)
         *///?} else {
         if (fromActionBar) return message
@@ -52,13 +56,7 @@ object WhiteChatMessages {
         //?}
     }
 
-    private fun modifyMessage(
-        //? if 1.8.9 {
-        //message: IChatComponent
-        //?} else {
-        message: Component
-        //?}
-    ) =
+    private fun modifyMessage(message: Component) =
         //? if 1.8.9 {
         /*run {
             // White Private Messages
