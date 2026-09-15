@@ -30,8 +30,8 @@ repositories {
     mavenCentral()
     google()
 
+    maven("https://api.modrinth.com/maven")
     maven("https://repo.papermc.io/repository/maven-public/")
-    maven("https://repo.stellardrift.ca/repository/maven-snapshots/")
     maven("https://repo.polyfrost.org/releases")
     maven("https://repo.polyfrost.org/snapshots")
     maven("https://maven.terraformersmc.com/")

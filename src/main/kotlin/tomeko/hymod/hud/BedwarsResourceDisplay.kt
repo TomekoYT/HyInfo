@@ -19,11 +19,7 @@ import net.minecraft.init.Items
 import net.minecraft.item.Item
 import net.minecraft.item.ItemStack
 *///?} else {
-//? if >= 26.1 {
 import net.minecraft.client.gui.GuiGraphicsExtractor
-//?} else {
-//import net.minecraft.client.gui.GuiGraphics as GuiGraphicsExtractor
-//?}
 import net.minecraft.world.item.Item
 import net.minecraft.world.item.ItemStack
 import net.minecraft.world.item.Items
@@ -432,11 +428,7 @@ class BedwarsResourceDisplay
                 ""
             )
             *///?} else {
-            //? if >= 26.1 {
             mcCtx.item(
-            //?} else {
-            //mcCtx.renderItem(
-                //?}
                 stack,
                 iconX,
                 itemY
@@ -476,11 +468,7 @@ class BedwarsResourceDisplay
                     false
                 )
                 *///?} else {
-                //? if >= 26.1 {
                 mcCtx.text(
-                //?} else {
-                //mcCtx.drawString(
-                    //?}
                     mc.font,
                     getText(item),
                     textX + 1,
@@ -500,11 +488,7 @@ class BedwarsResourceDisplay
                 false
             )
             *///?} else {
-            //? if >= 26.1 {
             mcCtx.text(
-            //?} else {
-            //mcCtx.drawString(
-                //?}
                 mc.font,
                 getText(item),
                 textX,

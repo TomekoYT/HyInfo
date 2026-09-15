@@ -17,13 +17,8 @@ import net.minecraftforge.common.MinecraftForge
 import org.lwjgl.opengl.GL11
 *///?} else {
 import com.mojang.math.Axis
-//? if >= 26.1 {
 import net.fabricmc.fabric.api.client.rendering.v1.level.LevelRenderContext
 import net.fabricmc.fabric.api.client.rendering.v1.level.LevelRenderEvents
-//?} else {
-/*import net.fabricmc.fabric.api.client.rendering.v1.world.WorldRenderContext as LevelRenderContext
-import net.fabricmc.fabric.api.client.rendering.v1.world.WorldRenderEvents as LevelRenderEvents
-*///?}
 import net.minecraft.client.Minecraft
 import net.minecraft.client.gui.Font
 import net.minecraft.client.player.LocalPlayer
@@ -33,6 +28,7 @@ import net.minecraft.world.level.ClipContext
 import net.minecraft.world.phys.HitResult
 import net.minecraft.world.scores.DisplaySlot
 import net.minecraft.world.scores.Team
+import org.joml.Matrix4f
 //?}
 import tomeko.hymod.config.HyModConfig
 //? if ornithe {
@@ -132,9 +128,9 @@ object NametagStats {
                 //? if 1.8.9 {
                 //mc.gameSettings.hideGUI
                 //?} else if >= 26.2 {
-                //mc.gui.hud.isHidden
+                mc.gui.hud.isHidden
                 //?} else {
-                mc.options.hideGui
+                //mc.options.hideGui
             //?}
             ) continue
 
@@ -193,10 +189,8 @@ object NametagStats {
             val camera =
             //? if 1.8.9 {
             //mc.renderManager
-                //?} elif >= 26.1 {
+                //?} else {
                 context.levelState().cameraRenderState
-            //?} else {
-            //context.worldState().cameraRenderState
             //?}
 
             val cameraX =
@@ -402,25 +396,16 @@ object NametagStats {
             GlStateManager.rotate(camera.playerViewX, 1.0f, 0.0f, 0.0f)
             GlStateManager.scale(-scale, -scale, scale)
             *///?} else {
-            val matrices =
-                //? if >= 26.1 {
-                context.poseStack()
-            //?} else {
-            //context.matrices()
-            //?}
+            val matrices = context.poseStack()
 
             matrices.pushPose()
-
             matrices.translate(x, y, z)
-            matrices.mulPose(camera.orientation)
-            matrices.mulPose(Axis.YP.rotationDegrees(180.0f))
+            matrices.mulPose(camera.orientation.get(Matrix4f()))
+            matrices.mulPose(Axis.YP.rotationDegrees(180.0f).get(Matrix4f()))
+            //matrices.mulPose(camera.orientation)
+            //matrices.mulPose(Axis.YP.rotationDegrees(180.0f))
             matrices.scale(-scale, -scale, scale)
-            val submitNodeCollector =
-                //? if >= 26.1 {
-                context.submitNodeCollector().order(1)
-            //?} else {
-            //context.commandQueue()
-            //?}
+            val submitNodeCollector = context.submitNodeCollector().order(1)
             //?}
 
             var offset = 0

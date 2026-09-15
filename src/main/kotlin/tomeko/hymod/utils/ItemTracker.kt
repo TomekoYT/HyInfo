@@ -188,9 +188,9 @@ object ItemTracker {
             //? if 1.8.9 {
             //mc.currentScreen
         //?} else if >= 26.2 {
-        //mc.gui.screen()
+        mc.gui.screen()
         //?} else {
-        mc.screen
+        //mc.screen
         //?}
 
         //? if 1.8.9 {

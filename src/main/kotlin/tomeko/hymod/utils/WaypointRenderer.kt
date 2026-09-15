@@ -24,28 +24,21 @@ import com.mojang.blaze3d.vertex.PoseStack
 import com.mojang.blaze3d.vertex.VertexConsumer
 import com.mojang.math.Axis
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents
-//? if >= 26.1 {
 import net.fabricmc.fabric.api.client.rendering.v1.level.LevelRenderContext
 import net.fabricmc.fabric.api.client.rendering.v1.level.LevelRenderEvents
-//?} else {
-/*import net.fabricmc.fabric.api.client.rendering.v1.world.WorldRenderContext as LevelRenderContext
-import net.fabricmc.fabric.api.client.rendering.v1.world.WorldRenderEvents as LevelRenderEvents
-*///?}
 import net.minecraft.client.Minecraft
 import net.minecraft.client.gui.Font
 import net.minecraft.client.renderer.OrderedSubmitNodeCollector
 //? if >= 26.2 {
-//import net.minecraft.client.renderer.SubmitNodeCollector
+import net.minecraft.client.renderer.SubmitNodeCollector
 //?} else {
-import net.minecraft.client.renderer.MultiBufferSource
+//import net.minecraft.client.renderer.MultiBufferSource
 //?}
 import net.minecraft.client.renderer.rendertype.RenderTypes
 import net.minecraft.core.BlockPos
 import net.minecraft.network.chat.Component
 import net.minecraft.resources.Identifier
-//? if <= 26.1 {
 import org.joml.Matrix4f
-//?}
 //?}
 //? if !forge {
 import org.polyfrost.compose.render.PolyColor
@@ -75,7 +68,7 @@ class Waypoint(
 
 object WaypointRenderer {
     private const val BEACON_PNG =
-    //? if >= 26.1 {
+    //? if fabric {
             "textures/entity/beacon/beacon_beam.png"
             //?} else {
         //"textures/entity/beacon_beam.png"
@@ -96,7 +89,7 @@ object WaypointRenderer {
         //? if forge {
         //MinecraftForge.EVENT_BUS.register(WaypointRenderer)
         //?} else {
-        //? if >= 26.1 {
+        //? if fabric {
         LevelRenderEvents.AFTER_TRANSLUCENT_FEATURES.register(::onWorldRender)
         //?} else {
         //LevelRenderEvents.AFTER_ENTITIES.register(::onWorldRender)
@@ -174,25 +167,25 @@ object WaypointRenderer {
         //? if 1.8.9 {
                 //Minecraft.getMinecraft().renderViewEntity.let { it.lastTickPosX + (it.posX - it.lastTickPosX) * event.partialTicks }
                 //?} else if >= 26.2 {
-                //Minecraft.getInstance().gameRenderer.mainCamera().position().x
+                Minecraft.getInstance().gameRenderer.mainCamera().position().x
             //?} else {
-            Minecraft.getInstance().gameRenderer.mainCamera.position().x
+            //Minecraft.getInstance().gameRenderer.mainCamera.position().x
 //?}
         val viewerY =
         //? if 1.8.9 {
                 //Minecraft.getMinecraft().renderViewEntity.let { it.lastTickPosY + (it.posY - it.lastTickPosY) * event.partialTicks }
                 //?} else if >= 26.2 {
-                //Minecraft.getInstance().gameRenderer.mainCamera().position().y
+                Minecraft.getInstance().gameRenderer.mainCamera().position().y
             //?} else {
-            Minecraft.getInstance().gameRenderer.mainCamera.position().y
+            //Minecraft.getInstance().gameRenderer.mainCamera.position().y
 //?}
         val viewerZ =
         //? if 1.8.9 {
                 //Minecraft.getMinecraft().renderViewEntity.let { it.lastTickPosZ + (it.posZ - it.lastTickPosZ) * event.partialTicks }
                 //?} else if >= 26.2 {
-                //Minecraft.getInstance().gameRenderer.mainCamera().position().z
+                Minecraft.getInstance().gameRenderer.mainCamera().position().z
             //?} else {
-            Minecraft.getInstance().gameRenderer.mainCamera.position().z
+            //Minecraft.getInstance().gameRenderer.mainCamera.position().z
 //?}
         val renderX = waypoint.pos.x - viewerX
         val renderY = waypoint.pos.y - viewerY
@@ -200,17 +193,11 @@ object WaypointRenderer {
 
         drawBox(
             //? if fabric {
-            //? if >= 26.1 {
             context.poseStack(),
-            //?} else {
-            //context.matrices(),
-            //?}
             //? if >= 26.2 {
-            //context.submitNodeCollector().order(1),
-            //?} else if >= 26.1 {
-            context.bufferSource(),
+            context.submitNodeCollector().order(1),
             //?} else {
-            //context.consumers(),
+            //context.bufferSource(),
             //?}
             //?}
             renderX, renderY, renderZ,
@@ -222,17 +209,11 @@ object WaypointRenderer {
 
         renderBeaconBeam(
             //? if fabric {
-            //? if >= 26.1 {
             context.poseStack(),
-            //?} else {
-            //context.matrices(),
-            //?}
             //? if >= 26.2 {
-            //context.submitNodeCollector().order(1),
-            //?} else if >= 26.1 {
-            context.bufferSource(),
+            context.submitNodeCollector().order(1),
             //?} else {
-            //context.consumers(),
+            //context.bufferSource(),
             //?}
             //?}
             renderX, renderY + 1, renderZ,
@@ -254,17 +235,11 @@ object WaypointRenderer {
 
         renderWaypointText(
             //? if fabric {
-            //? if >= 26.1 {
             context.poseStack(),
-            //?} else {
-            //context.matrices(),
-            //?}
             //? if >= 26.2 {
-            //context.submitNodeCollector().order(1),
-            //?} else if >= 26.1 {
-            context.bufferSource(),
+            context.submitNodeCollector().order(1),
             //?} else {
-            //context.consumers(),
+            //context.bufferSource(),
             //?}
             //?}
             waypoint.text, waypoint.owner, waypoint.pos,
@@ -278,9 +253,9 @@ object WaypointRenderer {
         //? if fabric {
         matrices: PoseStack,
         //? if >= 26.2 {
-        //collector: OrderedSubmitNodeCollector,
+        collector: OrderedSubmitNodeCollector,
         //?} else {
-        consumers: MultiBufferSource,
+        //consumers: MultiBufferSource,
         //?}
         //?}
         x: Double, y: Double, z: Double,
@@ -304,11 +279,11 @@ object WaypointRenderer {
         matrices.translate(x, y, z)
 
         //? if >= 26.2 {
-        //collector.submitCustomGeometry(matrices, RenderTypes.debugFilledBox()) { pose, buffer ->
+        collector.submitCustomGeometry(matrices, RenderTypes.debugFilledBox()) { pose, buffer ->
             //?} else {
-        val buffer = consumers.getBuffer(RenderTypes.debugFilledBox())
+        /*val buffer = consumers.getBuffer(RenderTypes.debugFilledBox())
         val pose = matrices.last().pose()
-        //?}
+        *///?}
         //?}
 
         addDoubleSidedQuad(
@@ -354,10 +329,10 @@ object WaypointRenderer {
     GlStateManager.disableBlend()
     GlStateManager.popMatrix()
     *///?} else if >= 26.2 {
-        /*}
+        }
         matrices.popPose()
-        *///?} else {
-        matrices.popPose()
+        //?} else {
+        //matrices.popPose()
         //?}
     }
 
@@ -365,9 +340,9 @@ object WaypointRenderer {
         //? if fabric {
         buffer: VertexConsumer,
         //? if >= 26.2 {
-        //pose: PoseStack.Pose,
+        pose: PoseStack.Pose,
         //?} else {
-        pose: Matrix4f,
+        //pose: Matrix4f,
         //?}
         //?}
         x1: Float, y1: Float, z1: Float,
@@ -389,9 +364,9 @@ object WaypointRenderer {
         wr.pos(x1.toDouble(), y1.toDouble(), z1.toDouble()).endVertex()
         *///?} else {
         //? if >= 26.2 {
-        //val p = pose.pose()
+        val p = pose.pose()
         //?} else {
-        val p = pose
+        //val p = pose
         //?}
 
         buffer.addVertex(p, x1, y1, z1).setColor(r, g, b, a)
@@ -410,9 +385,9 @@ object WaypointRenderer {
         //? if fabric {
         matrices: PoseStack,
         //? if >= 26.2 {
-        //collector: OrderedSubmitNodeCollector,
+        collector: OrderedSubmitNodeCollector,
         //?} else {
-        consumers: MultiBufferSource,
+        //consumers: MultiBufferSource,
         //?}
         //?}
         x: Double, y: Double, z: Double,
@@ -466,11 +441,11 @@ object WaypointRenderer {
         matrices.pushPose()
         matrices.translate(x, y, z)
         //? if >= 26.2 {
-        //collector.submitCustomGeometry(matrices, RenderTypes.beaconBeam(BEAM_TEXTURE, true)) { pose, buffer ->
+        collector.submitCustomGeometry(matrices, RenderTypes.beaconBeam(BEAM_TEXTURE, true)) { pose, buffer ->
             //?} else {
-        val pose = matrices.last()
+        /*val pose = matrices.last()
         val buffer = consumers.getBuffer(RenderTypes.beaconBeam(BEAM_TEXTURE, true))
-        //?}
+        *///?}
         //?}
 
         val yMin = 0.0f
@@ -523,10 +498,10 @@ object WaypointRenderer {
         /*tessellator.draw()
         GlStateManager.popMatrix()
         *///?} else if >= 26.2 {
-        /*}
+        }
         matrices.popPose()
-        *///?} else {
-        matrices.popPose()
+        //?} else {
+        //matrices.popPose()
         //?}
     }
 
@@ -550,26 +525,26 @@ object WaypointRenderer {
         wr.pos(x2.toDouble(), yMax.toDouble(), z2.toDouble()).tex(u2.toDouble(), v2.toDouble()).color(r, g, b, topA).endVertex()
         *///?} else {
         //? if >= 26.2 {
-        //val p = pose.pose()
+        val p = pose.pose()
         //?} else {
-        val p = pose
+        //val p = pose
         //?}
         buffer.addVertex(p, x1, yMax, z1).setColor(r, g, b, topA).setUv(u1, v2).setUv2(15, 15)
             //? if >= 26.2 {
-            /*.setNormal(pose, 0.0f, 1.0f, 0.0f)*///?} else {
-            .setNormal(0.0f, 1.0f, 0.0f)//?}
+            .setNormal(pose, 0.0f, 1.0f, 0.0f)//?} else {
+            /*.setNormal(0.0f, 1.0f, 0.0f)*///?}
         buffer.addVertex(p, x1, yMin, z1).setColor(r, g, b, botA).setUv(u1, v1).setUv2(15, 15)
             //? if >= 26.2 {
-            /*.setNormal(pose, 0.0f, 1.0f, 0.0f)*///?} else {
-            .setNormal(0.0f, 1.0f, 0.0f)//?}
+            .setNormal(pose, 0.0f, 1.0f, 0.0f)//?} else {
+            /*.setNormal(0.0f, 1.0f, 0.0f)*///?}
         buffer.addVertex(p, x2, yMin, z2).setColor(r, g, b, botA).setUv(u2, v1).setUv2(15, 15)
             //? if >= 26.2 {
-            /*.setNormal(pose, 0.0f, 1.0f, 0.0f)*///?} else {
-            .setNormal(0.0f, 1.0f, 0.0f)//?}
+            .setNormal(pose, 0.0f, 1.0f, 0.0f)//?} else {
+            /*.setNormal(0.0f, 1.0f, 0.0f)*///?}
         buffer.addVertex(p, x2, yMax, z2).setColor(r, g, b, topA).setUv(u2, v2).setUv2(15, 15)
             //? if >= 26.2 {
-            /*.setNormal(pose, 0.0f, 1.0f, 0.0f)*///?} else {
-            .setNormal(0.0f, 1.0f, 0.0f)//?}
+            .setNormal(pose, 0.0f, 1.0f, 0.0f)//?} else {
+            /*.setNormal(0.0f, 1.0f, 0.0f)*///?}
         //?}
     }
 
@@ -577,9 +552,9 @@ object WaypointRenderer {
         //? if fabric {
         matrices: PoseStack,
         //? if >= 26.2 {
-        //collector: OrderedSubmitNodeCollector,
+        collector: OrderedSubmitNodeCollector,
         //?} else {
-        consumers: MultiBufferSource,
+        //consumers: MultiBufferSource,
         //?}
         //?}
         str: String, owner: String, loc: BlockPos,
@@ -616,15 +591,21 @@ object WaypointRenderer {
         *///?} else {
         val camera =
         //? if >= 26.2 {
-                //Minecraft.getInstance().gameRenderer.mainCamera()
+                Minecraft.getInstance().gameRenderer.mainCamera()
             //?} else {
-            Minecraft.getInstance().gameRenderer.mainCamera
+            //Minecraft.getInstance().gameRenderer.mainCamera
         //?}
 
         matrices.pushPose()
         matrices.translate(dx, dy, dz)
-        matrices.mulPose(Axis.YP.rotationDegrees(-camera.yRot()))
-        matrices.mulPose(Axis.XP.rotationDegrees(camera.xRot()))
+        matrices.mulPose(
+            Axis.YP.rotationDegrees(-camera.yRot()).get(Matrix4f())
+            //Axis.YP.rotationDegrees(-camera.yRot())
+        )
+        matrices.mulPose(
+            Axis.XP.rotationDegrees(camera.xRot()).get(Matrix4f())
+            //Axis.XP.rotationDegrees(camera.xRot())
+        )
 
         val scale = 0.025f * scaleMultiplier
         matrices.scale(-scale, -scale, scale)
@@ -638,9 +619,9 @@ object WaypointRenderer {
                 //? if fabric {
                 matrices,
                 //? if >= 26.2 {
-                //collector
+                collector
                 //?} else {
-                consumers
+                //consumers
                 //?}
                 //?}
             )
@@ -662,9 +643,9 @@ object WaypointRenderer {
                 //? if fabric {
                 matrices,
                 //? if >= 26.2 {
-                //collector
+                collector
                 //?} else {
-                consumers
+                //consumers
                 //?}
                 //?}
             )
@@ -686,9 +667,9 @@ object WaypointRenderer {
                 //? if fabric {
                 matrices,
                 //? if >= 26.2 {
-                //collector
+                collector
                 //?} else {
-                consumers
+                //consumers
                 //?}
                 //?}
             )
@@ -707,9 +688,9 @@ object WaypointRenderer {
         //? if fabric {
         matrices: PoseStack,
         //? if >= 26.2 {
-        //collector: OrderedSubmitNodeCollector
+        collector: OrderedSubmitNodeCollector
         //?} else {
-        consumers: MultiBufferSource
+        //consumers: MultiBufferSource
         //?}
         //?}
     ) {
@@ -753,7 +734,7 @@ object WaypointRenderer {
         val background = (Minecraft.getInstance().options.textBackgroundOpacity().get() * 255.0).toInt() shl 24
 
         //? if >= 26.2 {
-        /*collector.submitText(
+        collector.submitText(
             matrices,
             width,
             line.toFloat(),
@@ -765,8 +746,8 @@ object WaypointRenderer {
             background,
             0
         )
-        *///?} else {
-        Minecraft.getInstance().font.drawInBatch(
+        //?} else {
+        /*Minecraft.getInstance().font.drawInBatch(
             Component.literal(text),
             width,
             line.toFloat(),
@@ -778,7 +759,7 @@ object WaypointRenderer {
             background,
             15728880
         )
-        //?}
+        *///?}
         //?}
     }
 }

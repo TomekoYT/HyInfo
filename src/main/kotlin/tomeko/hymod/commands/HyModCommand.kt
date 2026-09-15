@@ -8,11 +8,7 @@ import cc.polyfrost.oneconfig.utils.commands.annotations.Main
 //? if fabric {
 import net.fabricmc.fabric.api.client.command.v2.ClientCommandRegistrationCallback
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents
-//? if >= 26.1 {
 import net.fabricmc.fabric.api.client.command.v2.ClientCommands.literal
-//?} else {
-//import net.fabricmc.fabric.api.client.command.v2.ClientCommandManager.literal
-//?}
 //?}
 //? if ornithe {
 /*import net.ornithemc.osl.lifecycle.api.client.MinecraftClientEvents
