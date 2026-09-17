@@ -272,7 +272,7 @@ object NametagStats {
             val lines = mutableListOf<Component>()
 
             if (uuid.version() == 1) {
-                if (HyModConfig.showNickedIndicatorAboveNametag) {
+                if (HyModConfig.showNickedIndicatorAboveNametag && !HypixelPackets.inAssassins) {
                     lines.add(
                         //? if 1.8.9 {
                         //ChatComponentText(

@@ -124,7 +124,6 @@ object HypixelStatsFetcher {
                         rateLimitedUntil[uuid] = retryUntil
 
                         Debug.log("Abyss API rate limited request for $uuid (HTTP 429), falling back to Bordic")
-
                         getBordicPlayerData(uuid)
                     } else if (responseCode != HttpURLConnection.HTTP_OK) {
                         Debug.log("Abyss API request failed for $uuid (HTTP $responseCode)")

@@ -598,14 +598,8 @@ object WaypointRenderer {
 
         matrices.pushPose()
         matrices.translate(dx, dy, dz)
-        matrices.mulPose(
-            Axis.YP.rotationDegrees(-camera.yRot()).get(Matrix4f())
-            //Axis.YP.rotationDegrees(-camera.yRot())
-        )
-        matrices.mulPose(
-            Axis.XP.rotationDegrees(camera.xRot()).get(Matrix4f())
-            //Axis.XP.rotationDegrees(camera.xRot())
-        )
+        matrices.mulPose(Axis.YP.rotationDegrees(-camera.yRot()).get(Matrix4f()))
+        matrices.mulPose(Axis.XP.rotationDegrees(camera.xRot()).get(Matrix4f()))
 
         val scale = 0.025f * scaleMultiplier
         matrices.scale(-scale, -scale, scale)

@@ -20,6 +20,10 @@ package tomeko.hymod.event;
         for (AfterEntities l : listeners) l.onAfterEntities(ctx);
     });
 
+    public static final Event<AfterTranslucent> AFTER_TRANSLUCENT_FEATURES = Event.create(AfterTranslucent.class, listeners -> ctx -> {
+        for (AfterTranslucent l : listeners) l.onAfterTranslucent(ctx);
+    });
+
     public static final Event<Last> LAST = Event.create(Last.class, listeners -> ctx -> {
         for (Last l : listeners) l.onLast(ctx);
     });
@@ -29,21 +33,38 @@ package tomeko.hymod.event;
     });
 
     @FunctionalInterface
-    public interface Start { void onStart(RenderWorldLastEvent context); }
+    public interface Start {
+        void onStart(RenderWorldLastEvent context);
+    }
 
     @FunctionalInterface
-    public interface AfterSetup { void onAfterSetup(RenderWorldLastEvent context); }
+    public interface AfterSetup {
+        void onAfterSetup(RenderWorldLastEvent context);
+    }
 
     @FunctionalInterface
-    public interface BeforeEntities { void onBeforeEntities(RenderWorldLastEvent context); }
+    public interface BeforeEntities {
+        void onBeforeEntities(RenderWorldLastEvent context);
+    }
 
     @FunctionalInterface
-    public interface AfterEntities { void onAfterEntities(RenderWorldLastEvent context); }
+    public interface AfterEntities {
+        void onAfterEntities(RenderWorldLastEvent context);
+    }
 
     @FunctionalInterface
-    public interface Last { void onLast(RenderWorldLastEvent context); }
+    public interface AfterTranslucent {
+        void onAfterTranslucent(RenderWorldLastEvent context);
+    }
 
     @FunctionalInterface
-    public interface End { void onEnd(RenderWorldLastEvent context); }
+    public interface Last {
+        void onLast(RenderWorldLastEvent context);
+    }
+
+    @FunctionalInterface
+    public interface End {
+        void onEnd(RenderWorldLastEvent context);
+    }
 }
 *///?}

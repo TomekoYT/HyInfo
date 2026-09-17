@@ -33,12 +33,16 @@ object HypixelPackets {
         private set
     var inDuels = false
         private set
+    var inMurderMystery = false
+        private set
     var inArcade = false
         private set
 
-    var inFarmHunt = false
-        private set
     var duelsMode: DuelsMode = DuelsMode.OVERALL
+        private set
+    var inAssassins = false
+        private set
+    var inFarmHunt = false
         private set
 
     fun register() {
@@ -63,6 +67,7 @@ object HypixelPackets {
         //?}
     ) {
         onHypixel = false
+        disableAll()
     }
 
     private fun onLocationPacket(packet: ClientboundLocationPacket) {
@@ -83,6 +88,7 @@ object HypixelPackets {
         inBedwars = serverTypeName == "Bed Wars"
         inSkywars = serverTypeName == "SkyWars"
         inDuels = serverTypeName == "Duels"
+        inMurderMystery = serverTypeName == "Murder Mystery"
         inArcade = serverTypeName == "Arcade"
 
         if (!packet.mode.isPresent) {
@@ -93,10 +99,11 @@ object HypixelPackets {
         val modeName = packet.mode.get()
         Debug.log("modeName: $modeName <")
 
-        inFarmHunt = inArcade && modeName == "FARM_HUNT"
         duelsMode = DuelsMode.fromId(modeName)
         inSkywars = inSkywars || duelsMode == DuelsMode.SKYWARS
         inDuels = inDuels || duelsMode != DuelsMode.OVERALL
+        inAssassins = inMurderMystery && modeName == "MURDER_ASSASSINS"
+        inFarmHunt = inArcade && modeName == "FARM_HUNT"
     }
 
     private fun disableAll() {
@@ -108,12 +115,15 @@ object HypixelPackets {
 
     private fun disableServerTypes() {
         inBedwars = false
+        inSkywars = false
         inDuels = false
+        inMurderMystery = false
         inArcade = false
     }
 
     private fun disableModes() {
-        inFarmHunt = false
         duelsMode = DuelsMode.OVERALL
+        inAssassins = false
+        inFarmHunt = false
     }
 }

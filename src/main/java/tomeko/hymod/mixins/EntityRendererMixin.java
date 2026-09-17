@@ -12,67 +12,32 @@ import tomeko.hymod.event.RenderWorldLastEvent;
 @Mixin(EntityRenderer.class)
 public abstract class EntityRendererMixin {
     @Inject(method = "renderWorld", at = @At("HEAD"))
-    private void hymod$renderStart(
-            float partialTicks,
-            long finishTimeNano,
-            CallbackInfo ci
-    ) {
-        LevelRenderEvents.START.invoker()
-                .onStart(new RenderWorldLastEvent(partialTicks));
+    private void hymod$renderStart(float partialTicks, long finishTimeNano, CallbackInfo ci) {
+        LevelRenderEvents.START.invoker().onStart(new RenderWorldLastEvent(partialTicks));
     }
 
-    // setupCameraTransform() is called from renderWorldPass(), not renderWorld().
-    @Inject(
-            method = "renderWorldPass",
-            at = @At(
-                    value = "INVOKE",
-                    target = "Lnet/minecraft/client/renderer/EntityRenderer;setupCameraTransform(FI)V",
-                    shift = At.Shift.AFTER
-            )
-    )
-    private void hymod$afterSetup(
-            int pass, float partialTicks, long finishTimeNano, CallbackInfo ci
-    ) {
-        LevelRenderEvents.AFTER_SETUP.invoker()
-                .onAfterSetup(new RenderWorldLastEvent(partialTicks));
+    @Inject(method = "renderWorldPass", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/EntityRenderer;setupCameraTransform(FI)V", shift = At.Shift.AFTER))
+    private void hymod$afterSetup(int pass, float partialTicks, long finishTimeNano, CallbackInfo ci) {
+        LevelRenderEvents.AFTER_SETUP.invoker().onAfterSetup(new RenderWorldLastEvent(partialTicks));
     }
 
-    // renderEntities() is also called from renderWorldPass().
-    @Inject(
-            method = "renderWorldPass",
-            at = @At(
-                    value = "INVOKE",
-                    target = "Lnet/minecraft/client/renderer/RenderGlobal;renderEntities(Lnet/minecraft/entity/Entity;Lnet/minecraft/client/renderer/culling/ICamera;F)V"
-            )
-    )
-    private void hymod$beforeEntities(
-            int pass, float partialTicks, long finishTimeNano, CallbackInfo ci
-    ) {
-        LevelRenderEvents.BEFORE_ENTITIES.invoker()
-                .onBeforeEntities(new RenderWorldLastEvent(partialTicks));
+    @Inject(method = "renderWorldPass", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/RenderGlobal;renderEntities(Lnet/minecraft/entity/Entity;Lnet/minecraft/client/renderer/culling/ICamera;F)V"))
+    private void hymod$beforeEntities(int pass, float partialTicks, long finishTimeNano, CallbackInfo ci) {
+        LevelRenderEvents.BEFORE_ENTITIES.invoker().onBeforeEntities(new RenderWorldLastEvent(partialTicks));
     }
 
-    @Inject(
-            method = "renderWorldPass",
-            at = @At(
-                    value = "INVOKE",
-                    target = "Lnet/minecraft/client/renderer/RenderGlobal;renderEntities(Lnet/minecraft/entity/Entity;Lnet/minecraft/client/renderer/culling/ICamera;F)V",
-                    shift = At.Shift.AFTER
-            )
-    )
-    private void hymod$afterEntities(
-            int pass, float partialTicks, long finishTimeNano, CallbackInfo ci
-    ) {
-        LevelRenderEvents.AFTER_ENTITIES.invoker()
-                .onAfterEntities(new RenderWorldLastEvent(partialTicks));
+    @Inject(method = "renderWorldPass", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/RenderGlobal;renderEntities(Lnet/minecraft/entity/Entity;Lnet/minecraft/client/renderer/culling/ICamera;F)V", shift = At.Shift.AFTER))
+    private void hymod$afterEntities(int pass, float partialTicks, long finishTimeNano, CallbackInfo ci) {
+        LevelRenderEvents.AFTER_ENTITIES.invoker().onAfterEntities(new RenderWorldLastEvent(partialTicks));
+    }
+
+    @Inject(method = "renderWorldPass", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/RenderGlobal;renderBlockLayer(Lnet/minecraft/util/EnumWorldBlockLayer;DILnet/minecraft/entity/Entity;)I", ordinal = 3, shift = At.Shift.AFTER))
+    private void hymod$afterTranslucent(int pass, float partialTicks, long finishTimeNano, CallbackInfo ci) {
+        LevelRenderEvents.AFTER_TRANSLUCENT_FEATURES.invoker().onAfterTranslucent(new RenderWorldLastEvent(partialTicks));
     }
 
     @Inject(method = "renderWorld", at = @At("RETURN"))
-    private void hymod$renderEnd(
-            float partialTicks,
-            long finishTimeNano,
-            CallbackInfo ci
-    ) {
+    private void hymod$renderEnd(float partialTicks, long finishTimeNano, CallbackInfo ci) {
         RenderWorldLastEvent ctx = new RenderWorldLastEvent(partialTicks);
 
         LevelRenderEvents.LAST.invoker().onLast(ctx);

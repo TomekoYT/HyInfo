@@ -72,7 +72,7 @@ public abstract class TablistStatsMixin {
                 //?}
                 = null;
         if (uuid.version() == 1) {
-            if (HyModConfig.INSTANCE.getShowNickedIndicatorInTablist()) {
+            if (HyModConfig.INSTANCE.getShowNickedIndicatorInTablist() && !HypixelPackets.INSTANCE.getInAssassins()) {
                 prefix =
                         //? if 1.8.9 {
                         //new ChatComponentText(HyModConfig.INSTANCE.getNickedIndicatorText());
