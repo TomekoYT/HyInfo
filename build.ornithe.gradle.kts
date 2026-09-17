@@ -47,6 +47,8 @@ loom {
 
 dependencies {
     implementation(kotlin("stdlib"))
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.11.0")
+
     minecraft("com.mojang:minecraft:$minecraftVersion")
     mappings(ploceus.mcpMappings("stable", "1.8.9", "22"))
     modImplementation("net.fabricmc:fabric-loader:$fabricLoaderVersion")

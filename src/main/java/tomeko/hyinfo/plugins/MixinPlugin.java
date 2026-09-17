@@ -1,0 +1,149 @@
+package tomeko.hyinfo.plugins;
+
+//? if forge {
+//import org.spongepowered.asm.lib.tree.ClassNode;
+//?} else {
+import com.llamalad7.mixinextras.MixinExtrasBootstrap;
+import org.objectweb.asm.tree.ClassNode;
+//?}
+import org.spongepowered.asm.mixin.extensibility.IMixinConfigPlugin;
+import org.spongepowered.asm.mixin.extensibility.IMixinInfo;
+
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Stream;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipInputStream;
+
+public class MixinPlugin implements IMixinConfigPlugin {
+    private static final List<MixinPlugin> mixinPlugins = new ArrayList<>();
+
+    public static List<MixinPlugin> getMixinPlugins() {
+        return mixinPlugins;
+    }
+
+    private String mixinPackage;
+
+    @Override
+    public void onLoad(String mixinPackage) {
+        //? if !forge {
+        MixinExtrasBootstrap.init();
+        //?}
+        this.mixinPackage = mixinPackage;
+        mixinPlugins.add(this);
+    }
+
+    public URL getBaseUrlForClassUrl(URL classUrl) {
+        String string = classUrl.toString();
+        if (classUrl.getProtocol().equals("jar")) {
+            try {
+                return URI.create(string.substring(4).split("!")[0]).toURL();
+            } catch (MalformedURLException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        if (string.endsWith(".class")) {
+            try {
+                return URI.create(string.replace("\\", "/")
+                        .replace(getClass().getCanonicalName()
+                                .replace(".", "/") + ".class", "")).toURL();
+            } catch (MalformedURLException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        return classUrl;
+    }
+
+    public String getMixinPackage() {
+        return mixinPackage;
+    }
+
+    public String getMixinBaseDir() {
+        return mixinPackage.replace(".", "/");
+    }
+
+    private List<String> mixins = null;
+
+    public void tryAddMixinClass(String className) {
+        String norm = (className.endsWith(".class") ? className.substring(0, className.length() - ".class".length()) : className)
+                .replace("\\", "/")
+                .replace("/", ".");
+        if (norm.startsWith(getMixinPackage() + ".") && !norm.endsWith(".")) {
+            mixins.add(norm.substring(getMixinPackage().length() + 1));
+        }
+    }
+
+    @Override
+    public List<String> getMixins() {
+        if (mixins != null) return mixins;
+        mixins = new ArrayList<>();
+        URL classUrl = getClass().getProtectionDomain().getCodeSource().getLocation();
+        Path file;
+        try {
+            file = Paths.get(getBaseUrlForClassUrl(classUrl).toURI());
+        } catch (URISyntaxException e) {
+            throw new RuntimeException(e);
+        }
+        if (Files.isDirectory(file)) {
+            walkDir(file);
+        } else {
+            walkJar(file);
+        }
+        return mixins;
+    }
+
+    private void walkDir(Path classRoot) {
+        try (Stream<Path> classes = Files.walk(classRoot.resolve(getMixinBaseDir()))) {
+            classes.map(it -> classRoot.relativize(it).toString())
+                    .forEach(this::tryAddMixinClass);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private void walkJar(Path file) {
+        try (ZipInputStream zis = new ZipInputStream(Files.newInputStream(file))) {
+            ZipEntry next;
+            while ((next = zis.getNextEntry()) != null) {
+                tryAddMixinClass(next.getName());
+                zis.closeEntry();
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public void preApply(String targetClassName, ClassNode targetClass, String mixinClassName, IMixinInfo mixinInfo) {
+
+    }
+
+    @Override
+    public void postApply(String targetClassName, ClassNode targetClass, String mixinClassName, IMixinInfo mixinInfo) {
+
+    }
+
+    @Override
+    public String getRefMapperConfig() {
+        return null;
+    }
+
+    @Override
+    public boolean shouldApplyMixin(String targetClassName, String mixinClassName) {
+        return true;
+    }
+
+    @Override
+    public void acceptTargets(Set<String> myTargets, Set<String> otherTargets) {
+
+    }
+}
