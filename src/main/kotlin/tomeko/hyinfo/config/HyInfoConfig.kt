@@ -555,6 +555,18 @@ object HyInfoConfig : Config(
     )
     var nametagBackgroundColor = PolyColor(0x50000000.toInt())
 
+    @Text(
+        //? if forge {
+        //name =
+        //?} else {
+        title =
+            //?}
+            "Rate Limited Indicator Text",
+        category = CATEGORY_SETTINGS,
+        subcategory = SUBCATEGORY_NAMETAGS
+    )
+    var rateLimitedIndicatorText = "§4[RATE LIMITED]"
+
 
     //? if forge {
     //@Exclude

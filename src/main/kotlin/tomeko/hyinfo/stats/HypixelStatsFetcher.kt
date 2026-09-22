@@ -65,6 +65,7 @@ object HypixelStatsFetcher {
     private val statsCache = ConcurrentHashMap<String, CachedRaw>()
     private val pendingRequests = ConcurrentHashMap<String, CompletableFuture<JsonObject?>>()
     private val rateLimitedUntil = ConcurrentHashMap<String, Long>()
+    val rateLimitedIndicators = ConcurrentHashMap.newKeySet<String>()
 
     private const val CACHE_TTL_MS = 120_000L
     private const val FAILURE_TTL_MS = 15_000L
@@ -132,10 +133,12 @@ object HypixelStatsFetcher {
                         val body = connection.inputStream.bufferedReader().use { it.readText() }
                         val root =
                         //? if 1.8.9 {
-                                //JsonParser().parse(body).asJsonObject
-                                //?} else {
+                        //JsonParser().parse(body).asJsonObject
+                            //?} else {
                             JsonParser.parseString(body).asJsonObject
                         //?}
+
+                        rateLimitedIndicators.remove(uuid)
 
                         Debug.log("Abyss API request succeeded for $uuid")
                         root.getAsJsonObject("player")
@@ -166,7 +169,12 @@ object HypixelStatsFetcher {
 
             val responseCode = connection.responseCode
 
-            if (responseCode != HttpURLConnection.HTTP_OK) {
+            if (responseCode == 429) {
+                rateLimitedIndicators.add(uuid)
+
+                Debug.log("Bordic API request rate limited for $uuid")
+                null
+            } else if (responseCode != HttpURLConnection.HTTP_OK) {
                 Debug.log("Bordic API request failed for $uuid (HTTP $responseCode)")
                 null
             } else {
@@ -174,10 +182,12 @@ object HypixelStatsFetcher {
 
                 val root =
                 //? if 1.8.9 {
-                        //JsonParser().parse(body).asJsonObject
-                        //?} else {
+                //JsonParser().parse(body).asJsonObject
+                    //?} else {
                     JsonParser.parseString(body).asJsonObject
                 //?}
+
+                rateLimitedIndicators.remove(uuid)
 
                 Debug.log("Bordic API request succeeded for $uuid")
                 root.getAsJsonObject("player")
@@ -836,7 +846,7 @@ object HypixelStatsFetcher {
 
             //? if 1.8.9 {
             //ChatComponentText(
-                //?} else {
+            //?} else {
             Component.literal(
                 //?}
                 divisionText
@@ -847,7 +857,7 @@ object HypixelStatsFetcher {
     private fun formatStars(text: String, vararg colors: ChatFormatting): Component {
         val result =
         //? if 1.8.9 {
-                //ChatComponentText("")
+        //ChatComponentText("")
             //?} else {
             Component.empty()
         //?}
@@ -865,7 +875,7 @@ object HypixelStatsFetcher {
     private fun formatStarsObfuscated(text: String, vararg colors: ChatFormatting): Component {
         val result =
         //? if 1.8.9 {
-                //ChatComponentText("")
+        //ChatComponentText("")
             //?} else {
             Component.empty()
         //?}
@@ -885,7 +895,7 @@ object HypixelStatsFetcher {
             else
             //? if 1.8.9 {
             //result.appendSibling(ChatComponentText(char.toString()).setChatStyle(ChatStyle().setColor(color)))
-        //?} else {
+            //?} else {
                 result.append(Component.literal(char.toString()).withStyle(color))
             //?}
         }

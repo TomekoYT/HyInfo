@@ -7,6 +7,7 @@ import net.minecraft.client.network.NetworkPlayerInfo;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.IChatComponent;
 *///?} else {
+
 import net.minecraft.client.gui.components.PlayerTabOverlay;
 import net.minecraft.client.multiplayer.PlayerInfo;
 import net.minecraft.network.chat.Component;
@@ -18,6 +19,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import tomeko.hyinfo.config.HyInfoConfig;
 import tomeko.hyinfo.location.HypixelPackets;
 import tomeko.hyinfo.stats.HypixelStatsFetcher;
+
 import java.util.UUID;
 
 @Mixin(
@@ -32,7 +34,7 @@ public abstract class TablistStatsMixin {
             method =
                     //? if 1.8.9 {
                     //"getPlayerName",
-                     //?} else {
+                    //?} else {
                     "getNameForDisplay",
             //?}
             at = @At("RETURN"),
@@ -51,7 +53,7 @@ public abstract class TablistStatsMixin {
 
         //? if 1.8.9 {
         //String original
-         //?} else {
+        //?} else {
         Component original
                 //?}
                 = cir.getReturnValue();
@@ -59,7 +61,7 @@ public abstract class TablistStatsMixin {
         UUID uuid =
                 //? if 1.8.9 {
                 //info.getGameProfile().getId();
-                 //?} else {
+                //?} else {
                 info.getProfile().id();
         //?}
 
@@ -67,7 +69,7 @@ public abstract class TablistStatsMixin {
 
         //? if 1.8.9 {
         //IChatComponent prefix
-         //?} else {
+        //?} else {
         Component prefix
                 //?}
                 = null;
@@ -81,20 +83,37 @@ public abstract class TablistStatsMixin {
                 //?}
             }
         } else {
-            if (HypixelPackets.INSTANCE.getInBedwars() && HyInfoConfig.INSTANCE.getShowBedwarsStarsInTablist()) {
-                prefix = stats.getBedwars();
-            } else if (HypixelPackets.INSTANCE.getInSkywars() && HyInfoConfig.INSTANCE.getShowSkywarsStarsInTablist()) {
-                prefix = stats.getSkywars();
-            } else if (HypixelPackets.INSTANCE.getInDuels() && HyInfoConfig.INSTANCE.getShowDuelsDivisionInTablist()) {
-                prefix = stats.getDuels();
+            boolean modifyPrefix = (HypixelPackets.INSTANCE.getInBedwars() && HyInfoConfig.INSTANCE.getShowBedwarsStarsInTablist())
+                    || (HypixelPackets.INSTANCE.getInSkywars() && HyInfoConfig.INSTANCE.getShowSkywarsStarsInTablist())
+                    || (HypixelPackets.INSTANCE.getInDuels() && HyInfoConfig.INSTANCE.getShowDuelsDivisionInTablist());
+
+            if (modifyPrefix && HypixelStatsFetcher.INSTANCE.getRateLimitedIndicators().contains(uuid.toString())) {
+                prefix =
+                        //? if 1.8.9 {
+                        //new ChatComponentText(HyInfoConfig.INSTANCE.getRateLimitedIndicatorText());
+                        //?} else {
+                        Component.literal(HyInfoConfig.INSTANCE.getRateLimitedIndicatorText());
+                //?}
+            } else {
+                if (HypixelPackets.INSTANCE.getInBedwars() && HyInfoConfig.INSTANCE.getShowBedwarsStarsInTablist()) {
+                    prefix = stats.getBedwars();
+                } else if (HypixelPackets.INSTANCE.getInSkywars() && HyInfoConfig.INSTANCE.getShowSkywarsStarsInTablist()) {
+                    prefix = stats.getSkywars();
+                } else if (HypixelPackets.INSTANCE.getInDuels() && HyInfoConfig.INSTANCE.getShowDuelsDivisionInTablist()) {
+                    prefix = stats.getDuels();
+                }
             }
         }
 
         if (prefix != null) cir.setReturnValue(
                 //? if 1.8.9 {
                 //prefix.createCopy().appendSibling(new ChatComponentText(" ")).appendText(original).getFormattedText()
-                 //?} else {
-                prefix.copy().append(Component.literal(" ")).append(original)
+                //?} else {
+                prefix.copy().
+
+                        append(Component.literal(" ")).
+
+                        append(original)
                 //?}
         );
     }

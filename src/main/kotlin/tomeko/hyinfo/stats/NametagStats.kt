@@ -129,8 +129,8 @@ object NametagStats {
                 //mc.gameSettings.hideGUI
                 //?} else if >= 26.2 {
                 mc.gui.hud.isHidden
-                //?} else {
-                //mc.options.hideGui
+            //?} else {
+            //mc.options.hideGui
             //?}
             ) continue
 
@@ -284,62 +284,74 @@ object NametagStats {
                     )
                 }
             } else {
-                if (HypixelPackets.inDuels && HyInfoConfig.showDuelsDivisionAboveNametag) {
-                    cached.duels?.let { division ->
-                        lines.add(
-                            //? if 1.8.9 {
-                            /*ChatComponentText(HypixelPackets.duelsMode.modeName + HyInfoConfig.duelsTextAboveNametag).appendSibling(
-                                division
-                            )
-                            *///?} else {
-                            Component.literal(HypixelPackets.duelsMode.modeName + HyInfoConfig.duelsTextAboveNametag)
-                                .append(division)
-                            //?}
-                        )
-                    }
-                }
-
-                if (HypixelPackets.inBedwars && HyInfoConfig.showBedwarsStarsAboveNametag) {
-                    cached.bedwars?.let { bedwars ->
-                        lines.add(
-                            //? if 1.8.9 {
-                            //ChatComponentText(HyInfoConfig.bedwarsTextAboveNametag).appendSibling(bedwars)
-                            //?} else {
-                            Component.literal(HyInfoConfig.bedwarsTextAboveNametag).append(bedwars)
-                            //?}
-                        )
-                    }
-                }
-
-                if (HypixelPackets.inSkywars && HyInfoConfig.showSkywarsStarsAboveNametag) {
-                    cached.skywars?.let { skywars ->
-                        lines.add(
-                            //? if 1.8.9 {
-                            //ChatComponentText(HyInfoConfig.skywarsTextAboveNametag).appendSibling(skywars)
-                            //?} else {
-                            Component.literal(HyInfoConfig.skywarsTextAboveNametag).append(skywars)
-                            //?}
-                        )
-                    }
-                }
-
                 val shouldCheckNetworkLevelWithOtherNametagStats =
                     (HypixelPackets.inBedwars && HyInfoConfig.showBedwarsStarsAboveNametag)
                             || (HypixelPackets.inSkywars && HyInfoConfig.showSkywarsStarsAboveNametag)
                             || (HypixelPackets.inDuels && HyInfoConfig.showDuelsDivisionAboveNametag)
 
-                if (HypixelPackets.onHypixel
-                    && HyInfoConfig.showNetworkLevelAboveNametag
-                    && (!shouldCheckNetworkLevelWithOtherNametagStats || HyInfoConfig.showNetworkLevelWithOtherNametagStats)
+                if ((HyInfoConfig.showNetworkLevelAboveNametag || shouldCheckNetworkLevelWithOtherNametagStats)
+                    && HypixelStatsFetcher.rateLimitedIndicators.contains(uuid.toString())
                 ) {
-                    cached.level?.let { networkLevel ->
-                        lines.add(
-                            //? if 1.8.9 {
-                            //ChatComponentText(HyInfoConfig.networkLevelTextAboveNametag + networkLevel)
-                            //?} else {
-                            Component.literal(HyInfoConfig.networkLevelTextAboveNametag + networkLevel)
-                            //?}
-                        )
+                    lines.add(
+                        //? if 1.8.9 {
+                        /*ChatComponentText(HyInfoConfig.rateLimitedIndicatorText)
+                    *///?} else {
+                        Component.literal(HyInfoConfig.rateLimitedIndicatorText)
+                        //?}
+                    )
+                } else {
+                    if (HypixelPackets.inDuels && HyInfoConfig.showDuelsDivisionAboveNametag) {
+                        cached.duels?.let { division ->
+                            lines.add(
+                                //? if 1.8.9 {
+                                /*ChatComponentText(HypixelPackets.duelsMode.modeName + HyInfoConfig.duelsTextAboveNametag).appendSibling(
+                                division
+                            )
+                            *///?} else {
+                                Component.literal(HypixelPackets.duelsMode.modeName + HyInfoConfig.duelsTextAboveNametag)
+                                    .append(division)
+                                //?}
+                            )
+                        }
+                    }
+
+                    if (HypixelPackets.inBedwars && HyInfoConfig.showBedwarsStarsAboveNametag) {
+                        cached.bedwars?.let { bedwars ->
+                            lines.add(
+                                //? if 1.8.9 {
+                                //ChatComponentText(HyInfoConfig.bedwarsTextAboveNametag).appendSibling(bedwars)
+                                //?} else {
+                                Component.literal(HyInfoConfig.bedwarsTextAboveNametag).append(bedwars)
+                                //?}
+                            )
+                        }
+                    }
+
+                    if (HypixelPackets.inSkywars && HyInfoConfig.showSkywarsStarsAboveNametag) {
+                        cached.skywars?.let { skywars ->
+                            lines.add(
+                                //? if 1.8.9 {
+                                //ChatComponentText(HyInfoConfig.skywarsTextAboveNametag).appendSibling(skywars)
+                                //?} else {
+                                Component.literal(HyInfoConfig.skywarsTextAboveNametag).append(skywars)
+                                //?}
+                            )
+                        }
+                    }
+
+                    if (HypixelPackets.onHypixel
+                        && HyInfoConfig.showNetworkLevelAboveNametag
+                        && (!shouldCheckNetworkLevelWithOtherNametagStats || HyInfoConfig.showNetworkLevelWithOtherNametagStats)
+                    ) {
+                        cached.level?.let { networkLevel ->
+                            lines.add(
+                                //? if 1.8.9 {
+                                //ChatComponentText(HyInfoConfig.networkLevelTextAboveNametag + networkLevel)
+                                //?} else {
+                                Component.literal(HyInfoConfig.networkLevelTextAboveNametag + networkLevel)
+                                //?}
+                            )
+                        }
                     }
                 }
             }
