@@ -252,23 +252,6 @@ object HyInfoConfig : Config(
 
     private const val SUBCATEGORY_NAMETAGS = "Nametags"
 
-    @Slider(
-        title = "Nametag Position Offset",
-        min = 0.0f,
-        max = 2f,
-        step = 0.1f,
-        category = CATEGORY_SETTINGS,
-        subcategory = SUBCATEGORY_NAMETAGS
-    )
-    var nametagPositionOffset = 1f
-
-    @Color(
-        title = "Nametag Background Color",
-        category = CATEGORY_SETTINGS,
-        subcategory = SUBCATEGORY_NAMETAGS
-    )
-    var nametagBackgroundColor = PolyColor(0x50000000.toInt())
-
     @Text(
         title = "Rate Limited Indicator Text",
         category = CATEGORY_SETTINGS,

@@ -12,7 +12,6 @@ import net.fabricmc.api.ClientModInitializer
 import tomeko.hyinfo.commands.*
 import tomeko.hyinfo.config.*
 import tomeko.hyinfo.location.*
-import tomeko.hyinfo.stats.*
 import tomeko.hyinfo.utils.*
 
 //? if forge {
@@ -56,8 +55,6 @@ class HyInfo
 
 
         HypixelPackets.register()
-
-        NametagStats.register()
 
         Debug.forceLog("${Constants.MOD_VERSION} Initialized!")
     }
