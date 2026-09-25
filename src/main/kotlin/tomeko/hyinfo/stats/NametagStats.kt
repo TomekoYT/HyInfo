@@ -255,15 +255,17 @@ object NametagStats {
             //?}
 
             val y =
-                relativeY + HyInfoConfig.nametagOffset + playerHeight + objectiveCorrection -
+                -1f + relativeY + HyInfoConfig.nametagPositionOffset + playerHeight + objectiveCorrection +
                         if (isCrouching)
-                        //? if 1.8.9 {
-                        //0.44
-                        //?} else {
-                            0.14
-                        //?}
+                        //? if 1.8.9
+                        //-0.30
+                        //? else
+                            -0.04
                         else
-                            0.0
+                        //? if 1.8.9
+                        //0.1
+                        //? else
+                            0.05
 
             val scale =
                 (BASE_SCALE * (0.75 + 0.25 * (1.0 - 1.0.coerceAtMost(0.0.coerceAtLeast((distance - MIN_DISTANCE) / (MAX_DISTANCE - MIN_DISTANCE)))))).toFloat()
