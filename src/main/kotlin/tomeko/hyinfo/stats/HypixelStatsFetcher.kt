@@ -64,7 +64,7 @@ object HypixelStatsFetcher {
     val rateLimitedIndicators: ConcurrentHashMap.KeySetView<String, Boolean> = ConcurrentHashMap.newKeySet()
 
     private const val CACHE_TTL_MS = 120_000L
-    private const val FAILURE_TTL_MS = 15_000L
+    private const val FAILURE_TTL_MS = 30_000L
 
     private fun getBordicPlayerData(uuid: String): CompletableFuture<JsonObject?> {
         val now = System.currentTimeMillis()

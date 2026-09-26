@@ -53,20 +53,6 @@ public abstract class TablistStatsMixin {
     ) {
         if (!HypixelPackets.INSTANCE.getOnHypixel()) return;
 
-        //? if 1.8.9
-        //EntityPlayer localPlayer = Minecraft.getMinecraft().thePlayer;
-        //? else
-        Player localPlayer = Minecraft.getInstance().player;
-        
-        if (localPlayer == null) return;
-
-        HypixelStatsFetcher.INSTANCE.requestStats(
-                //? if 1.8.9
-                //localPlayer.getUniqueID().toString()
-                //? else
-                localPlayer.getUUID().toString()
-        );
-
         //? if 1.8.9 {
         //String original
         //?} else {
@@ -81,7 +67,7 @@ public abstract class TablistStatsMixin {
                 info.getProfile().id();
         //?}
 
-        HypixelStatsFetcher.CachedStats stats = HypixelStatsFetcher.INSTANCE.getCachedStats(uuid.toString());
+        if (uuid.version() != 1 && uuid.version() != 4) return;
 
         //? if 1.8.9 {
         //IChatComponent prefix
@@ -99,6 +85,9 @@ public abstract class TablistStatsMixin {
                 //?}
             }
         } else {
+            HypixelStatsFetcher.INSTANCE.requestStats(uuid.toString());
+            HypixelStatsFetcher.CachedStats stats = HypixelStatsFetcher.INSTANCE.getCachedStats(uuid.toString());
+
             boolean modifyPrefix = (HypixelPackets.INSTANCE.getInBedwars() && HyInfoConfig.INSTANCE.getShowBedwarsStarsInTablist())
                     || (HypixelPackets.INSTANCE.getInSkywars() && HyInfoConfig.INSTANCE.getShowSkywarsStarsInTablist())
                     || (HypixelPackets.INSTANCE.getInDuels() && HyInfoConfig.INSTANCE.getShowDuelsDivisionInTablist());
