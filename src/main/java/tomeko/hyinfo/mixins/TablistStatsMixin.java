@@ -1,16 +1,18 @@
 package tomeko.hyinfo.mixins;
 
 //? if 1.8.9 {
-/*
+/*import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiPlayerTabOverlay;
 import net.minecraft.client.network.NetworkPlayerInfo;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.IChatComponent;
 *///?} else {
-
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.components.PlayerTabOverlay;
 import net.minecraft.client.multiplayer.PlayerInfo;
 import net.minecraft.network.chat.Component;
+import net.minecraft.world.entity.player.Player;
 //?}
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -50,6 +52,20 @@ public abstract class TablistStatsMixin {
             //?}
     ) {
         if (!HypixelPackets.INSTANCE.getOnHypixel()) return;
+
+        //? if 1.8.9
+        //EntityPlayer localPlayer = Minecraft.getMinecraft().thePlayer;
+        //? else
+        Player localPlayer = Minecraft.getInstance().player;
+        
+        if (localPlayer == null) return;
+
+        HypixelStatsFetcher.INSTANCE.requestStats(
+                //? if 1.8.9
+                //localPlayer.getUniqueID().toString()
+                //? else
+                localPlayer.getUUID().toString()
+        );
 
         //? if 1.8.9 {
         //String original
