@@ -27,6 +27,8 @@ object HyInfoConfig : Config(
     Category.HYPIXEL
     //?}
 ) {
+    //? if forge
+    //@Exclude
     val DEPENDENCIES: List<Pair<String, List<String>>> = listOf(
     )
 
@@ -42,6 +44,8 @@ object HyInfoConfig : Config(
         }
     }
 
+    //? if forge
+    //@Exclude
     private const val CATEGORY_BEDWARS = "BedWars"
 
     @Switch(
@@ -76,7 +80,20 @@ object HyInfoConfig : Config(
     )
     var bedwarsTextAboveNametag = "§fBed§cWars§f: "
 
+    //? if forge {
+    /*@Button(
+        name = "",
+        text = "Reset Text",
+        category = CATEGORY_BEDWARS,
+    )
+    private fun bedwarsTextResetButton() {
+        bedwarsTextAboveNametag = "§fBed§cWars§f: "
+    }
+    *///?}
 
+
+    //? if forge
+    //@Exclude
     private const val CATEGORY_SKYWARS = "SkyWars"
 
     @Switch(
@@ -111,7 +128,20 @@ object HyInfoConfig : Config(
     )
     var skywarsTextAboveNametag = "§bSky§aWars§f: "
 
+    //? if forge {
+    /*@Button(
+        name = "",
+        text = "Reset Text",
+        category = CATEGORY_SKYWARS,
+    )
+    private fun skywarsTextResetButton() {
+        skywarsTextAboveNametag = "§bSky§aWars§f: "
+    }
+    *///?}
 
+
+    //? if forge
+    //@Exclude
     private const val CATEGORY_DUELS = "Duels"
 
     @Switch(
@@ -316,9 +346,41 @@ object HyInfoConfig : Config(
     )
     var noDebuffDuelsTextAboveNametag = "§dNoDebuff"
 
+    //? if forge {
+    /*@Button(
+        name = "",
+        text = "Reset Text",
+        category = CATEGORY_DUELS,
+    )
+    private fun duelsTextResetButton() {
+        duelsTextAboveNametag = " §3Duels§f: "
+        overallDuelsTextAboveNametag = "§eOverall"
+        skywarsDuelsTextAboveNametag = "§bSky§aWars"
+        theBridgeDuelsTextAboveNametag = "§5The Bridge"
+        bedwarsDuelsTextAboveNametag = "§fBed§cWars"
+        classicDuelsTextAboveNametag = "§fClassic"
+        uhcDuelsTextAboveNametag = "§6UHC"
+        sumoDuelsTextAboveNametag = "§bSumo"
+        bowDuelsTextAboveNametag = "§6Bow"
+        megaWallsDuelsTextAboveNametag = "§8Mega Walls"
+        parkourDuelsTextAboveNametag = "§eParkour"
+        quakecraftDuelsTextAboveNametag = "§7Quakecraft"
+        spleefDuelsTextAboveNametag = "§9Spleef"
+        opDuelsTextAboveNametag = "§5OP"
+        blitzDuelsTextAboveNametag = "§6Blitz"
+        comboDuelsTextAboveNametag = "§cCombo"
+        boxingDuelsTextAboveNametag = "§4Boxing"
+        noDebuffDuelsTextAboveNametag = "§dNoDebuff"
+    }
+    *///?}
 
+
+    //? if forge
+    //@Exclude
     private const val CATEGORY_NETWORK = "Network"
 
+    //? if forge
+    //@Exclude
     private const val SUBCATEGORY_NETWORK_STATS = "Stats"
 
     @Switch(
@@ -357,6 +419,8 @@ object HyInfoConfig : Config(
     var networkLevelTextAboveNametag = "§9Level§f: §e"
 
 
+    //? if forge
+    //@Exclude
     private const val SUBCATEGORY_NICKED_INDICATOR = "Nicked Indicator"
 
     @Switch(
@@ -394,9 +458,26 @@ object HyInfoConfig : Config(
     )
     var nickedIndicatorText = "§5[NICKED]"
 
+    //? if forge {
+    /*@Button(
+        name = "",
+        text = "Reset Text",
+        category = CATEGORY_NETWORK,
+        subcategory = SUBCATEGORY_NICKED_INDICATOR
+    )
+    private fun networkTextResetButton() {
+        networkLevelTextAboveNametag = "§9Level§f: §e"
+        nickedIndicatorText = "§5[NICKED]"
+    }
+    *///?}
 
+
+    //? if forge
+    //@Exclude
     private const val CATEGORY_SETTINGS = "Settings"
 
+    //? if forge
+    //@Exclude
     private const val SUBCATEGORY_NAMETAGS = "Nametags"
 
     @Text(
@@ -408,9 +489,23 @@ object HyInfoConfig : Config(
         category = CATEGORY_SETTINGS,
         subcategory = SUBCATEGORY_NAMETAGS
     )
-    var rateLimitedIndicatorText = "§4[RATE LIMITED]"
+    var rateLimitedIndicatorText = "§4[RATE LIMIT]"
+
+    //? if forge {
+    /*@Button(
+        name = "",
+        text = "Reset Text",
+        category = CATEGORY_SETTINGS,
+        subcategory = SUBCATEGORY_NAMETAGS
+    )
+    private fun rateLimitedTextResetButton() {
+        rateLimitedIndicatorText = "§4[RATE LIMIT]"
+    }
+    *///?}
 
 
+    //? if forge
+    //@Exclude
     private const val SUBCATEGORY_DEBUG = "Debug"
 
     @Info(
