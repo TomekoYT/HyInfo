@@ -14,12 +14,12 @@ import net.minecraft.client.renderer.state.level.CameraRenderState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
+//?}
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import tomeko.hyinfo.stats.NametagStats;
-//?}
 
 @Mixin(
         //? if 1.8.9
@@ -30,8 +30,8 @@ import tomeko.hyinfo.stats.NametagStats;
 public abstract class NametagStatsMixin {
     @Inject(
             method =
-                    //? if forge
-                    //renderLivingLabel
+                    //? if 1.8.9
+                    //"renderLivingLabel",
                     //? else
                     "submitNameDisplay*",
             at = @At("TAIL")
@@ -58,6 +58,8 @@ public abstract class NametagStatsMixin {
 
         if (!(entityIn instanceof EntityPlayer)) return;
         EntityPlayer player = (EntityPlayer) entityIn;
+
+        if (!str.equals(player.getDisplayName().getFormattedText())) return;
         *///?} else {
         Minecraft mc = Minecraft.getInstance();
         if (mc.player == null || mc.level == null) return;
@@ -69,7 +71,7 @@ public abstract class NametagStatsMixin {
         NametagStats.INSTANCE.render(
                 //? if 1.8.9
                 //player, x, y, z, maxDistance
-                //?} else
+                //? else
                 player, state, poseStack, submitNodeCollector, camera
         );
     }

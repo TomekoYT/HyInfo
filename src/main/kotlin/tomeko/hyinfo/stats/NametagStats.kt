@@ -320,6 +320,8 @@ object NametagStats {
         }
         *///?} else {
         var offset = -10
+        if (Minecraft.getInstance().level?.scoreboard?.getDisplayObjective(DisplaySlot.BELOW_NAME) != null) offset *= 2
+
         for (line in lines) {
             //? if >= 26.2 {
             collector.submitNameTag(
