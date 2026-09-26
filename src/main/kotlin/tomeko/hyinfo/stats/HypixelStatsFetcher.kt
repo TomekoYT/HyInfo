@@ -38,9 +38,6 @@ object HypixelStatsFetcher {
         val json: JsonObject?
     )
 
-    private const val ABYSS_PLAYER_ENDPOINT = "http://api.abyssoverlay.com/player?uuid="
-    private const val ABYSS_USER_AGENT = "node-ao/2.0.3"
-
     private const val BORDIC_PLAYER_ENDPOINT = "https://api.bordic.xyz/v3/cache/hypixel?uuid="
 
     private const val CONNECT_TIMEOUT_MS = 3000
@@ -64,13 +61,12 @@ object HypixelStatsFetcher {
 
     private val statsCache = ConcurrentHashMap<String, CachedRaw>()
     private val pendingRequests = ConcurrentHashMap<String, CompletableFuture<JsonObject?>>()
-    private val rateLimitedUntil = ConcurrentHashMap<String, Long>()
-    val rateLimitedIndicators = ConcurrentHashMap.newKeySet<String>()
+    val rateLimitedIndicators: ConcurrentHashMap.KeySetView<String, Boolean> = ConcurrentHashMap.newKeySet()
 
     private const val CACHE_TTL_MS = 120_000L
     private const val FAILURE_TTL_MS = 15_000L
 
-    private fun getAbyssPlayerData(uuid: String): CompletableFuture<JsonObject?> {
+    private fun getBordicPlayerData(uuid: String): CompletableFuture<JsonObject?> {
         val now = System.currentTimeMillis()
 
         val cached = statsCache[uuid]
@@ -85,52 +81,29 @@ object HypixelStatsFetcher {
             statsCache.remove(uuid, cached)
         }
 
-        val limitedUntil = rateLimitedUntil[uuid]
-        if (limitedUntil != null) {
-            if (now < limitedUntil) {
-                return pendingRequests.computeIfAbsent(uuid) {
-                    CompletableFuture.supplyAsync({
-                        getBordicPlayerData(uuid)
-                    }, networkExecutor).whenComplete { result, _ ->
-                        statsCache[uuid] = CachedRaw(System.currentTimeMillis(), result)
-                        pendingRequests.remove(uuid)
-                    }
-                }
-            }
-
-            rateLimitedUntil.remove(uuid, limitedUntil)
-        }
-
         return pendingRequests.computeIfAbsent(uuid) {
             CompletableFuture.supplyAsync({
                 try {
-                    Debug.log("Fetching Abyss player data for $uuid")
+                    Debug.log("Fetching Bordic player data for $uuid")
 
                     val connection =
-                        URI.create(ABYSS_PLAYER_ENDPOINT + uuid).toURL().openConnection() as HttpURLConnection
+                        URI.create(BORDIC_PLAYER_ENDPOINT + uuid).toURL().openConnection() as HttpURLConnection
 
                     connection.requestMethod = "GET"
                     connection.connectTimeout = CONNECT_TIMEOUT_MS
                     connection.readTimeout = READ_TIMEOUT_MS
-                    connection.setRequestProperty("User-Agent", ABYSS_USER_AGENT)
+                    connection.setRequestProperty("User-Agent", Constants.MOD_NAME)
                     connection.setRequestProperty("Accept", "application/json")
 
                     val responseCode = connection.responseCode
+                    if (responseCode != HttpURLConnection.HTTP_OK) {
+                        rateLimitedIndicators.add(uuid)
 
-                    if (responseCode == 429) {
-                        val retryAfter = connection.getHeaderField("Retry-After")
-                        val retrySeconds = retryAfter?.toLongOrNull() ?: 60L
-                        val retryUntil = System.currentTimeMillis() + retrySeconds * 1000L
-
-                        rateLimitedUntil[uuid] = retryUntil
-
-                        Debug.log("Abyss API rate limited request for $uuid (HTTP 429), falling back to Bordic")
-                        getBordicPlayerData(uuid)
-                    } else if (responseCode != HttpURLConnection.HTTP_OK) {
-                        Debug.log("Abyss API request failed for $uuid (HTTP $responseCode)")
+                        Debug.log("Bordic API request failed for $uuid (HTTP $responseCode)")
                         null
                     } else {
                         val body = connection.inputStream.bufferedReader().use { it.readText() }
+
                         val root =
                         //? if 1.8.9 {
                         //JsonParser().parse(body).asJsonObject
@@ -140,61 +113,17 @@ object HypixelStatsFetcher {
 
                         rateLimitedIndicators.remove(uuid)
 
-                        Debug.log("Abyss API request succeeded for $uuid")
+                        Debug.log("Bordic API request succeeded for $uuid")
                         root.getAsJsonObject("player")
                     }
                 } catch (e: Exception) {
-                    Debug.log("Abyss API request failed for $uuid: ${e::class.simpleName}: ${e.message}")
+                    Debug.log("Bordic API request failed for $uuid: ${e::class.simpleName}: ${e.message}")
                     null
                 }
             }, networkExecutor).whenComplete { result, _ ->
                 statsCache[uuid] = CachedRaw(System.currentTimeMillis(), result)
                 pendingRequests.remove(uuid)
             }
-        }
-    }
-
-    private fun getBordicPlayerData(uuid: String): JsonObject? {
-        return try {
-            Debug.log("Fetching Bordic player data for $uuid")
-
-            val connection =
-                URI.create(BORDIC_PLAYER_ENDPOINT + uuid).toURL().openConnection() as HttpURLConnection
-
-            connection.requestMethod = "GET"
-            connection.connectTimeout = CONNECT_TIMEOUT_MS
-            connection.readTimeout = READ_TIMEOUT_MS
-            connection.setRequestProperty("User-Agent", ABYSS_USER_AGENT)
-            connection.setRequestProperty("Accept", "application/json")
-
-            val responseCode = connection.responseCode
-
-            if (responseCode == 429) {
-                rateLimitedIndicators.add(uuid)
-
-                Debug.log("Bordic API request rate limited for $uuid")
-                null
-            } else if (responseCode != HttpURLConnection.HTTP_OK) {
-                Debug.log("Bordic API request failed for $uuid (HTTP $responseCode)")
-                null
-            } else {
-                val body = connection.inputStream.bufferedReader().use { it.readText() }
-
-                val root =
-                //? if 1.8.9 {
-                //JsonParser().parse(body).asJsonObject
-                    //?} else {
-                    JsonParser.parseString(body).asJsonObject
-                //?}
-
-                rateLimitedIndicators.remove(uuid)
-
-                Debug.log("Bordic API request succeeded for $uuid")
-                root.getAsJsonObject("player")
-            }
-        } catch (e: Exception) {
-            Debug.log("Bordic API request failed for $uuid: ${e::class.simpleName}: ${e.message}")
-            null
         }
     }
 
@@ -287,7 +216,7 @@ object HypixelStatsFetcher {
     }
 
     private fun getHypixelLevel(uuid: String): CompletableFuture<String?> {
-        return getAbyssPlayerData(uuid).thenApply { player ->
+        return getBordicPlayerData(uuid).thenApply { player ->
             val exp = player?.get("networkExp")?.asDouble ?: 0.0
 
             ((sqrt(exp + 15312.5) - 88.38834764831844) / 35.35533905932738).toInt().toString()
@@ -295,7 +224,7 @@ object HypixelStatsFetcher {
     }
 
     private fun getBedwarsStars(uuid: String): CompletableFuture<Component?> {
-        return getAbyssPlayerData(uuid).thenApply { player ->
+        return getBordicPlayerData(uuid).thenApply { player ->
             val stars = player?.getAsJsonObject("achievements")?.get("bedwars_level")?.asInt ?: 0
 
             when {
@@ -664,7 +593,7 @@ object HypixelStatsFetcher {
     }
 
     private fun getSkywarsStars(uuid: String): CompletableFuture<Component?> {
-        return getAbyssPlayerData(uuid).thenApply { player ->
+        return getBordicPlayerData(uuid).thenApply { player ->
             val exp =
                 player?.getAsJsonObject("stats")?.getAsJsonObject("SkyWars")?.get("skywars_experience")?.asLong ?: 0
 
@@ -766,7 +695,7 @@ object HypixelStatsFetcher {
     }
 
     private fun getDuelsDivision(uuid: String, duelsMode: DuelsMode): CompletableFuture<Component?> {
-        return getAbyssPlayerData(uuid).thenApply { player ->
+        return getBordicPlayerData(uuid).thenApply { player ->
             fun wins(field: String): Int =
                 player?.getAsJsonObject("stats")?.getAsJsonObject("Duels")?.get(field)?.asInt ?: 0
 
