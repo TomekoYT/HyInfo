@@ -1,20 +1,39 @@
 package tomeko.hyinfo.config
 
-import org.polyfrost.compose.render.PolyColor
+//? if forge {
+/*import cc.polyfrost.oneconfig.config.Config
+import cc.polyfrost.oneconfig.config.annotations.*
+import cc.polyfrost.oneconfig.config.data.InfoType
+import cc.polyfrost.oneconfig.config.data.Mod
+import cc.polyfrost.oneconfig.config.data.ModType
+*///?} else {
 import org.polyfrost.oneconfig.api.config.v1.Config
 import org.polyfrost.oneconfig.api.config.v1.annotations.*
+//?}
 import tomeko.hyinfo.utils.Constants
 
 object HyInfoConfig : Config(
+    //? if forge {
+    /*Mod(
+        Constants.MOD_NAME,
+        ModType.HYPIXEL,
+        Constants.MOD_ICON
+    ),
+    "${Constants.MOD_ID}.json"
+    *///?} else {
     "${Constants.MOD_ID}.json",
     Constants.MOD_ICON,
     Constants.MOD_NAME,
     Category.HYPIXEL
+    //?}
 ) {
     val DEPENDENCIES: List<Pair<String, List<String>>> = listOf(
     )
 
     fun register() {
+        //? if forge
+        //initialize()
+        //? else
         preload()
         for ((condition, dependencies) in DEPENDENCIES) {
             for (dependency in dependencies) {
@@ -26,21 +45,33 @@ object HyInfoConfig : Config(
     private const val CATEGORY_BEDWARS = "BedWars"
 
     @Switch(
-        title = "Show BedWars Stars In Tablist",
+        //? if forge
+        //name =
+            //? else
+            title =
+            "Show BedWars Stars In Tablist",
         description = "Show in tablist stars of every player while in Hypixel BedWars",
         category = CATEGORY_BEDWARS,
     )
     var showBedwarsStarsInTablist = true
 
     @Switch(
-        title = "Show BedWars Stars Above Nametag",
+        //? if forge
+        //name =
+            //? else
+            title =
+            "Show BedWars Stars Above Nametag",
         description = "Show above nametag stars of every player while in Hypixel BedWars",
         category = CATEGORY_BEDWARS,
     )
     var showBedwarsStarsAboveNametag = true
 
     @Text(
-        title = "BedWars Text Above Nametag",
+        //? if forge
+        //name =
+            //? else
+            title =
+            "BedWars Text Above Nametag",
         category = CATEGORY_BEDWARS,
     )
     var bedwarsTextAboveNametag = "§fBed§cWars§f: "
@@ -49,21 +80,33 @@ object HyInfoConfig : Config(
     private const val CATEGORY_SKYWARS = "SkyWars"
 
     @Switch(
-        title = "Show SkyWars Stars In TabList",
+        //? if forge
+        //name =
+            //? else
+            title =
+            "Show SkyWars Stars In TabList",
         description = "Show in tablist stars of every player while in Hypixel SkyWars",
         category = CATEGORY_SKYWARS,
     )
     var showSkywarsStarsInTablist = true
 
     @Switch(
-        title = "Show SkyWars Stars Above Nametag",
+        //? if forge
+        //name =
+            //? else
+            title =
+            "Show SkyWars Stars Above Nametag",
         description = "Show above nametag stars of every player while in Hypixel SkyWars",
         category = CATEGORY_SKYWARS,
     )
     var showSkywarsStarsAboveNametag = true
 
     @Text(
-        title = "SkyWars Text Above Nametag",
+        //? if forge
+        //name =
+            //? else
+            title =
+            "SkyWars Text Above Nametag",
         category = CATEGORY_SKYWARS,
     )
     var skywarsTextAboveNametag = "§bSky§aWars§f: "
@@ -72,123 +115,203 @@ object HyInfoConfig : Config(
     private const val CATEGORY_DUELS = "Duels"
 
     @Switch(
-        title = "Show Duels Division In Tablist",
+        //? if forge
+        //name =
+            //? else
+            title =
+            "Show Duels Division In Tablist",
         description = "Show in tablist division of every player while in Hypixel Duels",
         category = CATEGORY_DUELS,
     )
     var showDuelsDivisionInTablist = true
 
     @Switch(
-        title = "Show Duels Division Above Nametag",
+        //? if forge
+        //name =
+            //? else
+            title =
+            "Show Duels Division Above Nametag",
         description = "Show above nametag division of every player while in Hypixel Duels",
         category = CATEGORY_DUELS,
     )
     var showDuelsDivisionAboveNametag = true
 
     @Text(
-        title = "Duels Text Above Nametag",
+        //? if forge
+        //name =
+            //? else
+            title =
+            "Duels Text Above Nametag",
         category = CATEGORY_DUELS,
     )
     var duelsTextAboveNametag = " §3Duels§f: "
 
     @Text(
-        title = "Overall Duels Text Above Nametag",
+        //? if forge
+        //name =
+            //? else
+            title =
+            "Overall Duels Text Above Nametag",
         category = CATEGORY_DUELS,
     )
     var overallDuelsTextAboveNametag = "§eOverall"
 
     @Text(
-        title = "SkyWars Duels Text Above Nametag",
+        //? if forge
+        //name =
+            //? else
+            title =
+            "SkyWars Duels Text Above Nametag",
         category = CATEGORY_DUELS,
     )
     var skywarsDuelsTextAboveNametag = "§bSky§aWars"
 
     @Text(
-        title = "The Bridge Duels Text Above Nametag",
+        //? if forge
+        //name =
+            //? else
+            title =
+            "The Bridge Duels Text Above Nametag",
         category = CATEGORY_DUELS,
     )
     var theBridgeDuelsTextAboveNametag = "§5The Bridge"
 
     @Text(
-        title = "BedWars Duels Text Above Nametag",
+        //? if forge
+        //name =
+            //? else
+            title =
+            "BedWars Duels Text Above Nametag",
         category = CATEGORY_DUELS,
     )
     var bedwarsDuelsTextAboveNametag = "§fBed§cWars"
 
     @Text(
-        title = "Classic Duels Text Above Nametag",
+        //? if forge
+        //name =
+            //? else
+            title =
+            "Classic Duels Text Above Nametag",
         category = CATEGORY_DUELS,
     )
     var classicDuelsTextAboveNametag = "§fClassic"
 
     @Text(
-        title = "UHC Duels Text Above Nametag",
+        //? if forge
+        //name =
+            //? else
+            title =
+            "UHC Duels Text Above Nametag",
         category = CATEGORY_DUELS,
     )
     var uhcDuelsTextAboveNametag = "§6UHC"
 
     @Text(
-        title = "Sumo Duels Text Above Nametag",
+        //? if forge
+        //name =
+            //? else
+            title =
+            "Sumo Duels Text Above Nametag",
         category = CATEGORY_DUELS,
     )
     var sumoDuelsTextAboveNametag = "§bSumo"
 
     @Text(
-        title = "Bow Duels Text Above Nametag",
+        //? if forge
+        //name =
+            //? else
+            title =
+            "Bow Duels Text Above Nametag",
         category = CATEGORY_DUELS,
     )
     var bowDuelsTextAboveNametag = "§6Bow"
 
     @Text(
-        title = "Mega Walls Duels Text Above Nametag",
+        //? if forge
+        //name =
+            //? else
+            title =
+            "Mega Walls Duels Text Above Nametag",
         category = CATEGORY_DUELS,
     )
     var megaWallsDuelsTextAboveNametag = "§8Mega Walls"
 
     @Text(
-        title = "Parkour Duels Text Above Nametag",
+        //? if forge
+        //name =
+            //? else
+            title =
+            "Parkour Duels Text Above Nametag",
         category = CATEGORY_DUELS,
     )
     var parkourDuelsTextAboveNametag = "§eParkour"
 
     @Text(
-        title = "Quakecraft Duels Text Above Nametag",
+        //? if forge
+        //name =
+            //? else
+            title =
+            "Quakecraft Duels Text Above Nametag",
         category = CATEGORY_DUELS,
     )
     var quakecraftDuelsTextAboveNametag = "§7Quakecraft"
 
     @Text(
-        title = "Spleef Duels Text Above Nametag",
+        //? if forge
+        //name =
+            //? else
+            title =
+            "Spleef Duels Text Above Nametag",
         category = CATEGORY_DUELS,
     )
     var spleefDuelsTextAboveNametag = "§9Spleef"
 
     @Text(
-        title = "OP Duels Text Above Nametag",
+        //? if forge
+        //name =
+            //? else
+            title =
+            "OP Duels Text Above Nametag",
         category = CATEGORY_DUELS,
     )
     var opDuelsTextAboveNametag = "§5OP"
 
     @Text(
-        title = "Blitz Duels Text Above Nametag",
+        //? if forge
+        //name =
+            //? else
+            title =
+            "Blitz Duels Text Above Nametag",
         category = CATEGORY_DUELS,
     )
     var blitzDuelsTextAboveNametag = "§6Blitz"
 
     @Text(
-        title = "Combo Duels Text Above Nametag",
+        //? if forge
+        //name =
+            //? else
+            title =
+            "Combo Duels Text Above Nametag",
         category = CATEGORY_DUELS,
     )
     var comboDuelsTextAboveNametag = "§cCombo"
 
     @Text(
-        title = "Boxing Duels Text Above Nametag",
+        //? if forge
+        //name =
+            //? else
+            title =
+            "Boxing Duels Text Above Nametag",
         category = CATEGORY_DUELS,
     )
     var boxingDuelsTextAboveNametag = "§4Boxing"
 
     @Text(
-        title = "NoDebuff Duels Text Above Nametag",
+        //? if forge
+        //name =
+            //? else
+            title =
+            "NoDebuff Duels Text Above Nametag",
         category = CATEGORY_DUELS,
     )
     var noDebuffDuelsTextAboveNametag = "§dNoDebuff"
@@ -199,7 +322,11 @@ object HyInfoConfig : Config(
     private const val SUBCATEGORY_NETWORK_STATS = "Stats"
 
     @Switch(
-        title = "Show Network Level Above Nametag",
+        //? if forge
+        //name =
+            //? else
+            title =
+            "Show Network Level Above Nametag",
         description = "Show above nametag network level of every player while on Hypixel",
         category = CATEGORY_NETWORK,
         subcategory = SUBCATEGORY_NETWORK_STATS
@@ -207,7 +334,11 @@ object HyInfoConfig : Config(
     var showNetworkLevelAboveNametag = true
 
     @Switch(
-        title = "Show Network Level with Other Nametag Stats",
+        //? if forge
+        //name =
+            //? else
+            title =
+            "Show Network Level with Other Nametag Stats",
         description = "Show Hypixel network level when other Hypixel stats are shown",
         category = CATEGORY_NETWORK,
         subcategory = SUBCATEGORY_NETWORK_STATS
@@ -215,7 +346,11 @@ object HyInfoConfig : Config(
     var showNetworkLevelWithOtherNametagStats = true
 
     @Text(
-        title = "Network Level Text Above Nametag",
+        //? if forge
+        //name =
+            //? else
+            title =
+            "Network Level Text Above Nametag",
         category = CATEGORY_NETWORK,
         subcategory = SUBCATEGORY_NETWORK_STATS
     )
@@ -225,7 +360,11 @@ object HyInfoConfig : Config(
     private const val SUBCATEGORY_NICKED_INDICATOR = "Nicked Indicator"
 
     @Switch(
-        title = "Show Nicked Indicator In Tablist",
+        //? if forge
+        //name =
+            //? else
+            title =
+            "Show Nicked Indicator In Tablist",
         description = "Show indicator of a nicked player in tablist while on Hypixel",
         category = CATEGORY_NETWORK,
         subcategory = SUBCATEGORY_NICKED_INDICATOR
@@ -233,7 +372,11 @@ object HyInfoConfig : Config(
     var showNickedIndicatorInTablist = true
 
     @Switch(
-        title = "Show Nicked Indicator Above Nametag",
+        //? if forge
+        //name =
+            //? else
+            title =
+            "Show Nicked Indicator Above Nametag",
         description = "Show indicator of a nicked player above nametag while on Hypixel",
         category = CATEGORY_NETWORK,
         subcategory = SUBCATEGORY_NICKED_INDICATOR
@@ -241,7 +384,11 @@ object HyInfoConfig : Config(
     var showNickedIndicatorAboveNametag = true
 
     @Text(
-        title = "Nicked Indicator Text",
+        //? if forge
+        //name =
+            //? else
+            title =
+            "Nicked Indicator Text",
         category = CATEGORY_NETWORK,
         subcategory = SUBCATEGORY_NICKED_INDICATOR
     )
@@ -253,7 +400,11 @@ object HyInfoConfig : Config(
     private const val SUBCATEGORY_NAMETAGS = "Nametags"
 
     @Text(
-        title = "Rate Limited Indicator Text",
+        //? if forge
+        //name =
+            //? else
+            title =
+            "Rate Limited Indicator Text",
         category = CATEGORY_SETTINGS,
         subcategory = SUBCATEGORY_NAMETAGS
     )
@@ -263,14 +414,24 @@ object HyInfoConfig : Config(
     private const val SUBCATEGORY_DEBUG = "Debug"
 
     @Info(
-        title = "Probably should stay disabled",
+        //? if forge
+        //text =
+            //? else
+            title =
+            "Probably should stay disabled",
+        //? if forge
+        //type = InfoType.WARNING,
         category = CATEGORY_SETTINGS,
         subcategory = SUBCATEGORY_DEBUG
     )
     var debugModeInfo: Nothing? = null
 
     @Switch(
-        title = "Debug Mode",
+        //? if forge
+        //name =
+            //? else
+            title =
+            "Debug Mode",
         category = CATEGORY_SETTINGS,
         subcategory = SUBCATEGORY_DEBUG
     )

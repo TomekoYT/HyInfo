@@ -14,12 +14,13 @@ import tomeko.hyinfo.stats.NametagStats;
 @Mixin(Render.class)
 public abstract class RenderMixin {
     @Inject(method = "renderLivingLabel", at = @At("TAIL"))
-    void hyinfo$renderNametag(Entity entity, String text, double x, double y, double z, int maxDistance, CallbackInfo ci) {
+    void hyinfo$renderNametag(Entity entityIn, String str, double x, double y, double z, int maxDistance, CallbackInfo ci) {
         Minecraft mc = Minecraft.getMinecraft();
         if (mc.thePlayer == null || mc.theWorld == null) return;
 
-        if (!(entity instanceof EntityPlayer player)) return;
+        if (!(entityIn instanceof EntityPlayer)) return;
 
+        EntityPlayer player = (EntityPlayer) entityIn;
         NametagStats.INSTANCE.render(player, x, y, z, maxDistance);
     }
 }
