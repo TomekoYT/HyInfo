@@ -70,8 +70,9 @@ object NametagStats {
                 //? else
                 Component
                 >()
+
         if (uuid.version() == 1) {
-            if (HyInfoConfig.showNickedIndicatorAboveNametag && !HypixelPackets.inAssassins) {
+            if (shouldRenderNickedNametag) {
                 lines.add(
                     //? if 1.8.9 {
                     //ChatComponentText(
@@ -82,11 +83,11 @@ object NametagStats {
                     )
                 )
             }
-        } else {
+        } else if (shouldRenderAnyStatsNametag) {
             HypixelStatsFetcher.requestStats(uuid.toString())
             val cached = HypixelStatsFetcher.getCachedStats(uuid.toString())
 
-            if (shouldRenderAnyStatsNametag && HypixelStatsFetcher.rateLimitedIndicators.contains(uuid.toString())) {
+            if (HypixelStatsFetcher.rateLimitedIndicators.contains(uuid.toString())) {
                 lines.add(
                     //? if 1.8.9 {
                     //ChatComponentText(HyInfoConfig.rateLimitedIndicatorText)

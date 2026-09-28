@@ -27,7 +27,7 @@ import tomeko.hyinfo.stats.NametagStats;
         //? else
         AvatarRenderer.class
 )
-public abstract class NametagStatsMixin {
+abstract class NametagStatsMixin {
     @Inject(
             method =
                     //? if 1.8.9

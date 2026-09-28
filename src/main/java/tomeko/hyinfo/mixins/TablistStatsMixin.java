@@ -31,7 +31,7 @@ import java.util.UUID;
         PlayerTabOverlay.class
         //?}
 )
-public abstract class TablistStatsMixin {
+abstract class TablistStatsMixin {
     @Inject(
             method =
                     //? if 1.8.9 {
@@ -69,6 +69,10 @@ public abstract class TablistStatsMixin {
 
         if (uuid.version() != 1 && uuid.version() != 4) return;
 
+        boolean modifyPrefixWithStats = (HypixelPackets.INSTANCE.getInBedwars() && HyInfoConfig.INSTANCE.getShowBedwarsStarsInTablist())
+                || (HypixelPackets.INSTANCE.getInSkywars() && HyInfoConfig.INSTANCE.getShowSkywarsStarsInTablist())
+                || (HypixelPackets.INSTANCE.getInDuels() && HyInfoConfig.INSTANCE.getShowDuelsDivisionInTablist());
+
         //? if 1.8.9 {
         //IChatComponent prefix
         //?} else {
@@ -84,21 +88,16 @@ public abstract class TablistStatsMixin {
                         Component.literal(HyInfoConfig.INSTANCE.getNickedIndicatorText());
                 //?}
             }
-        } else {
+        } else if (modifyPrefixWithStats) {
             HypixelStatsFetcher.INSTANCE.requestStats(uuid.toString());
             HypixelStatsFetcher.CachedStats stats = HypixelStatsFetcher.INSTANCE.getCachedStats(uuid.toString());
 
-            boolean modifyPrefix = (HypixelPackets.INSTANCE.getInBedwars() && HyInfoConfig.INSTANCE.getShowBedwarsStarsInTablist())
-                    || (HypixelPackets.INSTANCE.getInSkywars() && HyInfoConfig.INSTANCE.getShowSkywarsStarsInTablist())
-                    || (HypixelPackets.INSTANCE.getInDuels() && HyInfoConfig.INSTANCE.getShowDuelsDivisionInTablist());
-
-            if (modifyPrefix && HypixelStatsFetcher.INSTANCE.getRateLimitedIndicators().contains(uuid.toString())) {
+            if (HypixelStatsFetcher.INSTANCE.getRateLimitedIndicators().contains(uuid.toString())) {
                 prefix =
-                        //? if 1.8.9 {
+                        //? if 1.8.9
                         //new ChatComponentText(HyInfoConfig.INSTANCE.getRateLimitedIndicatorText());
-                        //?} else {
+                        //? else
                         Component.literal(HyInfoConfig.INSTANCE.getRateLimitedIndicatorText());
-                //?}
             } else {
                 if (HypixelPackets.INSTANCE.getInBedwars() && HyInfoConfig.INSTANCE.getShowBedwarsStarsInTablist()) {
                     prefix = stats.getBedwars();
@@ -110,16 +109,13 @@ public abstract class TablistStatsMixin {
             }
         }
 
-        if (prefix != null) cir.setReturnValue(
-                //? if 1.8.9 {
-                //prefix.createCopy().appendSibling(new ChatComponentText(" ")).appendText(original).getFormattedText()
-                //?} else {
-                prefix.copy().
-
-                        append(Component.literal(" ")).
-
-                        append(original)
-                //?}
-        );
+        if (prefix != null) {
+            cir.setReturnValue(
+                    //? if 1.8.9
+                    //prefix.createCopy().appendSibling(new ChatComponentText(" ")).appendText(original).getFormattedText()
+                    //? else
+                    prefix.copy().append(Component.literal(" ")).append(original)
+            );
+        }
     }
 }
