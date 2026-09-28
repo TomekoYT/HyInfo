@@ -12,7 +12,7 @@
 
 # HyInfo
 
-Minecraft mod for Hypixel adding levelhead, BedWars stars, SkyWars stars and Duels division display in Tablist and above nametags
+Minecraft mod for Hypixel adding levelhead, BedWars stars, SkyWars stars and Duels division display in tablist and above nametags
 
 ## Features
 
