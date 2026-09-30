@@ -5,6 +5,7 @@ package tomeko.hyinfo.mixins;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.scoreboard.ScorePlayerTeam;
 *///?} else {
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.renderer.SubmitNodeCollector;
@@ -59,7 +60,7 @@ abstract class NametagStatsMixin {
         if (!(entityIn instanceof EntityPlayer)) return;
         EntityPlayer player = (EntityPlayer) entityIn;
 
-        if (!str.equals(player.getDisplayName().getFormattedText())) return;
+        if (!str.equals(player.getDisplayName().getFormattedText()) && !str.equals(ScorePlayerTeam.formatPlayerName(player.getTeam(), player.getName()))) return;
         *///?} else {
         Minecraft mc = Minecraft.getInstance();
         if (mc.player == null || mc.level == null) return;
