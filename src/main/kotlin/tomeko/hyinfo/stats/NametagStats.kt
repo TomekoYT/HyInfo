@@ -2,10 +2,8 @@ package tomeko.hyinfo.stats
 
 //? if 1.8.9 {
 /*import net.minecraft.client.Minecraft
-import net.minecraft.client.gui.FontRenderer
 import net.minecraft.client.renderer.GlStateManager
 import net.minecraft.client.renderer.Tessellator
-import net.minecraft.client.renderer.entity.Render
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats
 import net.minecraft.entity.player.EntityPlayer
 import net.minecraft.util.ChatComponentText
@@ -13,8 +11,6 @@ import net.minecraft.util.IChatComponent
 import org.lwjgl.opengl.GL11
 *///?} else {
 import com.mojang.blaze3d.vertex.PoseStack
-import net.fabricmc.fabric.api.client.rendering.v1.level.LevelRenderContext
-import net.fabricmc.fabric.api.client.rendering.v1.level.LevelRenderEvents
 import net.minecraft.client.Minecraft
 import net.minecraft.client.multiplayer.ClientLevel
 import net.minecraft.client.player.LocalPlayer
@@ -172,7 +168,7 @@ object NametagStats {
             val textWidth = fontRenderer.getStringWidth(text)
             val halfWidth = textWidth / 2
 
-            val lineY = -(index + 1) * 10
+            val lineY = -(index + 1) * 10 - HyInfoConfig.nametagsHeightOffset.toInt()
 
             GlStateManager.pushMatrix()
 
@@ -320,7 +316,7 @@ object NametagStats {
             GlStateManager.popMatrix()
         }
         *///?} else {
-        var offset = -10
+        var offset = -10 - HyInfoConfig.nametagsHeightOffset.toInt()
         if (Minecraft.getInstance().level?.scoreboard?.getDisplayObjective(DisplaySlot.BELOW_NAME) != null) offset *= 2
 
         for (line in lines) {

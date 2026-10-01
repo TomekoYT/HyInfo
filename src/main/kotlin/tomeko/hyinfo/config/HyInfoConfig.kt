@@ -480,6 +480,23 @@ object HyInfoConfig : Config(
     //@Exclude
     private const val SUBCATEGORY_NAMETAGS = "Nametags"
 
+    @Slider(
+        //? if forge
+        //name =
+        //? else
+        title =
+            "Height Offset",
+        description = "Change height offset of stats nametags",
+        min = -30f, max = 30f,
+        //? if forge
+        //step = 1,
+        //? else
+        step = 1f,
+        category = CATEGORY_SETTINGS,
+        subcategory = SUBCATEGORY_NAMETAGS
+    )
+    var nametagsHeightOffset = 0f
+
     @Text(
         //? if forge
         //name =
