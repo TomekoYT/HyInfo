@@ -42,7 +42,18 @@ object HyInfoConfig : Config(
                 addDependency(dependency, condition)
             }
         }
+        if (configVersion < 1) {
+            showBedwarsStarsAboveNametag = false
+            showSkywarsStarsAboveNametag = false
+            showDuelsDivisionAboveNametag = false
+            configVersion = 1
+            save()
+        }
     }
+
+    //? if !forge
+    @Include
+    var configVersion = 0
 
     //? if forge
     //@Exclude
@@ -68,7 +79,7 @@ object HyInfoConfig : Config(
         description = "Show above nametag stars of every player while in Hypixel BedWars",
         category = CATEGORY_BEDWARS,
     )
-    var showBedwarsStarsAboveNametag = true
+    var showBedwarsStarsAboveNametag = false
 
     @Text(
         //? if forge
@@ -116,7 +127,7 @@ object HyInfoConfig : Config(
         description = "Show above nametag stars of every player while in Hypixel SkyWars",
         category = CATEGORY_SKYWARS,
     )
-    var showSkywarsStarsAboveNametag = true
+    var showSkywarsStarsAboveNametag = false
 
     @Text(
         //? if forge
@@ -164,7 +175,7 @@ object HyInfoConfig : Config(
         description = "Show above nametag division of every player while in Hypixel Duels",
         category = CATEGORY_DUELS,
     )
-    var showDuelsDivisionAboveNametag = true
+    var showDuelsDivisionAboveNametag = false
 
     @Text(
         //? if forge
