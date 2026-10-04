@@ -6,6 +6,7 @@ import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.scoreboard.ScorePlayerTeam;
+import org.spongepowered.asm.mixin.Shadow;
 *///?} else {
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.renderer.SubmitNodeCollector;
@@ -29,6 +30,11 @@ import tomeko.hyinfo.stats.NametagStats;
         AvatarRenderer.class
 )
 abstract class NametagStatsMixin {
+    //? if 1.8.9 {
+    /*@Shadow
+    protected abstract void renderLivingLabel(Entity entityIn, String str, double x, double y, double z, int maxDistance);
+    *///?}
+
     @Inject(
             method =
                     //? if 1.8.9
@@ -71,7 +77,7 @@ abstract class NametagStatsMixin {
 
         NametagStats.INSTANCE.render(
                 //? if 1.8.9
-                //player, x, y, z, maxDistance
+                //player, (text, offset) -> renderLivingLabel(entityIn, text, x, y + offset, z, maxDistance)
                 //? else
                 player, state, poseStack, submitNodeCollector, camera
         );
