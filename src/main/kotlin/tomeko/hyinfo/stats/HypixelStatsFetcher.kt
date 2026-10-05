@@ -124,7 +124,6 @@ object HypixelStatsFetcher {
 
                         rateLimitedUntil[uuid] = retryUntil
                         getSecondPlayerData(uuid)
-                        null
                     } else {
                         val body = connection.inputStream.bufferedReader().use { it.readText() }
                         val root =

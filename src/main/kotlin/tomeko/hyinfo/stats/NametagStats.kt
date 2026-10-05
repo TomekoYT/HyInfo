@@ -1,14 +1,10 @@
 package tomeko.hyinfo.stats
 
 //? if 1.8.9 {
-/*import net.minecraft.client.Minecraft
-import net.minecraft.client.renderer.GlStateManager
-import net.minecraft.client.renderer.Tessellator
-import net.minecraft.client.renderer.vertex.DefaultVertexFormats
-import net.minecraft.entity.player.EntityPlayer
+/*import net.minecraft.entity.player.EntityPlayer
 import net.minecraft.util.ChatComponentText
 import net.minecraft.util.IChatComponent
-import org.lwjgl.opengl.GL11
+import java.util.function.BiConsumer
 *///?} else {
 import com.mojang.blaze3d.vertex.PoseStack
 import net.minecraft.client.Minecraft
@@ -30,10 +26,7 @@ object NametagStats {
     fun render(
         //? if 1.8.9 {
         /*player: EntityPlayer,
-        x: Double,
-        y: Double,
-        z: Double,
-        maxDistance: Int
+        label: BiConsumer<String, Double>
         *///?} else {
         player: Player,
         state: AvatarRenderState,
@@ -140,169 +133,11 @@ object NametagStats {
         if (lines.isEmpty()) return
 
         //? if 1.8.9 {
-        /*val mc = Minecraft.getMinecraft()
-        val renderManager = mc.renderManager
-        val fontRenderer = mc.fontRendererObj
-
-        val distanceSq = player.getDistanceSqToEntity(renderManager.livingPlayer)
-        val maxDistanceSq = maxDistance.toDouble() * maxDistance.toDouble()
-
-        if (distanceSq > maxDistanceSq) return
-
-        val f = 1.6F
-        val g = 0.016666668F * f
-
-        for ((index, line) in lines.withIndex()) {
-            val text = line.formattedText
-            val textWidth = fontRenderer.getStringWidth(text)
-            val halfWidth = textWidth / 2
-
-            val lineY = -(index + 1) * 10 - HyInfoConfig.nametagsHeightOffset.toInt()
-
-            GlStateManager.pushMatrix()
-
-            GlStateManager.translate(
-                x.toFloat() + 0.0F,
-                y.toFloat() + player.height + 0.5F,
-                z.toFloat()
+        /*for ((index, line) in lines.withIndex()) {
+            label.accept(
+                line.formattedText,
+                ((index + 1) * 10 + HyInfoConfig.nametagsHeightOffset.toInt()) * 0.02666667
             )
-
-            GL11.glNormal3f(
-                0.0F,
-                1.0F,
-                0.0F
-            )
-
-            GlStateManager.rotate(
-                -renderManager.playerViewY,
-                0.0F,
-                1.0F,
-                0.0F
-            )
-
-            GlStateManager.rotate(
-                renderManager.playerViewX,
-                1.0F,
-                0.0F,
-                0.0F
-            )
-
-            GlStateManager.scale(
-                -g,
-                -g,
-                g
-            )
-
-            GlStateManager.disableLighting()
-            GlStateManager.depthMask(false)
-            GlStateManager.disableDepth()
-            GlStateManager.enableBlend()
-
-            GlStateManager.tryBlendFuncSeparate(
-                770,
-                771,
-                1,
-                0
-            )
-
-            val tessellator = Tessellator.getInstance()
-            val worldRenderer = tessellator.worldRenderer
-
-            GlStateManager.disableTexture2D()
-
-            worldRenderer.begin(
-                7,
-                DefaultVertexFormats.POSITION_COLOR
-            )
-
-            worldRenderer
-                .pos(
-                    (-halfWidth - 1).toDouble(),
-                    (lineY - 1).toDouble(),
-                    0.0
-                )
-                .color(
-                    0.0F,
-                    0.0F,
-                    0.0F,
-                    0.25F
-                )
-                .endVertex()
-
-            worldRenderer
-                .pos(
-                    (-halfWidth - 1).toDouble(),
-                    (lineY + 8).toDouble(),
-                    0.0
-                )
-                .color(
-                    0.0F,
-                    0.0F,
-                    0.0F,
-                    0.25F
-                )
-                .endVertex()
-
-            worldRenderer
-                .pos(
-                    (halfWidth + 1).toDouble(),
-                    (lineY + 8).toDouble(),
-                    0.0
-                )
-                .color(
-                    0.0F,
-                    0.0F,
-                    0.0F,
-                    0.25F
-                )
-                .endVertex()
-
-            worldRenderer
-                .pos(
-                    (halfWidth + 1).toDouble(),
-                    (lineY - 1).toDouble(),
-                    0.0
-                )
-                .color(
-                    0.0F,
-                    0.0F,
-                    0.0F,
-                    0.25F
-                )
-                .endVertex()
-
-            tessellator.draw()
-
-            GlStateManager.enableTexture2D()
-
-            fontRenderer.drawString(
-                text,
-                -halfWidth,
-                lineY,
-                553648127
-            )
-
-            GlStateManager.enableDepth()
-            GlStateManager.depthMask(true)
-
-            fontRenderer.drawString(
-                text,
-                -halfWidth,
-                lineY,
-                -1
-            )
-
-            GlStateManager.enableLighting()
-            GlStateManager.disableBlend()
-
-            GlStateManager.color(
-                1.0F,
-                1.0F,
-                1.0F,
-                1.0F
-            )
-
-            GlStateManager.popMatrix()
         }
         *///?} else {
         var offset = -10 - HyInfoConfig.nametagsHeightOffset.toInt()
