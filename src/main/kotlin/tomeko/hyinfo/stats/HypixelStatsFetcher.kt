@@ -49,14 +49,15 @@ object HypixelStatsFetcher {
     private val ENDPOINTS = listOf(
         ApiEndpoint("Bordic", "https://api.bordic.xyz/v3/cache/hypixel?uuid="),
         ApiEndpoint("Bedlify", "https://api.bedlify.xyz/v1/player/cache?uuid="),
+        ApiEndpoint("Hypixel", "https://api.hypixel.net/v2/player?uuid="),
         ApiEndpoint("Abyss", "http://api.abyssoverlay.com/player?uuid=", cooldownOnFailure = false),
     )
 
     private val endpointCooldowns = ConcurrentHashMap<String, Long>()
 
     private fun parseJson(body: String): JsonObject =
-        //? if 1.8.9
-        //JsonParser().parse(body).asJsonObject
+    //? if 1.8.9
+    //JsonParser().parse(body).asJsonObject
         //? else
         JsonParser.parseString(body).asJsonObject
 
@@ -95,6 +96,7 @@ object HypixelStatsFetcher {
         connection.readTimeout = READ_TIMEOUT_MS
         connection.setRequestProperty("User-Agent", Constants.MOD_NAME)
         connection.setRequestProperty("Accept", "application/json")
+        if (endpoint.name == "Hypixel") connection.setRequestProperty("API-Key", HyInfoConfig.hypixelApiKey)
 
         val responseCode = connection.responseCode
         if (responseCode != HttpURLConnection.HTTP_OK) {
@@ -110,6 +112,7 @@ object HypixelStatsFetcher {
 
     private fun fetchFromEndpoints(uuid: String): JsonObject? {
         for (endpoint in ENDPOINTS) {
+            if (endpoint.name == "Hypixel" && HyInfoConfig.hypixelApiKey.isEmpty()) continue
             val cooldownKey = "${endpoint.name}:$uuid"
 
             val limitedUntil = endpointCooldowns[cooldownKey]

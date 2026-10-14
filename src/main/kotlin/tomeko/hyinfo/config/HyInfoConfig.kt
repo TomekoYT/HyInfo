@@ -478,6 +478,22 @@ object HyInfoConfig : Config(
 
     //? if forge
     //@Exclude
+    private const val SUBCATEGORY_API = "API"
+
+    @Text(
+        //? if forge
+        //name =
+        //? else
+        title =
+            "Hypixel API Key",
+        description = "Paste your permanent Hypixel API key from https://developer.hypixel.net/. It is not required but recommended",
+        category = CATEGORY_SETTINGS,
+        subcategory = SUBCATEGORY_API
+    )
+    var hypixelApiKey = ""
+
+    //? if forge
+    //@Exclude
     private const val SUBCATEGORY_NAMETAGS = "Nametags"
 
     @Slider(
@@ -503,6 +519,7 @@ object HyInfoConfig : Config(
         //? else
         title =
             "Show Rate Limited Indicator In Tablist",
+        description = "Show indicator of a rate limit in tablist while on Hypixel",
         category = CATEGORY_SETTINGS,
         subcategory = SUBCATEGORY_NAMETAGS
     )
@@ -514,6 +531,7 @@ object HyInfoConfig : Config(
         //? else
         title =
             "Show Rate Limited Indicator Above Nametag",
+        description = "Show indicator of a rate limit above nametag while on Hypixel",
         category = CATEGORY_SETTINGS,
         subcategory = SUBCATEGORY_NAMETAGS
     )
