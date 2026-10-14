@@ -42,18 +42,7 @@ object HyInfoConfig : Config(
                 addDependency(dependency, condition)
             }
         }
-        if (configVersion < 1) {
-            showBedwarsStarsAboveNametag = false
-            showSkywarsStarsAboveNametag = false
-            showDuelsDivisionAboveNametag = false
-            configVersion = 1
-            save()
-        }
     }
-
-    //? if !forge
-    @Include
-    var configVersion = 0
 
     //? if forge
     //@Exclude
@@ -62,8 +51,8 @@ object HyInfoConfig : Config(
     @Switch(
         //? if forge
         //name =
-            //? else
-            title =
+        //? else
+        title =
             "Show BedWars Stars In Tablist",
         description = "Show in tablist stars of every player while in Hypixel BedWars",
         category = CATEGORY_BEDWARS,
@@ -73,8 +62,8 @@ object HyInfoConfig : Config(
     @Switch(
         //? if forge
         //name =
-            //? else
-            title =
+        //? else
+        title =
             "Show BedWars Stars Above Nametag",
         description = "Show above nametag stars of every player while in Hypixel BedWars",
         category = CATEGORY_BEDWARS,
@@ -84,8 +73,8 @@ object HyInfoConfig : Config(
     @Text(
         //? if forge
         //name =
-            //? else
-            title =
+        //? else
+        title =
             "BedWars Text Above Nametag",
         category = CATEGORY_BEDWARS,
     )
@@ -110,8 +99,8 @@ object HyInfoConfig : Config(
     @Switch(
         //? if forge
         //name =
-            //? else
-            title =
+        //? else
+        title =
             "Show SkyWars Stars In TabList",
         description = "Show in tablist stars of every player while in Hypixel SkyWars",
         category = CATEGORY_SKYWARS,
@@ -121,8 +110,8 @@ object HyInfoConfig : Config(
     @Switch(
         //? if forge
         //name =
-            //? else
-            title =
+        //? else
+        title =
             "Show SkyWars Stars Above Nametag",
         description = "Show above nametag stars of every player while in Hypixel SkyWars",
         category = CATEGORY_SKYWARS,
@@ -132,8 +121,8 @@ object HyInfoConfig : Config(
     @Text(
         //? if forge
         //name =
-            //? else
-            title =
+        //? else
+        title =
             "SkyWars Text Above Nametag",
         category = CATEGORY_SKYWARS,
     )
@@ -158,8 +147,8 @@ object HyInfoConfig : Config(
     @Switch(
         //? if forge
         //name =
-            //? else
-            title =
+        //? else
+        title =
             "Show Duels Division In Tablist",
         description = "Show in tablist division of every player while in Hypixel Duels",
         category = CATEGORY_DUELS,
@@ -169,8 +158,8 @@ object HyInfoConfig : Config(
     @Switch(
         //? if forge
         //name =
-            //? else
-            title =
+        //? else
+        title =
             "Show Duels Division Above Nametag",
         description = "Show above nametag division of every player while in Hypixel Duels",
         category = CATEGORY_DUELS,
@@ -180,8 +169,8 @@ object HyInfoConfig : Config(
     @Text(
         //? if forge
         //name =
-            //? else
-            title =
+        //? else
+        title =
             "Duels Text Above Nametag",
         category = CATEGORY_DUELS,
     )
@@ -190,8 +179,8 @@ object HyInfoConfig : Config(
     @Text(
         //? if forge
         //name =
-            //? else
-            title =
+        //? else
+        title =
             "Overall Duels Text Above Nametag",
         category = CATEGORY_DUELS,
     )
@@ -200,8 +189,8 @@ object HyInfoConfig : Config(
     @Text(
         //? if forge
         //name =
-            //? else
-            title =
+        //? else
+        title =
             "SkyWars Duels Text Above Nametag",
         category = CATEGORY_DUELS,
     )
@@ -210,8 +199,8 @@ object HyInfoConfig : Config(
     @Text(
         //? if forge
         //name =
-            //? else
-            title =
+        //? else
+        title =
             "The Bridge Duels Text Above Nametag",
         category = CATEGORY_DUELS,
     )
@@ -220,8 +209,8 @@ object HyInfoConfig : Config(
     @Text(
         //? if forge
         //name =
-            //? else
-            title =
+        //? else
+        title =
             "BedWars Duels Text Above Nametag",
         category = CATEGORY_DUELS,
     )
@@ -230,8 +219,8 @@ object HyInfoConfig : Config(
     @Text(
         //? if forge
         //name =
-            //? else
-            title =
+        //? else
+        title =
             "Classic Duels Text Above Nametag",
         category = CATEGORY_DUELS,
     )
@@ -240,8 +229,8 @@ object HyInfoConfig : Config(
     @Text(
         //? if forge
         //name =
-            //? else
-            title =
+        //? else
+        title =
             "UHC Duels Text Above Nametag",
         category = CATEGORY_DUELS,
     )
@@ -250,8 +239,8 @@ object HyInfoConfig : Config(
     @Text(
         //? if forge
         //name =
-            //? else
-            title =
+        //? else
+        title =
             "Sumo Duels Text Above Nametag",
         category = CATEGORY_DUELS,
     )
@@ -260,8 +249,8 @@ object HyInfoConfig : Config(
     @Text(
         //? if forge
         //name =
-            //? else
-            title =
+        //? else
+        title =
             "Bow Duels Text Above Nametag",
         category = CATEGORY_DUELS,
     )
@@ -270,8 +259,8 @@ object HyInfoConfig : Config(
     @Text(
         //? if forge
         //name =
-            //? else
-            title =
+        //? else
+        title =
             "Mega Walls Duels Text Above Nametag",
         category = CATEGORY_DUELS,
     )
@@ -280,8 +269,8 @@ object HyInfoConfig : Config(
     @Text(
         //? if forge
         //name =
-            //? else
-            title =
+        //? else
+        title =
             "Parkour Duels Text Above Nametag",
         category = CATEGORY_DUELS,
     )
@@ -290,8 +279,8 @@ object HyInfoConfig : Config(
     @Text(
         //? if forge
         //name =
-            //? else
-            title =
+        //? else
+        title =
             "Quakecraft Duels Text Above Nametag",
         category = CATEGORY_DUELS,
     )
@@ -300,8 +289,8 @@ object HyInfoConfig : Config(
     @Text(
         //? if forge
         //name =
-            //? else
-            title =
+        //? else
+        title =
             "Spleef Duels Text Above Nametag",
         category = CATEGORY_DUELS,
     )
@@ -310,8 +299,8 @@ object HyInfoConfig : Config(
     @Text(
         //? if forge
         //name =
-            //? else
-            title =
+        //? else
+        title =
             "OP Duels Text Above Nametag",
         category = CATEGORY_DUELS,
     )
@@ -320,8 +309,8 @@ object HyInfoConfig : Config(
     @Text(
         //? if forge
         //name =
-            //? else
-            title =
+        //? else
+        title =
             "Blitz Duels Text Above Nametag",
         category = CATEGORY_DUELS,
     )
@@ -330,8 +319,8 @@ object HyInfoConfig : Config(
     @Text(
         //? if forge
         //name =
-            //? else
-            title =
+        //? else
+        title =
             "Combo Duels Text Above Nametag",
         category = CATEGORY_DUELS,
     )
@@ -340,8 +329,8 @@ object HyInfoConfig : Config(
     @Text(
         //? if forge
         //name =
-            //? else
-            title =
+        //? else
+        title =
             "Boxing Duels Text Above Nametag",
         category = CATEGORY_DUELS,
     )
@@ -350,8 +339,8 @@ object HyInfoConfig : Config(
     @Text(
         //? if forge
         //name =
-            //? else
-            title =
+        //? else
+        title =
             "NoDebuff Duels Text Above Nametag",
         category = CATEGORY_DUELS,
     )
@@ -397,8 +386,8 @@ object HyInfoConfig : Config(
     @Switch(
         //? if forge
         //name =
-            //? else
-            title =
+        //? else
+        title =
             "Show Network Level Above Nametag",
         description = "Show above nametag network level of every player while on Hypixel",
         category = CATEGORY_NETWORK,
@@ -409,8 +398,8 @@ object HyInfoConfig : Config(
     @Switch(
         //? if forge
         //name =
-            //? else
-            title =
+        //? else
+        title =
             "Show Network Level with Other Nametag Stats",
         description = "Show Hypixel network level when other Hypixel stats are shown",
         category = CATEGORY_NETWORK,
@@ -421,8 +410,8 @@ object HyInfoConfig : Config(
     @Text(
         //? if forge
         //name =
-            //? else
-            title =
+        //? else
+        title =
             "Network Level Text Above Nametag",
         category = CATEGORY_NETWORK,
         subcategory = SUBCATEGORY_NETWORK_STATS
@@ -437,32 +426,32 @@ object HyInfoConfig : Config(
     @Switch(
         //? if forge
         //name =
-            //? else
-            title =
+        //? else
+        title =
             "Show Nicked Indicator In Tablist",
         description = "Show indicator of a nicked player in tablist while on Hypixel",
         category = CATEGORY_NETWORK,
         subcategory = SUBCATEGORY_NICKED_INDICATOR
     )
-    var showNickedIndicatorInTablist = true
+    var showNickedIndicatorInTablist = false
 
     @Switch(
         //? if forge
         //name =
-            //? else
-            title =
+        //? else
+        title =
             "Show Nicked Indicator Above Nametag",
         description = "Show indicator of a nicked player above nametag while on Hypixel",
         category = CATEGORY_NETWORK,
         subcategory = SUBCATEGORY_NICKED_INDICATOR
     )
-    var showNickedIndicatorAboveNametag = true
+    var showNickedIndicatorAboveNametag = false
 
     @Text(
         //? if forge
         //name =
-            //? else
-            title =
+        //? else
+        title =
             "Nicked Indicator Text",
         category = CATEGORY_NETWORK,
         subcategory = SUBCATEGORY_NICKED_INDICATOR
@@ -508,11 +497,33 @@ object HyInfoConfig : Config(
     )
     var nametagsHeightOffset = 0f
 
+    @Switch(
+        //? if forge
+        //name =
+        //? else
+        title =
+            "Show Rate Limited Indicator In Tablist",
+        category = CATEGORY_SETTINGS,
+        subcategory = SUBCATEGORY_NAMETAGS
+    )
+    var showRateLimitedIndicatorInTablist = true
+
+    @Switch(
+        //? if forge
+        //name =
+        //? else
+        title =
+            "Show Rate Limited Indicator Above Nametag",
+        category = CATEGORY_SETTINGS,
+        subcategory = SUBCATEGORY_NAMETAGS
+    )
+    var showRateLimitedIndicatorAboveNametag = true
+
     @Text(
         //? if forge
         //name =
-            //? else
-            title =
+        //? else
+        title =
             "Rate Limited Indicator Text",
         category = CATEGORY_SETTINGS,
         subcategory = SUBCATEGORY_NAMETAGS
@@ -539,8 +550,8 @@ object HyInfoConfig : Config(
     @Info(
         //? if forge
         //text =
-            //? else
-            title =
+        //? else
+        title =
             "Probably should stay disabled",
         //? if forge
         //type = InfoType.WARNING,
@@ -552,8 +563,8 @@ object HyInfoConfig : Config(
     @Switch(
         //? if forge
         //name =
-            //? else
-            title =
+        //? else
+        title =
             "Debug Mode",
         category = CATEGORY_SETTINGS,
         subcategory = SUBCATEGORY_DEBUG

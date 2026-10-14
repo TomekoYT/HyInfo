@@ -93,11 +93,13 @@ abstract class TablistStatsMixin {
             HypixelStatsFetcher.CachedStats stats = HypixelStatsFetcher.INSTANCE.getCachedStats(uuid.toString());
 
             if (HypixelStatsFetcher.INSTANCE.getRateLimitedIndicators().contains(uuid.toString())) {
-                prefix =
-                        //? if 1.8.9
-                        //new ChatComponentText(HyInfoConfig.INSTANCE.getRateLimitedIndicatorText());
-                        //? else
-                        Component.literal(HyInfoConfig.INSTANCE.getRateLimitedIndicatorText());
+                if (HyInfoConfig.INSTANCE.getShowRateLimitedIndicatorInTablist()) {
+                    prefix =
+                            //? if 1.8.9
+                            //new ChatComponentText(HyInfoConfig.INSTANCE.getRateLimitedIndicatorText());
+                            //? else
+                            Component.literal(HyInfoConfig.INSTANCE.getRateLimitedIndicatorText());
+                }
             } else {
                 if (HypixelPackets.INSTANCE.getInBedwars() && HyInfoConfig.INSTANCE.getShowBedwarsStarsInTablist()) {
                     prefix = stats.getBedwars();

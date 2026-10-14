@@ -77,13 +77,15 @@ object NametagStats {
             val cached = HypixelStatsFetcher.getCachedStats(uuid.toString())
 
             if (HypixelStatsFetcher.rateLimitedIndicators.contains(uuid.toString())) {
-                lines.add(
-                    //? if 1.8.9 {
-                    //ChatComponentText(HyInfoConfig.rateLimitedIndicatorText)
-                    //?} else {
-                    Component.literal(HyInfoConfig.rateLimitedIndicatorText)
-                    //?}
-                )
+                if (HyInfoConfig.showRateLimitedIndicatorAboveNametag) {
+                    lines.add(
+                        //? if 1.8.9 {
+                        //ChatComponentText(HyInfoConfig.rateLimitedIndicatorText)
+                        //?} else {
+                        Component.literal(HyInfoConfig.rateLimitedIndicatorText)
+                        //?}
+                    )
+                }
             } else {
                 if (HypixelPackets.inDuels && HyInfoConfig.showDuelsDivisionAboveNametag) {
                     cached.duels?.let { division ->
