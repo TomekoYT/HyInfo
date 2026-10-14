@@ -430,15 +430,55 @@ object HyInfoConfig : Config(
     var networkLevelTextAboveNametag = "§9Level§f: §e"
 
 
+    //? if forge
+    //@Exclude
+    private const val SUBCATEGORY_NICKED_INDICATOR = "Nicked Indicator"
+
+    @Switch(
+        //? if forge
+        //name =
+            //? else
+            title =
+            "Show Nicked Indicator In Tablist",
+        description = "Show indicator of a nicked player in tablist while on Hypixel",
+        category = CATEGORY_NETWORK,
+        subcategory = SUBCATEGORY_NICKED_INDICATOR
+    )
+    var showNickedIndicatorInTablist = true
+
+    @Switch(
+        //? if forge
+        //name =
+            //? else
+            title =
+            "Show Nicked Indicator Above Nametag",
+        description = "Show indicator of a nicked player above nametag while on Hypixel",
+        category = CATEGORY_NETWORK,
+        subcategory = SUBCATEGORY_NICKED_INDICATOR
+    )
+    var showNickedIndicatorAboveNametag = true
+
+    @Text(
+        //? if forge
+        //name =
+            //? else
+            title =
+            "Nicked Indicator Text",
+        category = CATEGORY_NETWORK,
+        subcategory = SUBCATEGORY_NICKED_INDICATOR
+    )
+    var nickedIndicatorText = "§5[NICKED]"
+
     //? if forge {
     /*@Button(
         name = "",
         text = "Reset Text",
         category = CATEGORY_NETWORK,
-        subcategory = SUBCATEGORY_NETWORK_STATS
+        subcategory = SUBCATEGORY_NICKED_INDICATOR
     )
     private fun networkTextResetButton() {
         networkLevelTextAboveNametag = "§9Level§f: §e"
+        nickedIndicatorText = "§5[NICKED]"
     }
     *///?}
 

@@ -42,7 +42,8 @@ object NametagStats {
 
         val shouldRenderAnyStatsNametag =
             HyInfoConfig.showNetworkLevelAboveNametag || shouldCheckNetworkLevelWithOtherNametagStats
-        if (!shouldRenderAnyStatsNametag) return
+        val shouldRenderNickedNametag = HyInfoConfig.showNickedIndicatorAboveNametag && !HypixelPackets.inAssassins
+        if (!shouldRenderAnyStatsNametag && !shouldRenderNickedNametag) return
 
         val uuid =
         //? if 1.8.9
@@ -60,7 +61,17 @@ object NametagStats {
                 >()
 
         if (uuid.version() == 1) {
-            return
+            if (shouldRenderNickedNametag) {
+                lines.add(
+                    //? if 1.8.9 {
+                    //ChatComponentText(
+                    //?} else {
+                    Component.literal(
+                        //?}
+                        HyInfoConfig.nickedIndicatorText
+                    )
+                )
+            }
         } else if (shouldRenderAnyStatsNametag) {
             HypixelStatsFetcher.requestStats(uuid.toString())
             val cached = HypixelStatsFetcher.getCachedStats(uuid.toString())

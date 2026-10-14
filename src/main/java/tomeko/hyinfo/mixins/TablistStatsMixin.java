@@ -80,7 +80,14 @@ abstract class TablistStatsMixin {
                 //?}
                 = null;
         if (uuid.version() == 1) {
-            return;
+            if (HyInfoConfig.INSTANCE.getShowNickedIndicatorInTablist() && !HypixelPackets.INSTANCE.getInAssassins()) {
+                prefix =
+                        //? if 1.8.9 {
+                        //new ChatComponentText(HyInfoConfig.INSTANCE.getNickedIndicatorText());
+                        //?} else {
+                        Component.literal(HyInfoConfig.INSTANCE.getNickedIndicatorText());
+                //?}
+            }
         } else if (modifyPrefixWithStats) {
             HypixelStatsFetcher.INSTANCE.requestStats(uuid.toString());
             HypixelStatsFetcher.CachedStats stats = HypixelStatsFetcher.INSTANCE.getCachedStats(uuid.toString());
