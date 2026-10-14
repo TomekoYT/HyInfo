@@ -33,14 +33,34 @@ import kotlin.String
 import kotlin.math.sqrt
 
 object HypixelStatsFetcher {
+    private data class ApiEndpoint(
+        val name: String,
+        val baseUrl: String,
+        val cooldownOnFailure: Boolean = true
+    )
+
+    private class HttpStatusException(val code: Int, val retryAfterSeconds: Long?) : Exception("HTTP $code")
+
     private data class CachedRaw(
         val fetchedAt: Long,
         val json: JsonObject?
     )
 
-    private const val FIRST_PLAYER_ENDPOINT = "https://api.bordic.xyz/v3/cache/hypixel?uuid="
-    private const val SECOND_PLAYER_ENDPOINT = "http://api.abyssoverlay.com/player?uuid="
+    private val ENDPOINTS = listOf(
+        ApiEndpoint("Bordic", "https://api.bordic.xyz/v3/cache/hypixel?uuid="),
+        ApiEndpoint("Bedlify", "https://api.bedlify.xyz/v1/player/cache?uuid="),
+        ApiEndpoint("Abyss", "http://api.abyssoverlay.com/player?uuid=", cooldownOnFailure = false),
+    )
 
+    private val endpointCooldowns = ConcurrentHashMap<String, Long>()
+
+    private fun parseJson(body: String): JsonObject =
+        //? if 1.8.9
+        //JsonParser().parse(body).asJsonObject
+        //? else
+        JsonParser.parseString(body).asJsonObject
+
+    private const val DEFAULT_COOLDOWN_SECONDS = 60L
     private const val CONNECT_TIMEOUT_MS = 3000
     private const val READ_TIMEOUT_MS = 3000
 
@@ -62,17 +82,72 @@ object HypixelStatsFetcher {
 
     private val statsCache = ConcurrentHashMap<String, CachedRaw>()
     private val pendingRequests = ConcurrentHashMap<String, CompletableFuture<JsonObject?>>()
-    private val rateLimitedUntil = ConcurrentHashMap<String, Long>()
     val rateLimitedIndicators: ConcurrentHashMap.KeySetView<String, Boolean> = ConcurrentHashMap.newKeySet()
 
     private const val CACHE_TTL_MS = 120_000L
     private const val FAILURE_TTL_MS = 15_000L
 
-    private fun getFirstPlayerData(uuid: String): CompletableFuture<JsonObject?> {
+    private fun requestEndpoint(endpoint: ApiEndpoint, uuid: String): JsonObject? {
+        val connection = URI.create(endpoint.baseUrl + uuid).toURL().openConnection() as HttpURLConnection
+
+        connection.requestMethod = "GET"
+        connection.connectTimeout = CONNECT_TIMEOUT_MS
+        connection.readTimeout = READ_TIMEOUT_MS
+        connection.setRequestProperty("User-Agent", Constants.MOD_NAME)
+        connection.setRequestProperty("Accept", "application/json")
+
+        val responseCode = connection.responseCode
+        if (responseCode != HttpURLConnection.HTTP_OK) {
+            throw HttpStatusException(
+                responseCode,
+                connection.getHeaderField("Retry-After")?.toLongOrNull()
+            )
+        }
+
+        val body = connection.inputStream.bufferedReader().use { it.readText() }
+        return parseJson(body).getAsJsonObject("player")
+    }
+
+    private fun fetchFromEndpoints(uuid: String): JsonObject? {
+        for (endpoint in ENDPOINTS) {
+            val cooldownKey = "${endpoint.name}:$uuid"
+
+            val limitedUntil = endpointCooldowns[cooldownKey]
+            if (limitedUntil != null) {
+                if (System.currentTimeMillis() < limitedUntil) {
+                    Debug.log("Skipping ${endpoint.name} for $uuid (cooldown)")
+                    continue
+                }
+                endpointCooldowns.remove(cooldownKey, limitedUntil)
+            }
+
+            try {
+                Debug.log("Fetching ${endpoint.name} player data for $uuid")
+                val player = requestEndpoint(endpoint, uuid)
+
+                rateLimitedIndicators.remove(uuid)
+                Debug.log("${endpoint.name} API request succeeded for $uuid")
+                return player
+            } catch (e: HttpStatusException) {
+                Debug.log("${endpoint.name} API request failed for $uuid (HTTP ${e.code})")
+
+                if (endpoint.cooldownOnFailure) {
+                    val seconds = e.retryAfterSeconds ?: DEFAULT_COOLDOWN_SECONDS
+                    endpointCooldowns[cooldownKey] = System.currentTimeMillis() + seconds * 1000L
+                }
+            } catch (e: Exception) {
+                Debug.log("${endpoint.name} API request failed for $uuid: ${e::class.simpleName}: ${e.message}")
+            }
+        }
+
+        rateLimitedIndicators.add(uuid)
+        return null
+    }
+
+    private fun getPlayerData(uuid: String): CompletableFuture<JsonObject?> {
         val now = System.currentTimeMillis()
 
         val cached = statsCache[uuid]
-
         if (cached != null) {
             val ttl = if (cached.json != null) CACHE_TTL_MS else FAILURE_TTL_MS
 
@@ -83,109 +158,12 @@ object HypixelStatsFetcher {
             statsCache.remove(uuid, cached)
         }
 
-        val limitedUntil = rateLimitedUntil[uuid]
-        if (limitedUntil != null) {
-            if (now < limitedUntil) {
-                return pendingRequests.computeIfAbsent(uuid) {
-                    CompletableFuture.supplyAsync({
-                        getSecondPlayerData(uuid)
-                    }, networkExecutor).whenComplete { result, _ ->
-                        statsCache[uuid] = CachedRaw(System.currentTimeMillis(), result)
-                        pendingRequests.remove(uuid)
-                    }
-                }
-            }
-
-            rateLimitedUntil.remove(uuid, limitedUntil)
-        }
-
         return pendingRequests.computeIfAbsent(uuid) {
-            CompletableFuture.supplyAsync({
-                try {
-                    Debug.log("Fetching first player data for $uuid")
-
-                    val connection =
-                        URI.create(FIRST_PLAYER_ENDPOINT + uuid).toURL().openConnection() as HttpURLConnection
-
-                    connection.requestMethod = "GET"
-                    connection.connectTimeout = CONNECT_TIMEOUT_MS
-                    connection.readTimeout = READ_TIMEOUT_MS
-                    connection.setRequestProperty("User-Agent", Constants.MOD_NAME)
-                    connection.setRequestProperty("Accept", "application/json")
-
-                    val responseCode = connection.responseCode
-
-                    if (responseCode != HttpURLConnection.HTTP_OK) {
-                        Debug.log("First API request failed for $uuid (HTTP $responseCode)")
-
-                        val retryAfter = connection.getHeaderField("Retry-After")
-                        val retrySeconds = retryAfter?.toLongOrNull() ?: 60L
-                        val retryUntil = System.currentTimeMillis() + retrySeconds * 1000L
-
-                        rateLimitedUntil[uuid] = retryUntil
-                        getSecondPlayerData(uuid)
-                    } else {
-                        val body = connection.inputStream.bufferedReader().use { it.readText() }
-                        val root =
-                        //? if 1.8.9 {
-                        //JsonParser().parse(body).asJsonObject
-                            //?} else {
-                            JsonParser.parseString(body).asJsonObject
-                        //?}
-
-                        rateLimitedIndicators.remove(uuid)
-
-                        Debug.log("First API request succeeded for $uuid")
-                        root.getAsJsonObject("player")
-                    }
-                } catch (e: Exception) {
-                    Debug.log("First API request failed for $uuid: ${e::class.simpleName}: ${e.message}")
-                    null
+            CompletableFuture.supplyAsync({ fetchFromEndpoints(uuid) }, networkExecutor)
+                .whenComplete { result, _ ->
+                    statsCache[uuid] = CachedRaw(System.currentTimeMillis(), result)
+                    pendingRequests.remove(uuid)
                 }
-            }, networkExecutor).whenComplete { result, _ ->
-                statsCache[uuid] = CachedRaw(System.currentTimeMillis(), result)
-                pendingRequests.remove(uuid)
-            }
-        }
-    }
-
-    private fun getSecondPlayerData(uuid: String): JsonObject? {
-        return try {
-            Debug.log("Fetching Second player data for $uuid")
-
-            val connection = URI.create(SECOND_PLAYER_ENDPOINT + uuid).toURL().openConnection() as HttpURLConnection
-
-            connection.requestMethod = "GET"
-            connection.connectTimeout = CONNECT_TIMEOUT_MS
-            connection.readTimeout = READ_TIMEOUT_MS
-            connection.setRequestProperty("User-Agent", Constants.MOD_NAME)
-            connection.setRequestProperty("Accept", "application/json")
-
-            val responseCode = connection.responseCode
-
-            if (responseCode != HttpURLConnection.HTTP_OK) {
-                Debug.log("Second API request failed for $uuid (HTTP $responseCode)")
-
-                rateLimitedIndicators.add(uuid)
-                null
-            } else {
-                val body = connection.inputStream.bufferedReader().use { it.readText() }
-
-                val root =
-                //? if 1.8.9 {
-                //JsonParser().parse(body).asJsonObject
-                    //?} else {
-                    JsonParser.parseString(body).asJsonObject
-                //?}
-
-                rateLimitedIndicators.remove(uuid)
-
-                Debug.log("Second API request succeeded for $uuid")
-                root.getAsJsonObject("player")
-            }
-        } catch (e: Exception) {
-            Debug.log("Second API request failed for $uuid: ${e::class.simpleName}: ${e.message}")
-            null
         }
     }
 
@@ -278,7 +256,7 @@ object HypixelStatsFetcher {
     }
 
     private fun getHypixelLevel(uuid: String): CompletableFuture<String?> {
-        return getFirstPlayerData(uuid).thenApply { player ->
+        return getPlayerData(uuid).thenApply { player ->
             val exp = player?.get("networkExp")?.asDouble ?: 0.0
 
             ((sqrt(exp + 15312.5) - 88.38834764831844) / 35.35533905932738).toInt().toString()
@@ -286,7 +264,7 @@ object HypixelStatsFetcher {
     }
 
     private fun getBedwarsStars(uuid: String): CompletableFuture<Component?> {
-        return getFirstPlayerData(uuid).thenApply { player ->
+        return getPlayerData(uuid).thenApply { player ->
             val stars = player?.getAsJsonObject("achievements")?.get("bedwars_level")?.asInt ?: 0
 
             when {
@@ -655,7 +633,7 @@ object HypixelStatsFetcher {
     }
 
     private fun getSkywarsStars(uuid: String): CompletableFuture<Component?> {
-        return getFirstPlayerData(uuid).thenApply { player ->
+        return getPlayerData(uuid).thenApply { player ->
             val exp =
                 player?.getAsJsonObject("stats")?.getAsJsonObject("SkyWars")?.get("skywars_experience")?.asLong ?: 0
 
@@ -757,7 +735,7 @@ object HypixelStatsFetcher {
     }
 
     private fun getDuelsDivision(uuid: String, duelsMode: DuelsMode): CompletableFuture<Component?> {
-        return getFirstPlayerData(uuid).thenApply { player ->
+        return getPlayerData(uuid).thenApply { player ->
             fun wins(field: String): Int =
                 player?.getAsJsonObject("stats")?.getAsJsonObject("Duels")?.get(field)?.asInt ?: 0
 
