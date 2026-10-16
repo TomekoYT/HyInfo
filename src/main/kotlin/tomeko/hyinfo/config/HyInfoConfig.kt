@@ -483,6 +483,57 @@ object HyInfoConfig : Config(
 
     //? if forge
     //@Exclude
+    private const val SUBCATEGORY_HEIGHT_OFFSET = "Height Offset"
+
+    @Slider(
+        //? if forge
+        //name =
+        //? else
+        title =
+            "Height Offset",
+        description = "Change height offset of stats nametags",
+        min = -30f, max = 30f,
+        //? if forge
+        //step = 1,
+        //? else
+        step = 1f,
+        category = CATEGORY_SETTINGS,
+        subcategory = SUBCATEGORY_HEIGHT_OFFSET
+    )
+    var nametagsHeightOffset = 0f
+
+
+    //? if forge
+    //@Exclude
+    private const val SUBCATEGORY_MULTIPLE_STATS = "Multiple Stats"
+
+    @Switch(
+        //? if forge
+        //name =
+        //? else
+        title =
+            "Show Multiple Stats In Tablist",
+        description = "Show more than one stat in tablist while on Hypixel",
+        category = CATEGORY_SETTINGS,
+        subcategory = SUBCATEGORY_MULTIPLE_STATS
+    )
+    var showMultipleStatsInTablist = true
+
+    @Switch(
+        //? if forge
+        //name =
+        //? else
+        title =
+            "Show Multiple Stats Above Nametag",
+        description = "Show more than one stat above nametag while on Hypixel",
+        category = CATEGORY_SETTINGS,
+        subcategory = SUBCATEGORY_MULTIPLE_STATS
+    )
+    var showMultipleStatsAboveNametag = true
+
+
+    //? if forge
+    //@Exclude
     private const val SUBCATEGORY_RATE_LIMITS = "Rate Limits"
 
     @Switch(
@@ -531,35 +582,6 @@ object HyInfoConfig : Config(
         rateLimitedIndicatorText = "§4[RATE LIMIT]"
     }
     *///?}
-
-
-    //? if forge
-    //@Exclude
-    private const val SUBCATEGORY_MULTIPLE_STATS = "Multiple Stats"
-
-    @Switch(
-        //? if forge
-        //name =
-        //? else
-        title =
-            "Show Multiple Stats In Tablist",
-        description = "Show more than one stat in tablist while on Hypixel",
-        category = CATEGORY_SETTINGS,
-        subcategory = SUBCATEGORY_MULTIPLE_STATS
-    )
-    var showMultipleStatsInTablist = true
-
-    @Switch(
-        //? if forge
-        //name =
-        //? else
-        title =
-            "Show Multiple Stats Above Nametag",
-        description = "Show more than one stat above nametag while on Hypixel",
-        category = CATEGORY_SETTINGS,
-        subcategory = SUBCATEGORY_MULTIPLE_STATS
-    )
-    var showMultipleStatsAboveNametag = true
 
 
     //? if forge
