@@ -47,10 +47,10 @@ object HypixelStatsFetcher {
     )
 
     private val ENDPOINTS = listOf(
-        ApiEndpoint("Bordic", "https://api.bordic.xyz/v3/cache/hypixel?uuid="),
         ApiEndpoint("Bedlify", "https://api.bedlify.xyz/v1/player/cache?uuid="),
         ApiEndpoint("Hypixel", "https://api.hypixel.net/v2/player?uuid="),
-        ApiEndpoint("Abyss", "http://api.abyssoverlay.com/player?uuid=", cooldownOnFailure = false),
+        ApiEndpoint("Abyss", "http://api.abyssoverlay.com/player?uuid="),
+        ApiEndpoint("Bordic", "https://api.bordic.xyz/v3/cache/hypixel?uuid=", cooldownOnFailure = false),
     )
 
     private val endpointCooldowns = ConcurrentHashMap<String, Long>()
