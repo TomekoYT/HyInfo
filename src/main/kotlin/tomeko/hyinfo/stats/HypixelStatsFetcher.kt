@@ -204,10 +204,6 @@ object HypixelStatsFetcher {
         val wantsDuels = HypixelPackets.inDuels &&
                 (HyInfoConfig.showDuelsDivisionAboveNametag || HyInfoConfig.showDuelsDivisionInTablist)
 
-        val shouldCheckNetworkLevel = wantsBedwars || wantsSkywars || wantsDuels
-        val wantsLevel =
-            HyInfoConfig.showNetworkLevelAboveNametag && (!shouldCheckNetworkLevel || HyInfoConfig.showNetworkLevelWithOtherNametagStats)
-
         if (wantsBedwars && pendingBedwars.add(uuid)) {
             getBedwarsStars(uuid)
                 .thenAccept { component ->
@@ -247,7 +243,7 @@ object HypixelStatsFetcher {
             }
         }
 
-        if (wantsLevel && pendingLevel.add(uuid)) {
+        if (HyInfoConfig.showNetworkLevelAboveNametag && pendingLevel.add(uuid)) {
             getHypixelLevel(uuid)
                 .thenAccept { string ->
                     if (string != null) {

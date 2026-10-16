@@ -395,18 +395,6 @@ object HyInfoConfig : Config(
     )
     var showNetworkLevelAboveNametag = true
 
-    @Switch(
-        //? if forge
-        //name =
-        //? else
-        title =
-            "Show Network Level with Other Nametag Stats",
-        description = "Show Hypixel network level when other Hypixel stats are shown",
-        category = CATEGORY_NETWORK,
-        subcategory = SUBCATEGORY_NETWORK_STATS
-    )
-    var showNetworkLevelWithOtherNametagStats = true
-
     @Text(
         //? if forge
         //name =

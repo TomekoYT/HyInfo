@@ -35,13 +35,10 @@ object NametagStats {
         cameraRenderState: CameraRenderState
         //?}
     ) {
-        val shouldCheckNetworkLevelWithOtherNametagStats =
-            (HypixelPackets.inBedwars && HyInfoConfig.showBedwarsStarsAboveNametag)
+        val shouldRenderAnyStatsNametag =
+            HyInfoConfig.showNetworkLevelAboveNametag || (HypixelPackets.inBedwars && HyInfoConfig.showBedwarsStarsAboveNametag)
                     || (HypixelPackets.inSkywars && HyInfoConfig.showSkywarsStarsAboveNametag)
                     || (HypixelPackets.inDuels && HyInfoConfig.showDuelsDivisionAboveNametag)
-
-        val shouldRenderAnyStatsNametag =
-            HyInfoConfig.showNetworkLevelAboveNametag || shouldCheckNetworkLevelWithOtherNametagStats
         val shouldRenderNickedNametag = HyInfoConfig.showNickedIndicatorAboveNametag && !HypixelPackets.inAssassins
         if (!shouldRenderAnyStatsNametag && !shouldRenderNickedNametag) return
 
@@ -126,10 +123,7 @@ object NametagStats {
                     }
                 }
 
-                if (HypixelPackets.onHypixel
-                    && HyInfoConfig.showNetworkLevelAboveNametag
-                    && (!shouldCheckNetworkLevelWithOtherNametagStats || HyInfoConfig.showNetworkLevelWithOtherNametagStats)
-                ) {
+                if (HypixelPackets.onHypixel && HyInfoConfig.showNetworkLevelAboveNametag) {
                     cached.level?.let { networkLevel ->
                         lines.add(
                             //? if 1.8.9 {
