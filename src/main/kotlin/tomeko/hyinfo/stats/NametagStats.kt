@@ -1,10 +1,10 @@
 package tomeko.hyinfo.stats
 
 //? if 1.8.9 {
-/*import net.minecraft.entity.player.EntityPlayer
+/*import net.minecraft.entity.item.EntityArmorStand
+import net.minecraft.entity.player.EntityPlayer
 import net.minecraft.util.ChatComponentText
 import net.minecraft.util.IChatComponent
-import java.util.function.BiConsumer
 *///?} else {
 import com.mojang.blaze3d.vertex.PoseStack
 import net.minecraft.client.Minecraft
@@ -14,6 +14,7 @@ import net.minecraft.client.renderer.SubmitNodeCollector
 import net.minecraft.client.renderer.entity.state.AvatarRenderState
 import net.minecraft.client.renderer.state.level.CameraRenderState
 import net.minecraft.network.chat.Component
+import net.minecraft.world.entity.decoration.ArmorStand
 import net.minecraft.world.entity.player.Player
 import net.minecraft.world.phys.Vec3
 import net.minecraft.world.scores.DisplaySlot
@@ -21,6 +22,7 @@ import net.minecraft.world.scores.Team
 //?}
 import tomeko.hyinfo.config.HyInfoConfig
 import tomeko.hyinfo.location.HypixelPackets
+import java.util.function.BiConsumer
 
 object NametagStats {
     fun render(
@@ -139,15 +141,18 @@ object NametagStats {
         if (lines.isEmpty()) return
 
         //? if 1.8.9 {
-        /*for ((index, line) in lines.withIndex()) {
+        /*var offset = if (hasArmorStand(player)) 0.52 else 0.22
+        for (line in lines) {
             label.accept(
                 line.formattedText,
-                ((index + 1) * 10 + HyInfoConfig.nametagsHeightOffset.toInt()) * 0.02666667
+                offset
             )
+
+            offset += 0.22
         }
         *///?} else {
-        var offset = -10 - HyInfoConfig.nametagsHeightOffset.toInt()
-        if (Minecraft.getInstance().level?.scoreboard?.getDisplayObjective(DisplaySlot.BELOW_NAME) != null) offset *= 2
+        var offset = if (hasArmorStand(player)) -25 else -10
+        if (Minecraft.getInstance().level?.scoreboard?.getDisplayObjective(DisplaySlot.BELOW_NAME) != null) offset -= 10
 
         for (line in lines) {
             //? if >= 26.2 {
@@ -176,5 +181,55 @@ object NametagStats {
             offset -= 10
         }
         //?}
+    }
+
+    private fun hasArmorStand(
+        //? if 1.8.9
+        //target: EntityPlayer
+        //? else
+        target: Player
+    ): Boolean {
+        if (
+        //? if 1.8.9
+        //target.worldObj == null
+        //? else
+            Minecraft.getInstance().level == null
+        ) return false
+
+        for (entity in
+        //? if 1.8.9
+        //target.worldObj.loadedEntityList
+        //? else
+        Minecraft.getInstance().level!!.entitiesForRendering()
+        ) {
+            if (
+            //? if 1.8.9
+            //entity !is EntityArmorStand
+            //? else
+                entity !is ArmorStand
+                || !entity.hasCustomName()
+            ) continue
+
+            val dx =
+            //? if 1.8.9
+            //entity.posX - target.posX
+                //? else
+                entity.x - target.x
+            val dy =
+            //? if 1.8.9
+            //entity.posY - target.posY
+                //? else
+                entity.y - target.y
+            val dz =
+            //? if 1.8.9
+            //entity.posZ - target.posZ
+                //? else
+                entity.z - target.z
+
+            if (dx * dx + dz * dz > 0.8 * 0.8 || dy !in 1.5..4.5) continue
+
+            return true
+        }
+        return false
     }
 }

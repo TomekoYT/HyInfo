@@ -68,7 +68,7 @@ object HyInfoConfig : Config(
         description = "Show above nametag stars of every player while in Hypixel BedWars",
         category = CATEGORY_BEDWARS,
     )
-    var showBedwarsStarsAboveNametag = false
+    var showBedwarsStarsAboveNametag = true
 
     @Text(
         //? if forge
@@ -116,7 +116,7 @@ object HyInfoConfig : Config(
         description = "Show above nametag stars of every player while in Hypixel SkyWars",
         category = CATEGORY_SKYWARS,
     )
-    var showSkywarsStarsAboveNametag = false
+    var showSkywarsStarsAboveNametag = true
 
     @Text(
         //? if forge
@@ -164,7 +164,7 @@ object HyInfoConfig : Config(
         description = "Show above nametag division of every player while in Hypixel Duels",
         category = CATEGORY_DUELS,
     )
-    var showDuelsDivisionAboveNametag = false
+    var showDuelsDivisionAboveNametag = true
 
     @Text(
         //? if forge
@@ -421,7 +421,7 @@ object HyInfoConfig : Config(
         category = CATEGORY_NETWORK,
         subcategory = SUBCATEGORY_NICKED_INDICATOR
     )
-    var showNickedIndicatorInTablist = false
+    var showNickedIndicatorInTablist = true
 
     @Switch(
         //? if forge
@@ -433,7 +433,7 @@ object HyInfoConfig : Config(
         category = CATEGORY_NETWORK,
         subcategory = SUBCATEGORY_NICKED_INDICATOR
     )
-    var showNickedIndicatorAboveNametag = false
+    var showNickedIndicatorAboveNametag = true
 
     @Text(
         //? if forge
@@ -479,27 +479,6 @@ object HyInfoConfig : Config(
         subcategory = SUBCATEGORY_API
     )
     var hypixelApiKey = ""
-
-    //? if forge
-    //@Exclude
-    private const val SUBCATEGORY_HEIGHT_OFFSET = "Height Offset"
-
-    @Slider(
-        //? if forge
-        //name =
-        //? else
-        title =
-            "Height Offset",
-        description = "Change height offset of stats nametags",
-        min = -30f, max = 30f,
-        //? if forge
-        //step = 1,
-        //? else
-        step = 1f,
-        category = CATEGORY_SETTINGS,
-        subcategory = SUBCATEGORY_HEIGHT_OFFSET
-    )
-    var nametagsHeightOffset = 0f
 
 
     //? if forge
