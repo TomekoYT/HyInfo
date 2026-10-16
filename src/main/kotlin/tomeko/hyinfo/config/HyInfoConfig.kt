@@ -482,7 +482,7 @@ object HyInfoConfig : Config(
 
     //? if forge
     //@Exclude
-    private const val SUBCATEGORY_NAMETAGS = "Nametags"
+    private const val SUBCATEGORY_HEIGHT_OFFSET = "Height Offset"
 
     @Slider(
         //? if forge
@@ -497,9 +497,14 @@ object HyInfoConfig : Config(
         //? else
         step = 1f,
         category = CATEGORY_SETTINGS,
-        subcategory = SUBCATEGORY_NAMETAGS
+        subcategory = SUBCATEGORY_HEIGHT_OFFSET
     )
     var nametagsHeightOffset = 0f
+
+
+    //? if forge
+    //@Exclude
+    private const val SUBCATEGORY_RATE_LIMITS = "Rate Limits"
 
     @Switch(
         //? if forge
@@ -509,7 +514,7 @@ object HyInfoConfig : Config(
             "Show Rate Limited Indicator In Tablist",
         description = "Show indicator of a rate limit in tablist while on Hypixel",
         category = CATEGORY_SETTINGS,
-        subcategory = SUBCATEGORY_NAMETAGS
+        subcategory = SUBCATEGORY_RATE_LIMITS
     )
     var showRateLimitedIndicatorInTablist = true
 
@@ -521,7 +526,7 @@ object HyInfoConfig : Config(
             "Show Rate Limited Indicator Above Nametag",
         description = "Show indicator of a rate limit above nametag while on Hypixel",
         category = CATEGORY_SETTINGS,
-        subcategory = SUBCATEGORY_NAMETAGS
+        subcategory = SUBCATEGORY_RATE_LIMITS
     )
     var showRateLimitedIndicatorAboveNametag = true
 
@@ -532,7 +537,7 @@ object HyInfoConfig : Config(
         title =
             "Rate Limited Indicator Text",
         category = CATEGORY_SETTINGS,
-        subcategory = SUBCATEGORY_NAMETAGS
+        subcategory = SUBCATEGORY_RATE_LIMITS
     )
     var rateLimitedIndicatorText = "§4[RATE LIMIT]"
 
@@ -541,12 +546,41 @@ object HyInfoConfig : Config(
         name = "",
         text = "Reset Text",
         category = CATEGORY_SETTINGS,
-        subcategory = SUBCATEGORY_NAMETAGS
+        subcategory = SUBCATEGORY_RATE_LIMITS
     )
     private fun rateLimitedTextResetButton() {
         rateLimitedIndicatorText = "§4[RATE LIMIT]"
     }
     *///?}
+
+
+    //? if forge
+    //@Exclude
+    private const val SUBCATEGORY_MULTIPLE_STATS = "Multiple Stats"
+
+    @Switch(
+        //? if forge
+        //name =
+        //? else
+        title =
+            "Show Multiple Stats In Tablist",
+        description = "Show more than one stat in tablist while on Hypixel",
+        category = CATEGORY_SETTINGS,
+        subcategory = SUBCATEGORY_MULTIPLE_STATS
+    )
+    var showMultipleStatsInTablist = true
+
+    @Switch(
+        //? if forge
+        //name =
+        //? else
+        title =
+            "Show Multiple Stats Above Nametag",
+        description = "Show more than one stat above nametag while on Hypixel",
+        category = CATEGORY_SETTINGS,
+        subcategory = SUBCATEGORY_MULTIPLE_STATS
+    )
+    var showMultipleStatsAboveNametag = true
 
 
     //? if forge

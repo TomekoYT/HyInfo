@@ -84,13 +84,12 @@ object NametagStats {
                     )
                 }
             } else {
-                if (HypixelPackets.inDuels && HyInfoConfig.showDuelsDivisionAboveNametag) {
+                if ((lines.isEmpty() || HyInfoConfig.showMultipleStatsAboveNametag) && HypixelPackets.inDuels && HyInfoConfig.showDuelsDivisionAboveNametag) {
                     cached.duels?.let { division ->
                         lines.add(
                             //? if 1.8.9 {
-                            /*ChatComponentText(HypixelPackets.duelsMode.modeName + HyInfoConfig.duelsTextAboveNametag).appendSibling(
-                                division
-                            )
+                            /*ChatComponentText(HypixelPackets.duelsMode.modeName + HyInfoConfig.duelsTextAboveNametag)
+                                .appendSibling(division)
                             *///?} else {
                             Component.literal(HypixelPackets.duelsMode.modeName + HyInfoConfig.duelsTextAboveNametag)
                                 .append(division)
@@ -99,7 +98,7 @@ object NametagStats {
                     }
                 }
 
-                if (HypixelPackets.inBedwars && HyInfoConfig.showBedwarsStarsAboveNametag) {
+                if ((lines.isEmpty() || HyInfoConfig.showMultipleStatsAboveNametag) && HypixelPackets.inBedwars && HyInfoConfig.showBedwarsStarsAboveNametag) {
                     cached.bedwars?.let { bedwars ->
                         lines.add(
                             //? if 1.8.9 {
@@ -111,7 +110,7 @@ object NametagStats {
                     }
                 }
 
-                if (HypixelPackets.inSkywars && HyInfoConfig.showSkywarsStarsAboveNametag) {
+                if ((lines.isEmpty() || HyInfoConfig.showMultipleStatsAboveNametag) && HypixelPackets.inSkywars && HyInfoConfig.showSkywarsStarsAboveNametag) {
                     cached.skywars?.let { skywars ->
                         lines.add(
                             //? if 1.8.9 {
@@ -123,7 +122,7 @@ object NametagStats {
                     }
                 }
 
-                if (HypixelPackets.onHypixel && HyInfoConfig.showNetworkLevelAboveNametag) {
+                if ((lines.isEmpty() || HyInfoConfig.showMultipleStatsAboveNametag) && HypixelPackets.onHypixel && HyInfoConfig.showNetworkLevelAboveNametag) {
                     cached.level?.let { networkLevel ->
                         lines.add(
                             //? if 1.8.9 {

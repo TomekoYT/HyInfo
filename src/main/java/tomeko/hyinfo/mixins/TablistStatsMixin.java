@@ -129,7 +129,7 @@ abstract class TablistStatsMixin {
             Component component
             //?}
     ) {
-        if (prefix == null) return component;
+        if (prefix == null || !HyInfoConfig.INSTANCE.getShowMultipleStatsInTablist()) return component;
 
         //? if 1.8.9
         //return prefix.createCopy().appendSibling(new ChatComponentText(" ")).appendSibling(component);
