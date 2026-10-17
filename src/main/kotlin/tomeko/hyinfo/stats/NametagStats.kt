@@ -141,14 +141,14 @@ object NametagStats {
         if (lines.isEmpty()) return
 
         //? if 1.8.9 {
-        /*var offset = HyInfoConfig.nametagsHeightOffset.toDouble() / 10 + if (hasArmorStand(player)) 0.525 else 0.225
+        /*var offset = HyInfoConfig.nametagsHeightOffset.toDouble() / 100 + if (hasArmorStand(player)) 0.526 else 0.226
         for (line in lines) {
             label.accept(
                 line.formattedText,
                 offset
             )
 
-            offset += 0.225
+            offset += HyInfoConfig.nametagsHeightOffset.toDouble() / 100 + 0.226
         }
         *///?} else {
         var offset = -HyInfoConfig.nametagsHeightOffset.toInt() + if (hasArmorStand(player)) -25 else -10
@@ -178,7 +178,7 @@ object NametagStats {
             )
             *///?}
 
-            offset -= 10
+            offset += -HyInfoConfig.nametagsHeightOffset.toInt() - 10
         }
         //?}
     }

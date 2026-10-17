@@ -492,7 +492,7 @@ object HyInfoConfig : Config(
         title =
             "Height Offset",
         description = "Change height offset of stats nametags",
-        min = -30f, max = 30f,
+        min = -10f, max = 10f,
         //? if forge
         //step = 1,
         //? else
