@@ -129,6 +129,8 @@ abstract class TablistStatsMixin {
             Component component
             //?}
     ) {
+        // stats for this player may not be fetched yet
+        if (component == null) return prefix;
         if (prefix == null || !HyInfoConfig.INSTANCE.getShowMultipleStatsInTablist()) return component;
 
         //? if 1.8.9
