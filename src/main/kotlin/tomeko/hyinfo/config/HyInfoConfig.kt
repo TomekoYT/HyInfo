@@ -517,7 +517,7 @@ object HyInfoConfig : Config(
         category = CATEGORY_SETTINGS,
         subcategory = SUBCATEGORY_MULTIPLE_STATS
     )
-    var showMultipleStatsInTablist = true
+    var showMultipleStatsInTablist = false
 
     @Switch(
         //? if forge
@@ -529,7 +529,7 @@ object HyInfoConfig : Config(
         category = CATEGORY_SETTINGS,
         subcategory = SUBCATEGORY_MULTIPLE_STATS
     )
-    var showMultipleStatsAboveNametag = true
+    var showMultipleStatsAboveNametag = false
 
 
     //? if forge
