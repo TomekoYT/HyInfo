@@ -17,7 +17,7 @@ val hypixelModApiVersion = project.property("hypixel_mod_api_version") as String
 plugins {
     idea
     java
-    kotlin("jvm") version "2.4.10"
+    kotlin("jvm") version "2.4.21"
     id("gg.essential.loom") version "1.9.31"
     id("dev.architectury.architectury-pack200") version "0.1.3"
     id("com.gradleup.shadow") version "9.4.1"

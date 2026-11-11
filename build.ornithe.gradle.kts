@@ -27,9 +27,9 @@ repositories {
 }
 
 plugins {
-    id("net.fabricmc.fabric-loom-remap") version "1.17-SNAPSHOT"
-    id("ploceus") version "1.17-SNAPSHOT"
-    id("org.jetbrains.kotlin.jvm") version "2.4.10"
+    id("net.fabricmc.fabric-loom-remap") version "1.19-SNAPSHOT"
+    id("ploceus") version "1.19-SNAPSHOT"
+    id("org.jetbrains.kotlin.jvm") version "2.4.21"
     id("dev.deftu.gradle.bloom") version "0.2.0"
 }
 

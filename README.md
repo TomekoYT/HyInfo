@@ -41,3 +41,7 @@ Minecraft mod for Hypixel adding levelhead, BedWars stars, SkyWars stars and Due
 
 - Show Nicked Indicator In Tablist
 - Show Nicked Indicator Above Nametag
+
+## Special Thanks
+
+- [Wyvest](https://github.com/Wyvest) - Nametags bug fixes
