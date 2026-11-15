@@ -5,7 +5,6 @@ package tomeko.hyinfo.mixins;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.scoreboard.ScorePlayerTeam;
 import org.spongepowered.asm.mixin.Shadow;
 *///?} else {
 import com.mojang.blaze3d.vertex.PoseStack;
@@ -38,7 +37,7 @@ abstract class NametagStatsMixin {
     @Inject(
             method =
                     //? if 1.8.9
-                    //"renderLivingLabel",
+                    //"renderOffsetLivingLabel",
                     //? else
                     "submitNameDisplay*",
             at = @At("TAIL")
@@ -46,11 +45,12 @@ abstract class NametagStatsMixin {
     private void hyinfo$renderNametag(
             //? if 1.8.9 {
             /*Entity entityIn,
-            String str,
             double x,
             double y,
             double z,
-            int maxDistance,
+            String str,
+            float scale,
+            double distanceSq,
             *///?} else {
             AvatarRenderState state,
             PoseStack poseStack,
@@ -65,8 +65,6 @@ abstract class NametagStatsMixin {
 
         if (!(entityIn instanceof EntityPlayer)) return;
         EntityPlayer player = (EntityPlayer) entityIn;
-
-        if (!str.equals(player.getDisplayName().getFormattedText()) && !str.equals(ScorePlayerTeam.formatPlayerName(player.getTeam(), player.getName()))) return;
         *///?} else {
         Minecraft mc = Minecraft.getInstance();
         if (mc.player == null || mc.level == null) return;
@@ -77,7 +75,7 @@ abstract class NametagStatsMixin {
 
         NametagStats.INSTANCE.render(
                 //? if 1.8.9
-                //player, (text, offset) -> renderLivingLabel(entityIn, text, x, y + offset, z, maxDistance)
+                //player, (text, offset) -> renderLivingLabel(entityIn, text, x, y + offset, z, 64)
                 //? else
                 player, state, poseStack, submitNodeCollector, camera
         );
