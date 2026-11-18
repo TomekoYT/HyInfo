@@ -85,7 +85,7 @@ object HypixelStatsFetcher {
     private val pendingRequests = ConcurrentHashMap<String, CompletableFuture<JsonObject?>>()
     val rateLimitedIndicators: ConcurrentHashMap.KeySetView<String, Boolean> = ConcurrentHashMap.newKeySet()
 
-    private const val CACHE_TTL_MS = 120_000L
+    private const val CACHE_TTL_MS = 900_000L
     private const val FAILURE_TTL_MS = 15_000L
 
     private fun requestEndpoint(endpoint: ApiEndpoint, uuid: String): JsonObject? {
@@ -110,18 +110,23 @@ object HypixelStatsFetcher {
         return parseJson(body).getAsJsonObject("player")
     }
 
+    private const val HTTP_TOO_MANY_REQUESTS = 429
+
+    private fun isCoolingDown(key: String): Boolean {
+        val limitedUntil = endpointCooldowns[key] ?: return false
+        if (System.currentTimeMillis() < limitedUntil) return true
+        endpointCooldowns.remove(key, limitedUntil)
+        return false
+    }
+
     private fun fetchFromEndpoints(uuid: String): JsonObject? {
         for (endpoint in ENDPOINTS) {
             if (endpoint.name == "Hypixel" && HyInfoConfig.hypixelApiKey.isEmpty()) continue
             val cooldownKey = "${endpoint.name}:$uuid"
 
-            val limitedUntil = endpointCooldowns[cooldownKey]
-            if (limitedUntil != null) {
-                if (System.currentTimeMillis() < limitedUntil) {
-                    Debug.log("Skipping ${endpoint.name} for $uuid (cooldown)")
-                    continue
-                }
-                endpointCooldowns.remove(cooldownKey, limitedUntil)
+            if (isCoolingDown(endpoint.name) || isCoolingDown(cooldownKey)) {
+                Debug.log("Skipping ${endpoint.name} for $uuid (cooldown)")
+                continue
             }
 
             try {
@@ -136,7 +141,8 @@ object HypixelStatsFetcher {
 
                 if (endpoint.cooldownOnFailure) {
                     val seconds = e.retryAfterSeconds ?: DEFAULT_COOLDOWN_SECONDS
-                    endpointCooldowns[cooldownKey] = System.currentTimeMillis() + seconds * 1000L
+                    val key = if (e.code == HTTP_TOO_MANY_REQUESTS) endpoint.name else cooldownKey
+                    endpointCooldowns[key] = System.currentTimeMillis() + seconds * 1000L
                 }
             } catch (e: Exception) {
                 Debug.log("${endpoint.name} API request failed for $uuid: ${e::class.simpleName}: ${e.message}")
@@ -185,6 +191,9 @@ object HypixelStatsFetcher {
     private val pendingSkywars: ConcurrentHashMap.KeySetView<String, Boolean> = ConcurrentHashMap.newKeySet()
     private val pendingDuels = ConcurrentHashMap.newKeySet<String>()
 
+    private val lastRequested = ConcurrentHashMap<String, Long>()
+    private const val REQUEST_INTERVAL_MS = 1000L
+
     fun getCachedStats(uuid: String): CachedStats {
         val cached = displayCache[uuid] ?: return CachedStats()
 
@@ -196,6 +205,11 @@ object HypixelStatsFetcher {
 
     fun requestStats(uuid: String) {
         if (!HypixelPackets.onHypixel) return
+
+        val now = System.currentTimeMillis()
+        val last = lastRequested[uuid]
+        if (last != null && now - last < REQUEST_INTERVAL_MS) return
+        lastRequested[uuid] = now
 
         val wantsBedwars = HypixelPackets.inBedwars &&
                 (HyInfoConfig.showBedwarsStarsAboveNametag || HyInfoConfig.showBedwarsStarsInTablist)
