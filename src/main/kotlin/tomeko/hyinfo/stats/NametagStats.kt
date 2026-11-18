@@ -1,8 +1,10 @@
 package tomeko.hyinfo.stats
 
 //? if 1.8.9 {
-/*import net.minecraft.entity.item.EntityArmorStand
+/*import net.minecraft.client.Minecraft
+import net.minecraft.entity.item.EntityArmorStand
 import net.minecraft.entity.player.EntityPlayer
+import net.minecraft.util.AxisAlignedBB
 import net.minecraft.util.ChatComponentText
 import net.minecraft.util.IChatComponent
 *///?} else {
@@ -16,15 +18,21 @@ import net.minecraft.client.renderer.state.level.CameraRenderState
 import net.minecraft.network.chat.Component
 import net.minecraft.world.entity.decoration.ArmorStand
 import net.minecraft.world.entity.player.Player
+import net.minecraft.world.phys.AABB
 import net.minecraft.world.phys.Vec3
 import net.minecraft.world.scores.DisplaySlot
 import net.minecraft.world.scores.Team
 //?}
 import tomeko.hyinfo.config.HyInfoConfig
 import tomeko.hyinfo.location.HypixelPackets
+import java.lang.ref.WeakReference
 import java.util.function.BiConsumer
 
 object NametagStats {
+    private val armorStandCache = HashMap<Int, Boolean>()
+    private var armorStandCachePlayer = WeakReference<Any>(null)
+    private var armorStandCacheTick = -1
+
     fun render(
         //? if 1.8.9 {
         /*player: EntityPlayer,
@@ -72,10 +80,11 @@ object NametagStats {
                 )
             }
         } else if (shouldRenderAnyStatsNametag) {
-            HypixelStatsFetcher.requestStats(uuid.toString())
-            val cached = HypixelStatsFetcher.getCachedStats(uuid.toString())
+            val id = uuid.toString()
+            HypixelStatsFetcher.requestStats(id)
+            val cached = HypixelStatsFetcher.getCachedStats(id)
 
-            if (HypixelStatsFetcher.rateLimitedIndicators.contains(uuid.toString())) {
+            if (HypixelStatsFetcher.rateLimitedIndicators.contains(id)) {
                 if (HyInfoConfig.showRateLimitedIndicatorAboveNametag) {
                     lines.add(
                         //? if 1.8.9 {
@@ -189,47 +198,57 @@ object NametagStats {
         //? else
         target: Player
     ): Boolean {
-        if (
+        val self =
         //? if 1.8.9
-        //target.worldObj == null
-        //? else
-            Minecraft.getInstance().level == null
-        ) return false
-
-        for (entity in
-        //? if 1.8.9
-        //target.worldObj.loadedEntityList
-        //? else
-        Minecraft.getInstance().level!!.entitiesForRendering()
-        ) {
-            if (
-            //? if 1.8.9
-            //entity !is EntityArmorStand
+        //Minecraft.getMinecraft().thePlayer
             //? else
-                entity !is ArmorStand
-                || !entity.hasCustomName()
-            ) continue
-
-            val dx =
-            //? if 1.8.9
-            //entity.posX - target.posX
-                //? else
-                entity.x - target.x
-            val dy =
-            //? if 1.8.9
-            //entity.posY - target.posY
-                //? else
-                entity.y - target.y
-            val dz =
-            //? if 1.8.9
-            //entity.posZ - target.posZ
-                //? else
-                entity.z - target.z
-
-            if (dx * dx + dz * dz > 0.8 * 0.8 || dy !in 1.5..4.5) continue
-
-            return true
+            Minecraft.getInstance().player
+        val tick =
+        //? if 1.8.9
+        //self?.ticksExisted ?: -1
+            //? else
+            self?.tickCount ?: -1
+        if (self !== armorStandCachePlayer.get() || tick != armorStandCacheTick) {
+            armorStandCache.clear()
+            armorStandCachePlayer = WeakReference(self)
+            armorStandCacheTick = tick
         }
-        return false
+        return armorStandCache.getOrPut(
+            //? if 1.8.9
+            //target.entityId
+            //? else
+            target.id
+        ) { scanForArmorStand(target) }
+    }
+
+    private fun scanForArmorStand(
+        //? if 1.8.9
+        //target: EntityPlayer
+        //? else
+        target: Player
+    ): Boolean {
+        //? if 1.8.9 {
+        /*val world = target.worldObj ?: return false
+        val box = AxisAlignedBB(
+            target.posX - 0.8, target.posY + 1.5, target.posZ - 0.8,
+            target.posX + 0.8, target.posY + 4.5, target.posZ + 0.8
+        ).expand(0.01, 0.01, 0.01)
+        return world.getEntitiesWithinAABB(EntityArmorStand::class.java, box) {
+            val dx = it!!.posX - target.posX
+            val dz = it.posZ - target.posZ
+            it.hasCustomName() && dx * dx + dz * dz <= 0.8 * 0.8 && it.posY - target.posY in 1.5..4.5
+        }.isNotEmpty()
+        *///?} else {
+        val level = Minecraft.getInstance().level ?: return false
+        val box = AABB(
+            target.x - 0.8, target.y + 1.5, target.z - 0.8,
+            target.x + 0.8, target.y + 4.5, target.z + 0.8
+        ).inflate(0.01)
+        return level.getEntitiesOfClass(ArmorStand::class.java, box) {
+            val dx = it.x - target.x
+            val dz = it.z - target.z
+            it.hasCustomName() && dx * dx + dz * dz <= 0.8 * 0.8 && it.y - target.y in 1.5..4.5
+        }.isNotEmpty()
+        //?}
     }
 }
