@@ -161,7 +161,7 @@ object NametagStats {
         }
         *///?} else {
         var offset = -HyInfoConfig.nametagsHeightOffset.toInt() + if (hasArmorStand(player)) -25 else -10
-        if (Minecraft.getInstance().level?.scoreboard?.getDisplayObjective(DisplaySlot.BELOW_NAME) != null) offset -= 10
+        if (Minecraft.getInstance().level?.scoreboard?.getDisplayObjective(DisplaySlot.BELOW_NAME) != null && (Minecraft.getInstance().player?.distanceTo(player) ?: 0f) <= 10f) offset -= 10
 
         for (line in lines) {
             //? if >= 26.2 {
