@@ -44,4 +44,4 @@ Minecraft mod for Hypixel adding levelhead, BedWars stars, SkyWars stars and Due
 
 ## Special Thanks
 
-- [Wyvest](https://github.com/Wyvest), [Saad Nadeem](https://github.com/saadndm) - Nametags bug fixes
+- [Wyvest](https://github.com/Wyvest), [Saad Nadeem](https://github.com/saadndm) - Stats nametags improvements
