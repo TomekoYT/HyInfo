@@ -163,12 +163,16 @@ object NametagStats {
         var offset = -HyInfoConfig.nametagsHeightOffset.toInt() + if (hasArmorStand(player)) -25 else -10
         if (Minecraft.getInstance().level?.scoreboard?.getDisplayObjective(DisplaySlot.BELOW_NAME) != null && (Minecraft.getInstance().player?.distanceTo(player) ?: 0f) <= 10f) offset -= 10
 
+        val attachment = state.nameTagAttachment ?: return
+        val pixelScale = 0.025 * polyNametagScale()
+
         for (line in lines) {
+            val raised = attachment.add(0.0, -offset * pixelScale, 0.0)
             //? if >= 26.2 {
             collector.submitNameTag(
                 poseStack,
-                state.nameTagAttachment,
-                offset,
+                raised,
+                0,
                 line,
                 !state.isDiscrete,
                 state.lightCoords,
@@ -177,8 +181,8 @@ object NametagStats {
             //?} else {
             /*collector.submitNameTag(
                 poseStack,
-                state.nameTagAttachment,
-                offset,
+                raised,
+                0,
                 line,
                 !state.isDiscrete,
                 state.lightCoords,
@@ -191,6 +195,27 @@ object NametagStats {
         }
         //?}
     }
+
+    //? if fabric {
+    private val polyNametagScaleGetter: (() -> Float)? by lazy {
+        try {
+            val config = Class.forName("org.polyfrost.polynametag.client.PolyNametagConfig")
+            val enabled = config.getMethod("isEnabled")
+            val scale = config.getMethod("getScale")
+            ({
+                if (enabled.invoke(null) as Boolean) scale.invoke(null) as Float else 1.0f
+            })
+        } catch (_: Throwable) {
+            null
+        }
+    }
+
+    private fun polyNametagScale(): Float = try {
+        polyNametagScaleGetter?.invoke() ?: 1.0f
+    } catch (_: Throwable) {
+        1.0f
+    }
+    //?}
 
     private fun hasArmorStand(
         //? if 1.8.9
