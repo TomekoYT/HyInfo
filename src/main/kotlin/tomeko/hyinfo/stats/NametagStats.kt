@@ -6,7 +6,8 @@ import net.minecraft.entity.item.EntityArmorStand
 import net.minecraft.entity.player.EntityPlayer
 import net.minecraft.util.AxisAlignedBB
 import net.minecraft.util.ChatComponentText
-import net.minecraft.util.IChatComponent
+import net.minecraft.util.IChatComponent as Component
+import tomeko.hyinfo.utils.FormattedTextCache
 *///?} else {
 import com.mojang.blaze3d.vertex.PoseStack
 import net.minecraft.client.Minecraft
@@ -26,12 +27,54 @@ import net.minecraft.world.scores.Team
 import tomeko.hyinfo.config.HyInfoConfig
 import tomeko.hyinfo.location.HypixelPackets
 import java.lang.ref.WeakReference
+import java.util.WeakHashMap
 import java.util.function.BiConsumer
 
 object NametagStats {
+    private const val MAX_LINES = 4
+
     private val armorStandCache = HashMap<Int, Boolean>()
     private var armorStandCachePlayer = WeakReference<Any>(null)
     private var armorStandCacheTick = -1
+    private val nametagLines = WeakHashMap<Any, NametagLines>()
+
+    private class NametagLines {
+        val items = ArrayList<
+                //? if 1.8.9
+                //String
+                //? else
+                Component
+                >(MAX_LINES)
+
+        //? if 1.8.9
+        //private val caches = Array(MAX_LINES) { FormattedTextCache(3) }
+
+        fun isEmpty() = items.isEmpty()
+
+        fun clear() = items.clear()
+
+        fun add(text: String, suffix: String? = null, component: Component? = null) {
+            //? if 1.8.9 {
+            /*val cache = caches.getOrNull(items.size)?.key(0, text)?.key(1, suffix)?.key(2, component)
+            items.add(cache?.get() ?: build(text, suffix, component).formattedText.also { cache?.put(it) })
+            *///?} else {
+            items.add(build(text, suffix, component))
+            //?}
+        }
+
+        private fun build(text: String, suffix: String?, component: Component?): Component {
+            val literal =
+            //? if 1.8.9
+            //ChatComponentText(if (suffix == null) text else text + suffix)
+                //? else
+                Component.literal(if (suffix == null) text else text + suffix)
+            if (component == null) return literal
+            //? if 1.8.9
+            //return literal.appendSibling(component)
+            //? else
+            return literal.append(component)
+        }
+    }
 
     fun render(
         //? if 1.8.9 {
@@ -60,24 +103,12 @@ object NametagStats {
 
         if (uuid.version() != 4 && uuid.version() != 1) return
 
-        val lines = mutableListOf<
-                //? if 1.8.9
-                //IChatComponent
-                //? else
-                Component
-                >()
+        val lines = nametagLines.getOrPut(player) { NametagLines() }
+        lines.clear()
 
         if (uuid.version() == 1) {
             if (shouldRenderNickedNametag) {
-                lines.add(
-                    //? if 1.8.9 {
-                    //ChatComponentText(
-                    //?} else {
-                    Component.literal(
-                        //?}
-                        HyInfoConfig.nickedIndicatorText
-                    )
-                )
+                lines.add(HyInfoConfig.nickedIndicatorText)
             }
         } else if (shouldRenderAnyStatsNametag) {
             val id = uuid.toString()
@@ -86,62 +117,30 @@ object NametagStats {
 
             if (HypixelStatsFetcher.rateLimitedIndicators.contains(id)) {
                 if (HyInfoConfig.showRateLimitedIndicatorAboveNametag) {
-                    lines.add(
-                        //? if 1.8.9 {
-                        //ChatComponentText(HyInfoConfig.rateLimitedIndicatorText)
-                        //?} else {
-                        Component.literal(HyInfoConfig.rateLimitedIndicatorText)
-                        //?}
-                    )
+                    lines.add(HyInfoConfig.rateLimitedIndicatorText)
                 }
             } else {
                 if ((lines.isEmpty() || HyInfoConfig.showMultipleStatsAboveNametag) && HypixelPackets.inDuels && HyInfoConfig.showDuelsDivisionAboveNametag) {
                     cached.duels?.let { division ->
-                        lines.add(
-                            //? if 1.8.9 {
-                            /*ChatComponentText(HypixelPackets.duelsMode.modeName + HyInfoConfig.duelsTextAboveNametag)
-                                .appendSibling(division)
-                            *///?} else {
-                            Component.literal(HypixelPackets.duelsMode.modeName + HyInfoConfig.duelsTextAboveNametag)
-                                .append(division)
-                            //?}
-                        )
+                        lines.add(HypixelPackets.duelsMode.modeName, HyInfoConfig.duelsTextAboveNametag, division)
                     }
                 }
 
                 if ((lines.isEmpty() || HyInfoConfig.showMultipleStatsAboveNametag) && HypixelPackets.inBedwars && HyInfoConfig.showBedwarsStarsAboveNametag) {
                     cached.bedwars?.let { bedwars ->
-                        lines.add(
-                            //? if 1.8.9 {
-                            //ChatComponentText(HyInfoConfig.bedwarsTextAboveNametag).appendSibling(bedwars)
-                            //?} else {
-                            Component.literal(HyInfoConfig.bedwarsTextAboveNametag).append(bedwars)
-                            //?}
-                        )
+                        lines.add(HyInfoConfig.bedwarsTextAboveNametag, component = bedwars)
                     }
                 }
 
                 if ((lines.isEmpty() || HyInfoConfig.showMultipleStatsAboveNametag) && HypixelPackets.inSkywars && HyInfoConfig.showSkywarsStarsAboveNametag) {
                     cached.skywars?.let { skywars ->
-                        lines.add(
-                            //? if 1.8.9 {
-                            //ChatComponentText(HyInfoConfig.skywarsTextAboveNametag).appendSibling(skywars)
-                            //?} else {
-                            Component.literal(HyInfoConfig.skywarsTextAboveNametag).append(skywars)
-                            //?}
-                        )
+                        lines.add(HyInfoConfig.skywarsTextAboveNametag, component = skywars)
                     }
                 }
 
                 if ((lines.isEmpty() || HyInfoConfig.showMultipleStatsAboveNametag) && HypixelPackets.onHypixel && HyInfoConfig.showNetworkLevelAboveNametag) {
                     cached.level?.let { networkLevel ->
-                        lines.add(
-                            //? if 1.8.9 {
-                            //ChatComponentText(HyInfoConfig.networkLevelTextAboveNametag + networkLevel)
-                            //?} else {
-                            Component.literal(HyInfoConfig.networkLevelTextAboveNametag + networkLevel)
-                            //?}
-                        )
+                        lines.add(HyInfoConfig.networkLevelTextAboveNametag, networkLevel)
                     }
                 }
             }
@@ -151,9 +150,9 @@ object NametagStats {
 
         //? if 1.8.9 {
         /*var offset = HyInfoConfig.nametagsHeightOffset.toDouble() / 100 + if (hasArmorStand(player)) 0.526 else 0.226
-        for (line in lines) {
+        for (line in lines.items) {
             label.accept(
-                line.formattedText,
+                line,
                 offset
             )
 
@@ -166,7 +165,7 @@ object NametagStats {
         val attachment = state.nameTagAttachment ?: return
         val pixelScale = 0.025 * polyNametagScale()
 
-        for (line in lines) {
+        for (line in lines.items) {
             val raised = attachment.add(0.0, -offset * pixelScale, 0.0)
             //? if >= 26.2 {
             collector.submitNameTag(
