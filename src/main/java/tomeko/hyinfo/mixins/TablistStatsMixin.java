@@ -5,12 +5,17 @@ package tomeko.hyinfo.mixins;
 import net.minecraft.client.network.NetworkPlayerInfo;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.IChatComponent;
+import tomeko.hyinfo.utils.FormattedTextCache;
+
+import java.util.Map;
+import java.util.WeakHashMap;
 *///?} else {
 import net.minecraft.client.gui.components.PlayerTabOverlay;
 import net.minecraft.client.multiplayer.PlayerInfo;
 import net.minecraft.network.chat.Component;
 //?}
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
@@ -27,6 +32,11 @@ import java.util.UUID;
         PlayerTabOverlay.class
 )
 abstract class TablistStatsMixin {
+    //? if 1.8.9 {
+    /*@Unique
+    private static final Map<NetworkPlayerInfo, FormattedTextCache> hyinfo$formattedNames = new WeakHashMap<>();
+
+    *///?}
     @Inject(
             method =
                     //? if 1.8.9
@@ -64,57 +74,75 @@ abstract class TablistStatsMixin {
                 || (HypixelPackets.INSTANCE.getInSkywars() && HyInfoConfig.INSTANCE.getShowSkywarsStarsInTablist())
                 || (HypixelPackets.INSTANCE.getInDuels() && HyInfoConfig.INSTANCE.getShowDuelsDivisionInTablist());
 
-        //? if 1.8.9
-        //IChatComponent prefix = null;
-        //? else
-        Component prefix = null;
+        String text = null;
+        //? if 1.8.9 {
+        /*IChatComponent bedwars = null;
+        IChatComponent skywars = null;
+        IChatComponent duels = null;
+        *///?} else {
+        Component bedwars = null;
+        Component skywars = null;
+        Component duels = null;
+        //?}
         if (uuid.version() == 1) {
             if (HyInfoConfig.INSTANCE.getShowNickedIndicatorInTablist() && !HypixelPackets.INSTANCE.getInAssassins()) {
-                prefix = hyinfo$append(
-                        prefix,
-                        //? if 1.8.9
-                        //new ChatComponentText(HyInfoConfig.INSTANCE.getNickedIndicatorText())
-                        //? else
-                        Component.literal(HyInfoConfig.INSTANCE.getNickedIndicatorText())
-                );
+                text = HyInfoConfig.INSTANCE.getNickedIndicatorText();
             }
         } else if (modifyPrefixWithStats) {
-            HypixelStatsFetcher.INSTANCE.requestStats(uuid.toString());
-            HypixelStatsFetcher.CachedStats stats = HypixelStatsFetcher.INSTANCE.getCachedStats(uuid.toString());
+            String id = uuid.toString();
+            HypixelStatsFetcher.INSTANCE.requestStats(id);
+            HypixelStatsFetcher.CachedStats stats = HypixelStatsFetcher.INSTANCE.getCachedStats(id);
 
-            if (HypixelStatsFetcher.INSTANCE.getRateLimitedIndicators().contains(uuid.toString())) {
+            if (HypixelStatsFetcher.INSTANCE.getRateLimitedIndicators().contains(id)) {
                 if (HyInfoConfig.INSTANCE.getShowRateLimitedIndicatorInTablist()) {
-                    prefix = hyinfo$append(
-                            prefix,
-                            //? if 1.8.9
-                            //new ChatComponentText(HyInfoConfig.INSTANCE.getRateLimitedIndicatorText())
-                            //? else
-                            Component.literal(HyInfoConfig.INSTANCE.getRateLimitedIndicatorText())
-                    );
+                    text = HyInfoConfig.INSTANCE.getRateLimitedIndicatorText();
                 }
             } else {
                 if (HypixelPackets.INSTANCE.getInBedwars() && HyInfoConfig.INSTANCE.getShowBedwarsStarsInTablist()) {
-                    prefix = hyinfo$append(prefix, stats.getBedwars());
+                    bedwars = stats.getBedwars();
                 }
 
                 if (HypixelPackets.INSTANCE.getInSkywars() && HyInfoConfig.INSTANCE.getShowSkywarsStarsInTablist()) {
-                    prefix = hyinfo$append(prefix, stats.getSkywars());
+                    skywars = stats.getSkywars();
                 }
 
                 if (HypixelPackets.INSTANCE.getInDuels() && HyInfoConfig.INSTANCE.getShowDuelsDivisionInTablist()) {
-                    prefix = hyinfo$append(prefix, stats.getDuels());
+                    duels = stats.getDuels();
                 }
             }
         }
 
-        if (prefix != null) {
-            cir.setReturnValue(
-                    //? if 1.8.9
-                    //prefix.createCopy().appendSibling(new ChatComponentText(" ")).appendText(original).getFormattedText()
-                    //? else
-                    prefix.copy().append(Component.literal(" ")).append(original)
-            );
+        if (text == null && bedwars == null && skywars == null && duels == null) return;
+
+        //? if 1.8.9 {
+        /*FormattedTextCache cache = hyinfo$formattedNames.computeIfAbsent(info, key -> new FormattedTextCache(6))
+                .key(0, original)
+                .key(1, text)
+                .key(2, bedwars)
+                .key(3, skywars)
+                .key(4, duels)
+                .key(5, HyInfoConfig.INSTANCE.getShowMultipleStatsInTablist());
+        String formatted = cache.get();
+        if (formatted == null) {
+            formatted = cache.put(hyinfo$prefix(text, bedwars, skywars, duels).createCopy().appendSibling(new ChatComponentText(" ")).appendText(original).getFormattedText());
         }
+        cir.setReturnValue(formatted);
+        *///?} else {
+        cir.setReturnValue(hyinfo$prefix(text, bedwars, skywars, duels).copy().append(Component.literal(" ")).append(original));
+        //?}
+    }
+
+    @Unique
+    //? if 1.8.9 {
+    /*private IChatComponent hyinfo$prefix(String text, IChatComponent bedwars, IChatComponent skywars, IChatComponent duels) {
+        IChatComponent prefix = text == null ? null : new ChatComponentText(text);
+    *///?} else {
+    private Component hyinfo$prefix(String text, Component bedwars, Component skywars, Component duels) {
+        Component prefix = text == null ? null : Component.literal(text);
+    //?}
+        prefix = hyinfo$append(prefix, bedwars);
+        prefix = hyinfo$append(prefix, skywars);
+        return hyinfo$append(prefix, duels);
     }
 
     //? if 1.8.9
