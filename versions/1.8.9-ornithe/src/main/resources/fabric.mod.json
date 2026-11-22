@@ -34,7 +34,8 @@
     "oneconfig": ">=${oneconfig_version}"
   },
   "suggests": {
-    "modmenu": ">=${mod_menu_version}"
+    "modmenu": ">=${mod_menu_version}",
+    "polynametag": "*"
   },
   "custom": {
     "modmenu": {
