@@ -33,8 +33,16 @@ import kotlin.String
 import kotlin.math.sqrt
 
 object HypixelStatsFetcher {
+    private enum class ApiType {
+        HYPIXEL,
+        ABYSS,
+        BEDLIFY,
+        BORDIC
+    }
+
     private data class ApiEndpoint(
         val name: String,
+        val type: ApiType,
         val baseUrl: String,
         val cooldownOnFailure: Boolean = true
     )
@@ -47,10 +55,10 @@ object HypixelStatsFetcher {
     )
 
     private val ENDPOINTS = listOf(
-        ApiEndpoint("Bedlify", "https://api.bedlify.xyz/v1/player/cache?uuid="),
-        ApiEndpoint("Hypixel", "https://api.hypixel.net/v2/player?uuid="),
-        ApiEndpoint("Abyss", "http://api.abyssoverlay.com/player?uuid="),
-        ApiEndpoint("Bordic", "https://api.bordic.xyz/v3/cache/hypixel?uuid=", cooldownOnFailure = false),
+        ApiEndpoint("Hypixel", ApiType.HYPIXEL, "https://api.hypixel.net/v2/player?uuid="),
+        ApiEndpoint("Abyss", ApiType.ABYSS, "http://api.abyssoverlay.com/player?uuid="),
+        ApiEndpoint("Bedlify", ApiType.BEDLIFY, "https://api.bedlify.xyz/v1/player/cache?uuid="),
+        ApiEndpoint("Bordic", ApiType.BORDIC, "https://api.bordic.xyz/v3/cache/hypixel?uuid=", cooldownOnFailure = false),
     )
 
     private val endpointCooldowns = ConcurrentHashMap<String, Long>()
@@ -94,9 +102,9 @@ object HypixelStatsFetcher {
         connection.requestMethod = "GET"
         connection.connectTimeout = CONNECT_TIMEOUT_MS
         connection.readTimeout = READ_TIMEOUT_MS
-        connection.setRequestProperty("User-Agent", Constants.MOD_NAME)
+        if (endpoint.type == ApiType.ABYSS) connection.setRequestProperty("User-Agent", "node-ao/2.0.3")
         connection.setRequestProperty("Accept", "application/json")
-        if (endpoint.name == "Hypixel") connection.setRequestProperty("API-Key", HyInfoConfig.hypixelApiKey)
+        if (endpoint.type == ApiType.HYPIXEL) connection.setRequestProperty("API-Key", HyInfoConfig.hypixelApiKey)
 
         val responseCode = connection.responseCode
         if (responseCode != HttpURLConnection.HTTP_OK) {
@@ -121,7 +129,7 @@ object HypixelStatsFetcher {
 
     private fun fetchFromEndpoints(uuid: String): JsonObject? {
         for (endpoint in ENDPOINTS) {
-            if (endpoint.name == "Hypixel" && HyInfoConfig.hypixelApiKey.isEmpty()) continue
+            if (endpoint.type == ApiType.HYPIXEL && HyInfoConfig.hypixelApiKey.isEmpty()) continue
             val cooldownKey = "${endpoint.name}:$uuid"
 
             if (isCoolingDown(endpoint.name) || isCoolingDown(cooldownKey)) {
