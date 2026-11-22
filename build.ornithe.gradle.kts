@@ -55,15 +55,6 @@ dependencies {
     ploceus.dependOsl(oslVersion)
 
     modImplementation("org.polyfrost.oneconfig:$minecraftVersion-ornithe:$oneconfigVersion")
-    implementation("org.polyfrost.oneconfig:commands:$oneconfigVersion")
-    implementation("org.polyfrost.oneconfig:config:$oneconfigVersion")
-    implementation("org.polyfrost.oneconfig:config-impl:$oneconfigVersion")
-    implementation("org.polyfrost.oneconfig:events:$oneconfigVersion")
-    implementation("org.polyfrost.oneconfig:internal:$oneconfigVersion")
-    implementation("org.polyfrost.oneconfig:ui:$oneconfigVersion")
-    implementation("org.polyfrost.oneconfig:utils:$oneconfigVersion")
-    implementation("org.polyfrost.oneconfig:hud:$oneconfigVersion")
-
     modImplementation("org.polyfrost:mod-api-fabric:$hypixelModApiVersion+build.2+mc$minecraftVersion")
     modImplementation("com.terraformersmc:modmenu:$modMenuVersion+mc$minecraftVersion")
 }
