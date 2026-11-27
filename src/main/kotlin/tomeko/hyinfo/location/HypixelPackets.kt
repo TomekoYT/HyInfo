@@ -21,6 +21,9 @@ object HypixelPackets {
     var onHypixel = false
         private set
 
+    var inLobby = false
+        private set
+
     var inBedwars = false
         private set
     var inSkywars = false
@@ -71,6 +74,8 @@ object HypixelPackets {
         val serverTypeName = packet.serverType.get().name
         Debug.log("serverTypeName: $serverTypeName <")
 
+        inLobby = packet.lobbyName.isPresent
+
         inBedwars = serverTypeName == "Bed Wars"
         inSkywars = serverTypeName == "SkyWars"
         inDuels = serverTypeName == "Duels"
@@ -96,6 +101,8 @@ object HypixelPackets {
     }
 
     private fun disableServerTypes() {
+        inLobby = false
+
         inBedwars = false
         inSkywars = false
         inDuels = false

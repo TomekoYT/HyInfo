@@ -149,7 +149,7 @@ object NametagStats {
         if (lines.isEmpty()) return
 
         //? if 1.8.9 {
-        /*var offset = HyInfoConfig.nametagsHeightOffset.toDouble() / 100 + if (hasArmorStand(player)) 0.526 else 0.226
+        /*var offset = HyInfoConfig.nametagsHeightOffset.toDouble() / 100 + if (hasArmorStand(player) && HypixelPackets.inLobby) 0.526 else 0.226
         for (line in lines.items) {
             label.accept(
                 line,
@@ -159,7 +159,7 @@ object NametagStats {
             offset += HyInfoConfig.nametagsHeightOffset.toDouble() / 100 + 0.226
         }
         *///?} else {
-        var offset = -HyInfoConfig.nametagsHeightOffset.toInt() + if (hasArmorStand(player)) -25 else -10
+        var offset = -HyInfoConfig.nametagsHeightOffset.toInt() + if (hasArmorStand(player) && HypixelPackets.inLobby) -25 else -10
         if (Minecraft.getInstance().level?.scoreboard?.getDisplayObjective(DisplaySlot.BELOW_NAME) != null && (Minecraft.getInstance().player?.distanceTo(player) ?: 0f) <= 10f) offset -= 10
 
         val attachment = state.nameTagAttachment ?: return
