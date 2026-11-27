@@ -88,6 +88,8 @@ object NametagStats {
         cameraRenderState: CameraRenderState
         //?}
     ) {
+        if (HyInfoConfig.showStatsAboveNametagOnlyInLobby && !HypixelPackets.inLobby) return
+
         val shouldRenderAnyStatsNametag =
             HyInfoConfig.showNetworkLevelAboveNametag || (HypixelPackets.inBedwars && HyInfoConfig.showBedwarsStarsAboveNametag)
                     || (HypixelPackets.inSkywars && HyInfoConfig.showSkywarsStarsAboveNametag)
@@ -159,8 +161,12 @@ object NametagStats {
             offset += HyInfoConfig.nametagsHeightOffset.toDouble() / 100 + 0.226
         }
         *///?} else {
-        var offset = -HyInfoConfig.nametagsHeightOffset.toInt() + if (hasArmorStand(player) && HypixelPackets.inLobby) -25 else -10
-        if (Minecraft.getInstance().level?.scoreboard?.getDisplayObjective(DisplaySlot.BELOW_NAME) != null && (Minecraft.getInstance().player?.distanceTo(player) ?: 0f) <= 10f) offset -= 10
+        var offset =
+            -HyInfoConfig.nametagsHeightOffset.toInt() + if (hasArmorStand(player) && HypixelPackets.inLobby) -25 else -10
+        if (Minecraft.getInstance().level?.scoreboard?.getDisplayObjective(DisplaySlot.BELOW_NAME) != null && (Minecraft.getInstance().player?.distanceTo(
+                player
+            ) ?: 0f) <= 10f
+        ) offset -= 10
 
         val attachment = state.nameTagAttachment ?: return
         val pixelScale = 0.025 * polyNametagScale()

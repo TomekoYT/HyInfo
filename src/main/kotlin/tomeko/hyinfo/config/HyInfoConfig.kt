@@ -483,7 +483,7 @@ object HyInfoConfig : Config(
 
     //? if forge
     //@Exclude
-    private const val SUBCATEGORY_HEIGHT_OFFSET = "Height Offset"
+    private const val SUBCATEGORY_NAMETAGS_ADJUSTMENTS = "Nametags Adjustments"
 
     @Slider(
         //? if forge
@@ -498,10 +498,21 @@ object HyInfoConfig : Config(
         //? else
         step = 1f,
         category = CATEGORY_SETTINGS,
-        subcategory = SUBCATEGORY_HEIGHT_OFFSET
+        subcategory = SUBCATEGORY_NAMETAGS_ADJUSTMENTS
     )
     var nametagsHeightOffset = 0f
 
+    @Switch(
+        //? if forge
+        //name =
+        //? else
+        title =
+            "Show Stats Above Nametag only in Lobby",
+        description = "Show stats above nametags",
+        category = CATEGORY_SETTINGS,
+        subcategory = SUBCATEGORY_NAMETAGS_ADJUSTMENTS
+    )
+    var showStatsAboveNametagOnlyInLobby = false
 
     //? if forge
     //@Exclude
